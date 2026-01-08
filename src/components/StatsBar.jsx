@@ -79,6 +79,9 @@ export default function StatsBar() {
                   <span className="text-secondary">Period</span>
                   <span className="text-dark font-medium">{billingInfo.currentPeriod}</span>
                 </div>
+                {billingInfo.periodNote && (
+                  <p className="text-[13px] text-secondary italic">{billingInfo.periodNote}</p>
+                )}
               </div>
 
               {amountDue > 0 && (

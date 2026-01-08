@@ -116,7 +116,8 @@ export const tasks = [
 ];
 
 export const billingInfo = {
-  currentPeriod: "January 7-20, 2026",
+  currentPeriod: "January 7-31, 2026",
+  periodNote: "3 weeks this period. Biweekly (week over week) starting February.",
   rate: 70,
   stripeLink: "#stripe-link"
 };
