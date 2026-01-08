@@ -1,6 +1,5 @@
 import Header from './components/Header';
 import StatsBar from './components/StatsBar';
-import BillingPeriod from './components/BillingPeriod';
 import TaskList from './components/TaskList';
 import Footer from './components/Footer';
 import './App.css';
@@ -12,7 +11,6 @@ function App() {
       <main className="max-w-3xl mx-auto">
         <TaskList />
         <StatsBar />
-        <BillingPeriod />
       </main>
       <Footer />
     </div>

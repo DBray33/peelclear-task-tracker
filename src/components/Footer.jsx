@@ -18,12 +18,6 @@ export default function Footer() {
             Provider
           </h3>
           <p className="text-[15px] text-dark font-medium">{providerInfo.contact}</p>
-          <p className="text-[13px] text-secondary">
-            {providerInfo.rate}, {providerInfo.increments}
-          </p>
-          <p className="text-[13px] text-secondary">
-            Contract signed: {providerInfo.contractSigned}
-          </p>
           <p className="text-[13px] text-secondary mt-2">
             <a href="tel:610-301-9351" className="hover:text-dark">610-301-9351</a>
             {' · '}
