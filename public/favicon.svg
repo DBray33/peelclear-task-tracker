@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700&amp;display=swap');
+    </style>
+  </defs>
+  <rect width="32" height="32" rx="6" fill="#f05523"/>
+  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Red Hat Display, sans-serif" font-weight="700" font-size="22">p</text>
+</svg>
