@@ -13,7 +13,7 @@ export default function TaskList() {
   };
 
   return (
-    <div className="px-4 pb-4 md:px-6">
+    <div className="px-4 pt-4 pb-4 md:px-6">
       {/* Resolved Tasks */}
       <div className="mb-6">
         <h2 className="text-[17px] font-semibold text-dark mb-3 flex items-center gap-2">
