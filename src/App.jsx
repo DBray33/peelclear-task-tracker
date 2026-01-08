@@ -10,8 +10,8 @@ function App() {
     <div className="min-h-screen bg-light-bg">
       <Header />
       <main className="max-w-3xl mx-auto">
-        <StatsBar />
         <TaskList />
+        <StatsBar />
         <BillingPeriod />
       </main>
       <Footer />
