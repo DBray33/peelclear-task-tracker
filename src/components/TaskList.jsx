@@ -20,37 +20,47 @@ export default function TaskList() {
     <div className="px-4 pt-4 pb-4 md:px-6">
       {/* UI/UX Updates Section */}
       <div className="mb-6">
-        <button
-          onClick={() => setUiExpanded(!uiExpanded)}
-          className="w-full flex items-center justify-between mb-3"
-        >
-          <h2 className="text-[17px] font-semibold text-dark flex items-center gap-2">
-            UI/UX Updates
-            <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
-              hasNewUiUpdates
-                ? 'bg-primary/20 text-primary'
-                : 'bg-success text-white'
-            }`}>
-              {hasNewUiUpdates ? 'New Updates' : 'No New Updates'}
-            </span>
-          </h2>
-          <svg
-            className={`w-5 h-5 text-secondary transition-transform duration-300 ${
-              uiExpanded ? 'rotate-180' : ''
-            }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-
-        <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          uiExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+        <div className={`bg-white rounded-xl shadow-sm border border-border overflow-hidden transition-shadow duration-300 ${
+          uiExpanded ? 'shadow-md' : ''
         }`}>
-          {uiUpdates.length > 0 ? (
-            <div className="bg-white rounded-xl border border-border overflow-hidden">
+          <button
+            onClick={() => setUiExpanded(!uiExpanded)}
+            className="w-full px-4 py-3 flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3">
+              <span className="flex-shrink-0 w-10 h-10 rounded-lg bg-light-bg flex items-center justify-center">
+                <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+              </span>
+              <div className="text-left">
+                <h3 className="text-[15px] font-medium text-dark">UI/UX Updates</h3>
+                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
+                  hasNewUiUpdates
+                    ? 'bg-primary/20 text-primary'
+                    : 'bg-success text-white'
+                }`}>
+                  {hasNewUiUpdates ? 'New Updates' : 'No New Updates'}
+                </span>
+              </div>
+            </div>
+            <svg
+              className={`w-5 h-5 text-secondary transition-transform duration-300 ${
+                uiExpanded ? 'rotate-180' : ''
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            uiExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+          }`}>
+            {uiUpdates.length > 0 ? (
+              <div className="border-t border-border">
               {uiUpdates.map((dateGroup, index) => (
                 <div key={dateGroup.date} className={index > 0 ? 'border-t border-border' : ''}>
                   <div className="px-4 py-3 bg-light-bg">
@@ -95,12 +105,13 @@ export default function TaskList() {
                   </div>
                 </div>
               ))}
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl p-6 text-center border border-border">
-              <p className="text-[15px] text-secondary">No UI/UX updates yet</p>
-            </div>
-          )}
+              </div>
+            ) : (
+              <div className="p-6 text-center border-t border-border">
+                <p className="text-[15px] text-secondary">No UI/UX updates yet</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
