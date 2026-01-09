@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { tasks, billingInfo } from '../data/tasks';
+import { tasks, uiUpdates, billingInfo } from '../data/tasks';
 import CopyButton from './CopyButton';
 
 export default function StatsBar() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const totalHours = tasks.reduce((sum, task) => sum + task.hours, 0);
+  const taskHours = tasks.reduce((sum, task) => sum + task.hours, 0);
+  const uiHours = uiUpdates.reduce((sum, update) => sum + update.hours, 0);
+  const totalHours = taskHours + uiHours;
   const amountDue = totalHours * billingInfo.rate;
   const openTasks = tasks.filter(t => t.status !== 'Resolved').length;
   const resolvedTasks = tasks.filter(t => t.status === 'Resolved').length;

@@ -35,13 +35,20 @@ export default function TaskList() {
               </span>
               <div className="text-left">
                 <h3 className="text-[15px] font-medium text-dark">UI/UX Updates</h3>
-                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
-                  hasNewUiUpdates
-                    ? 'bg-primary/20 text-primary'
-                    : 'bg-success text-white'
-                }`}>
-                  {hasNewUiUpdates ? 'New Updates' : 'No New Updates'}
-                </span>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
+                    hasNewUiUpdates
+                      ? 'bg-primary/20 text-primary'
+                      : 'bg-success text-white'
+                  }`}>
+                    {hasNewUiUpdates ? 'New Updates' : 'No New Updates'}
+                  </span>
+                  {uiUpdates.reduce((sum, u) => sum + u.hours, 0) > 0 && (
+                    <span className="text-[13px] text-secondary">
+                      {uiUpdates.reduce((sum, u) => sum + u.hours, 0)} hrs
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             <svg

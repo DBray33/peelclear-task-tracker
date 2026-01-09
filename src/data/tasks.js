@@ -136,7 +136,7 @@ export const tasks = [
 export const uiUpdates = [
   {
     date: "Jan 9, 2026",
-    hours: 0.25,
+    hours: 0.5,
     updates: [
       "Updated navbar logo with correct color from Brandfolder assets",
       "Changed nav cart icon color to white for better contrast against orange background",
@@ -186,8 +186,8 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 1.75,
-  totalAmountDue: 122.50,
+  totalHours: 2.0,
+  totalAmountDue: 140.00,
   openTasks: 6,
   resolvedTasks: 1
 };

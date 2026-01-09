@@ -112,6 +112,13 @@ ${task.likelyCauses.map(c => `  - ${c}`).join('\n')}
 `;
   }
 
+  if (task.resources && task.resources.length > 0) {
+    output += `Resources:
+${task.resources.map(r => `  ${r.name}:\n  ${r.url}`).join('\n\n')}
+
+`;
+  }
+
   output += `---
 
 `;
