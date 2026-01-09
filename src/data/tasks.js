@@ -124,22 +124,45 @@ export const tasks = [
     investigation: "",
     likelyCauses: [],
     solution: "",
-    notes: "Resources provided by Arash (Dropbox links): Training Series Pt.1 (Gabriel): https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0 | Training Series Pt.2: https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0 | PeelClear Sample Kit Guide: https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0"
+    notes: "",
+    resources: [
+      { name: "Training Series Pt.1 (Gabriel)", url: "https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0" },
+      { name: "Training Series Pt.2", url: "https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0" },
+      { name: "PeelClear Sample Kit Guide", url: "https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0" }
+    ]
   },
   {
     number: "008",
-    title: "Logo Color Incorrect on Site",
-    status: "Open",
+    title: "Homepage Header & Hero Fixes",
+    status: "Resolved",
     priority: false,
     dateAdded: "Jan 9, 2026",
-    dateResolved: "",
+    dateResolved: "Jan 9, 2026",
     source: "WhatsApp (Arash screenshot)",
-    hours: 0,
-    issue: "Logo on site is different color than official Brandfolder logos.",
+    hours: 0.25,
+    issue: [
+      "Logo on site is different color than official Brandfolder logos",
+      "Nav cart icon had poor contrast against orange background",
+      "Hero CTA buttons too large on tablet/mobile, overlapping with subheading"
+    ],
     investigation: "",
     likelyCauses: [],
-    solution: "",
-    notes: "Resource provided by Arash (Dropbox link) - Primary Logo - Orange Box: https://www.dropbox.com/scl/fo/0segx649rqich347wj36m/AB4aY9KlgeS_ioZXG-h7eTs?rlkey=a14qaibg1cgsmbe78brx7rzma&st=dgyw47fb&dl=0"
+    solution: [
+      "Updated navbar logo with correct color from Brandfolder assets",
+      "Changed nav cart icon color to white for better contrast against orange background",
+      "Adjusted hero section responsive styling for tablet and mobile",
+      "Reduced 'Peelable Automotive Paint' subheading font size on tablet (fits one line) and mobile",
+      "Reduced CTA button sizes on tablet and mobile",
+      "Added 20px top margin to buttons on tablet/mobile to prevent overlap with subheading",
+      "Added text shadow to subheading for better legibility against video background",
+      "Wrapped CTA buttons in dedicated container for responsive control",
+      "Set button container to row direction on desktop and tablet (buttons side by side, centered)",
+      "Mobile remains stacked for better tap targets on narrow screens"
+    ],
+    notes: "",
+    resources: [
+      { name: "Primary Logo - Orange Box", url: "https://www.dropbox.com/scl/fo/0segx649rqich347wj36m/AB4aY9KlgeS_ioZXG-h7eTs?rlkey=a14qaibg1cgsmbe78brx7rzma&st=dgyw47fb&dl=0" }
+    ]
   }
 ];
 
@@ -174,8 +197,8 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 1.50,
-  totalAmountDue: 105.00,
-  openTasks: 5,
-  resolvedTasks: 1
+  totalHours: 1.75,
+  totalAmountDue: 122.50,
+  openTasks: 4,
+  resolvedTasks: 2
 };

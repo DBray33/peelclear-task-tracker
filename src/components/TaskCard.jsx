@@ -82,9 +82,17 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
             <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-1">
               Issue
             </h4>
-            <p className="text-[15px] text-dark leading-relaxed">
-              {task.issue}
-            </p>
+            {Array.isArray(task.issue) ? (
+              <ul className="list-disc list-inside text-[15px] text-dark space-y-1">
+                {task.issue.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[15px] text-dark leading-relaxed">
+                {task.issue}
+              </p>
+            )}
           </div>
 
           {/* Investigation */}
@@ -114,14 +122,22 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
           )}
 
           {/* Solution */}
-          {task.solution && (
+          {task.solution && (Array.isArray(task.solution) ? task.solution.length > 0 : true) && (
             <div className="mb-3">
               <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-1">
                 Solution
               </h4>
-              <p className="text-[15px] text-dark leading-relaxed">
-                {task.solution}
-              </p>
+              {Array.isArray(task.solution) ? (
+                <ul className="list-disc list-inside text-[15px] text-dark space-y-1">
+                  {task.solution.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-[15px] text-dark leading-relaxed">
+                  {task.solution}
+                </p>
+              )}
             </div>
           )}
 
@@ -134,6 +150,29 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
               <p className="text-[15px] text-dark leading-relaxed">
                 {task.notes}
               </p>
+            </div>
+          )}
+
+          {/* Resources */}
+          {task.resources && task.resources.length > 0 && (
+            <div className="mb-3">
+              <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-1">
+                Resources
+              </h4>
+              <ul className="space-y-1">
+                {task.resources.map((resource, index) => (
+                  <li key={index}>
+                    <a
+                      href={resource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[15px] text-primary hover:underline"
+                    >
+                      {resource.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
