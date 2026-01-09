@@ -1,7 +1,7 @@
 export const tasks = [
   {
-    number: "001",
-    title: "$0 Checkout Error (100% Coupon)",
+    number: "001a",
+    title: "Free Shipping Not Appearing with Coupon",
     status: "Resolved",
     priority: false,
     dateAdded: "Jan 7, 2026",
@@ -9,14 +9,31 @@ export const tasks = [
     source: "WhatsApp",
     hours: 1.5,
     issue: "Free shipping option was not appearing at checkout even when a valid free shipping coupon was applied.",
-    investigation: "Created test coupon with 100% discount + 'Allow free shipping' enabled. Product discount applied correctly, but Free Shipping never appeared as a shipping option. Tested with Gunmetal product (PC-UPS_AIR shipping class). WooCommerce settings were correct , Free Shipping method existed and required 'A valid free shipping coupon.' Temporarily changed product to 'No shipping class' and Free Shipping appeared, confirming shipping classes were blocking it. Traced the issue to the Conditional Shipping Methods plugin which had 4 rulesets using 'Enable only selected shipping methods' without Free Shipping included in the allowed list.",
+    investigation: "Created test coupon with 100% discount + 'Allow free shipping' enabled. Product discount applied correctly, but Free Shipping never appeared as a shipping option. Tested with Gunmetal product (PC-UPS_AIR shipping class). WooCommerce settings were correct, Free Shipping method existed and required 'A valid free shipping coupon.' Temporarily changed product to 'No shipping class' and Free Shipping appeared, confirming shipping classes were blocking it. Traced the issue to the Conditional Shipping Methods plugin which had 4 rulesets using 'Enable only selected shipping methods' without Free Shipping included in the allowed list.",
     likelyCauses: [
       "Conditional Shipping Methods plugin rulesets using 'Enable only selected shipping methods' action",
       "Free Shipping method not included in the allowed methods list for any shipping class",
       "Four rulesets affected: air+ground, Ground, Kits, UPS Walcom Direct"
     ],
-    solution: "Added 'USA - Free shipping (#3)' to the 'Enable only selected shipping methods' action in all 4 rulesets (air+ground, Ground, Kits, UPS Walcom Direct) within WooCommerce > Settings > Shipping > Conditional Shipping Methods. Free Shipping now appears alongside other shipping options when a valid coupon is applied. Verified with test orders , $0 checkout works correctly.",
-    notes: "Affected 222 products across 5 shipping classes. Only added Free Shipping to existing rules , nothing removed. To revert: remove Free shipping (#3) from Action #1 in those 4 rulesets. Also discovered during investigation: (1) Critical error on product save , logged as TASK-006. (2) Duplicate UPS options at checkout , added to backlog."
+    solution: "Added 'USA - Free shipping (#3)' to the 'Enable only selected shipping methods' action in all 4 rulesets (air+ground, Ground, Kits, UPS Walcom Direct) within WooCommerce > Settings > Shipping > Conditional Shipping Methods. Free Shipping now appears alongside other shipping options when a valid coupon is applied.",
+    notes: "Affected 222 products across 5 shipping classes. Only added Free Shipping to existing rules, nothing removed. To revert: remove Free shipping (#3) from Action #1 in those 4 rulesets."
+  },
+  {
+    number: "001b",
+    title: "$0 Checkout Failing with 100% Coupon",
+    status: "In Progress",
+    priority: false,
+    dateAdded: "Jan 9, 2026",
+    dateResolved: "",
+    source: "WhatsApp (Arash reported coupon 'spon12345' not working)",
+    hours: 0,
+    issue: "Orders with 100% discount coupon fail at checkout with error 'There was an error processing your order.'",
+    investigation: "Coupons apply correctly. Free shipping appears (per 001a fix). Error occurs when clicking 'Place Order' with $0 total. Root cause: WooCommerce Stripe plugin cannot process $0 orders. This is a known bug, not fixed by WooCommerce. Stripe API itself handles $0 fine, but the plugin doesn't. Oddly, test orders #61073 and #61074 completed successfully on Jan 7. They likely used 'Pay in Person' option which was visible at checkout then.",
+    likelyCauses: [
+      "'Accept for virtual orders' unchecked in COD settings may be hiding it for $0 orders now"
+    ],
+    solution: "In progress: Use existing 'Pay in Person' (Cash on Delivery) gateway for $0 orders. Add code snippet to hide it when cart total > $0. Rename to 'No Payment Required.' Confirming with client whether Pay in Person is currently used for anything before making changes.",
+    notes: ""
   },
   {
     number: "002",
@@ -59,11 +76,11 @@ export const tasks = [
     dateAdded: "Jan 5, 2026",
     source: "Teams meeting",
     hours: 0,
-    issue: "Anyone with an account should have access to training videos , not tied to purchases.",
+    issue: "Anyone with an account should have access to training videos, not tied to purchases.",
     investigation: "Need to investigate how training access is currently gated.",
     likelyCauses: [],
     solution: "",
-    notes: ""
+    notes: "Related to [007]. Client wants to verify training video uploads as part of this work."
   },
   {
     number: "005",
@@ -93,26 +110,37 @@ export const tasks = [
     likelyCauses: [],
     solution: "",
     notes: ""
+  },
+  {
+    number: "007",
+    title: "Training Videos Upload Verification",
+    status: "Open",
+    priority: false,
+    dateAdded: "Jan 9, 2026",
+    dateResolved: "",
+    source: "WhatsApp (Arash)",
+    hours: 0,
+    issue: "Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: "Resources provided by Arash (Dropbox links): Training Series Pt.1 (Gabriel): https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0 | Training Series Pt.2: https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0 | PeelClear Sample Kit Guide: https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0"
+  },
+  {
+    number: "008",
+    title: "Logo Color Incorrect on Site",
+    status: "Open",
+    priority: false,
+    dateAdded: "Jan 9, 2026",
+    dateResolved: "",
+    source: "WhatsApp (Arash screenshot)",
+    hours: 0,
+    issue: "Logo on site is different color than official Brandfolder logos.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: "Resource provided by Arash (Dropbox link) - Primary Logo - Orange Box: https://www.dropbox.com/scl/fo/0segx649rqich347wj36m/AB4aY9KlgeS_ioZXG-h7eTs?rlkey=a14qaibg1cgsmbe78brx7rzma&st=dgyw47fb&dl=0"
   }
-  // {
-  //   number: "007",
-  //   title: "Critical Error on Product Save",
-  //   status: "Open",
-  //   priority: false,
-  //   dateAdded: "Jan 7, 2026",
-  //   dateResolved: "",
-  //   source: "Discovered during TASK-001 investigation",
-  //   hours: 0,
-  //   issue: "When saving/updating a product in WooCommerce admin, a 'critical error' page displays after clicking Update. However, the save still works, changes are persisted.",
-  //   investigation: "Observed when changing shipping class on Gunmetal product. Error appeared on save but site remained functional and changes saved successfully.",
-  //   likelyCauses: [
-  //     "Plugin conflict during product save hook",
-  //     "PHP memory or timeout issue",
-  //     "Outdated plugin compatibility"
-  //   ],
-  //   solution: "",
-  //   notes: "Low priority since saves work correctly. Check WooCommerce logs or enable WP_DEBUG to capture specific error."
-  // }
 ];
 
 export const billingInfo = {

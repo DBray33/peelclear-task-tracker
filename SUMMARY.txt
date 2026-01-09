@@ -1,0 +1,167 @@
+PEELCLEAR WEBSITE MAINTENANCE - TASK TRACKER
+============================================
+
+BILLING PERIOD: January 7-31, 2026
+Note: 3 weeks this period. Biweekly (week over week) starting February.
+
+SUMMARY
+-------
+Total Hours: 1.50
+Amount Due: $105.00 (@ $70/hr)
+Open Tasks: 8
+Resolved Tasks: 1
+
+
+RESOLVED TASKS
+==============
+
+[001a] Free Shipping Not Appearing with Coupon
+Status: Resolved
+Date Added: Jan 7, 2026 | Resolved: Jan 7, 2026
+Source: WhatsApp
+Hours: 1.5
+
+Issue: Free shipping option was not appearing at checkout even when a valid free shipping coupon was applied.
+
+Investigation: Created test coupon with 100% discount + 'Allow free shipping' enabled. Product discount applied correctly, but Free Shipping never appeared as a shipping option. Tested with Gunmetal product (PC-UPS_AIR shipping class). WooCommerce settings were correct, Free Shipping method existed and required 'A valid free shipping coupon.' Temporarily changed product to 'No shipping class' and Free Shipping appeared, confirming shipping classes were blocking it. Traced the issue to the Conditional Shipping Methods plugin which had 4 rulesets using 'Enable only selected shipping methods' without Free Shipping included in the allowed list.
+
+Likely Causes:
+  - Conditional Shipping Methods plugin rulesets using 'Enable only selected shipping methods' action
+  - Free Shipping method not included in the allowed methods list for any shipping class
+  - Four rulesets affected: air+ground, Ground, Kits, UPS Walcom Direct
+
+Solution: Added 'USA - Free shipping (#3)' to the 'Enable only selected shipping methods' action in all 4 rulesets (air+ground, Ground, Kits, UPS Walcom Direct) within WooCommerce > Settings > Shipping > Conditional Shipping Methods. Free Shipping now appears alongside other shipping options when a valid coupon is applied.
+
+Notes: Affected 222 products across 5 shipping classes. Only added Free Shipping to existing rules, nothing removed. To revert: remove Free shipping (#3) from Action #1 in those 4 rulesets.
+
+---
+
+OPEN TASKS
+==========
+
+[001b] $0 Checkout Failing with 100% Coupon
+Status: In Progress
+Date Added: Jan 9, 2026
+Source: WhatsApp (Arash reported coupon 'spon12345' not working)
+Hours: 0
+
+Issue: Orders with 100% discount coupon fail at checkout with error 'There was an error processing your order.'
+
+Investigation: Coupons apply correctly. Free shipping appears (per 001a fix). Error occurs when clicking 'Place Order' with $0 total. Root cause: WooCommerce Stripe plugin cannot process $0 orders. This is a known bug, not fixed by WooCommerce. Stripe API itself handles $0 fine, but the plugin doesn't. Oddly, test orders #61073 and #61074 completed successfully on Jan 7. They likely used 'Pay in Person' option which was visible at checkout then.
+
+Likely Causes:
+  - 'Accept for virtual orders' unchecked in COD settings may be hiding it for $0 orders now
+
+Solution: In progress: Use existing 'Pay in Person' (Cash on Delivery) gateway for $0 orders. Add code snippet to hide it when cart total > $0. Rename to 'No Payment Required.' Confirming with client whether Pay in Person is currently used for anything before making changes.
+
+---
+
+[002] Remove Mobile Menu Animation
+Status: Open
+Date Added: Jan 5, 2026
+Source: Teams meeting
+Hours: 0
+
+Issue: Remove swipe up animation on mobile menu.
+
+---
+
+[003] iOS Shop Page Scroll/Footer Bug
+Status: Open
+Date Added: Jan 5, 2026
+Source: Teams meeting
+Hours: 0
+
+Issue: On the shop page on mobile (specifically iPhone), scrolling gets blocked partway down , won't go further until it randomly allows more scrolling. Footer also loads before all products are visible.
+
+Investigation: iOS Safari + WooCommerce lazy loading conflict. iOS Safari calculates page height before new products load, so user scrolls to what Safari thinks is the 'end', footer renders prematurely, then products load via AJAX and height recalculates.
+
+Likely Causes:
+  - AJAX product filters or infinite scroll plugin
+  - Elementor smooth scroll conflicting with iOS momentum scrolling
+  - Lazy load on product images (ShortPixel, Jetpack, or theme-level)
+  - Deprecated -webkit-overflow-scrolling: touch CSS
+
+Notes: Likely fix: disable infinite scroll or set min-height on product container
+
+---
+
+[004] Training Course Access for Account Holders
+Status: Open
+Date Added: Jan 5, 2026
+Source: Teams meeting
+Hours: 0
+
+Issue: Anyone with an account should have access to training videos, not tied to purchases.
+
+Investigation: Need to investigate how training access is currently gated.
+
+Notes: Related to [007]. Client wants to verify training video uploads as part of this work.
+
+---
+
+[005] Find an Installer Map , Info Card Z-Index
+Status: Open
+Date Added: Jan 7, 2026
+Source: WhatsApp
+Hours: 0
+
+Issue: When clicking an installer pin on the map, the info card appears behind other pins instead of on top.
+
+Investigation: Z-index issue on the map info window/popup. Google Maps info windows should auto-raise, but custom styling or conflicting CSS may be overriding.
+
+Notes: Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc).
+
+---
+
+[006] Plugin Audit
+Status: Open
+Date Added: Jan 7, 2026
+
+Hours: 0
+
+Issue: Review and audit all installed plugins for updates, conflicts, and necessity.
+
+---
+
+[007] Training Videos Upload Verification
+Status: Open
+Date Added: Jan 9, 2026
+Source: WhatsApp (Arash)
+Hours: 0
+
+Issue: Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.
+
+Notes: Resources provided by Arash (Dropbox links): Training Series Pt.1 (Gabriel): https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0 | Training Series Pt.2: https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0 | PeelClear Sample Kit Guide: https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0
+
+---
+
+[008] Logo Color Incorrect on Site
+Status: Open
+Date Added: Jan 9, 2026
+Source: WhatsApp (Arash screenshot)
+Hours: 0
+
+Issue: Logo on site is different color than official Brandfolder logos.
+
+Notes: Resource provided by Arash (Dropbox link) - Primary Logo - Orange Box: https://www.dropbox.com/scl/fo/0segx649rqich347wj36m/AB4aY9KlgeS_ioZXG-h7eTs?rlkey=a14qaibg1cgsmbe78brx7rzma&st=dgyw47fb&dl=0
+
+---
+
+BACKLOG
+=======
+
+1. Duplicate UPS shipping options at checkout
+   Priority: Low
+   Source: Jan 7 investigation
+   Notes: Multiple UPS Ground options appearing in shipping method selector
+
+
+--------------------------------------------
+CLIENT: Peelclear
+Contacts: Jon Frain, Arash Sayadirad
+Communication: WhatsApp group
+
+PROVIDER: Keystone Web Solutions
+Contact: Dan Bray
+Rate: $70/hour (15-minute increments)

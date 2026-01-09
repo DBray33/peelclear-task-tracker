@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { tasks, billingInfo } from '../data/tasks';
+import CopyButton from './CopyButton';
 
 export default function StatsBar() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -95,6 +96,10 @@ export default function StatsBar() {
                   Pay ${amountDue.toFixed(2)}
                 </button>
               )}
+
+              <div className="mt-3">
+                <CopyButton />
+              </div>
             </div>
           </div>
         </div>
