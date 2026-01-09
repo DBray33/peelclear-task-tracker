@@ -131,23 +131,13 @@ export const tasks = [
       { name: "PeelClear Sample Kit Guide", url: "https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0" }
     ]
   },
+];
+
+export const uiUpdates = [
   {
-    number: "008",
-    title: "Homepage Header & Hero Fixes",
-    status: "Resolved",
-    priority: false,
-    dateAdded: "Jan 9, 2026",
-    dateResolved: "Jan 9, 2026",
-    source: "WhatsApp (Arash screenshot)",
+    date: "Jan 9, 2026",
     hours: 0.25,
-    issue: [
-      "Logo on site is different color than official Brandfolder logos",
-      "Nav cart icon had poor contrast against orange background",
-      "Hero CTA buttons too large on tablet/mobile, overlapping with subheading"
-    ],
-    investigation: "",
-    likelyCauses: [],
-    solution: [
+    updates: [
       "Updated navbar logo with correct color from Brandfolder assets",
       "Changed nav cart icon color to white for better contrast against orange background",
       "Adjusted hero section responsive styling for tablet and mobile",
@@ -159,7 +149,6 @@ export const tasks = [
       "Set button container to row direction on desktop and tablet (buttons side by side, centered)",
       "Mobile remains stacked for better tap targets on narrow screens"
     ],
-    notes: "",
     resources: [
       { name: "Primary Logo - Orange Box", url: "https://www.dropbox.com/scl/fo/0segx649rqich347wj36m/AB4aY9KlgeS_ioZXG-h7eTs?rlkey=a14qaibg1cgsmbe78brx7rzma&st=dgyw47fb&dl=0" }
     ]
@@ -199,6 +188,6 @@ export const backlog = [
 export const stats = {
   totalHours: 1.75,
   totalAmountDue: 122.50,
-  openTasks: 4,
-  resolvedTasks: 2
+  openTasks: 6,
+  resolvedTasks: 1
 };
