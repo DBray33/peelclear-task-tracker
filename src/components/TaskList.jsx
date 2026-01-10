@@ -9,8 +9,8 @@ export default function TaskList() {
   const openTasks = tasks.filter(t => t.status !== 'Resolved');
   const resolvedTasks = tasks.filter(t => t.status === 'Resolved');
 
-  // Check if there are any pending UI updates (updates added today or recently without completion)
-  const hasNewUiUpdates = uiUpdates.length > 0;
+  // Check if there are any pending UI tasks
+  const hasPendingUiTasks = uiUpdates.some(u => u.pending && u.pending.length > 0);
 
   const handleToggle = (taskNumber) => {
     setExpandedTask(expandedTask === taskNumber ? null : taskNumber);
@@ -37,11 +37,11 @@ export default function TaskList() {
                 <h3 className="text-[15px] font-medium text-dark">UI/UX Updates</h3>
                 <div className="flex items-center gap-2 mt-1">
                   <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
-                    hasNewUiUpdates
+                    hasPendingUiTasks
                       ? 'bg-primary/20 text-primary'
                       : 'bg-success text-white'
                   }`}>
-                    {hasNewUiUpdates ? 'New Updates' : 'No New Updates'}
+                    {hasPendingUiTasks ? 'New Tasks' : 'No New Tasks'}
                   </span>
                   {uiUpdates.reduce((sum, u) => sum + u.hours, 0) > 0 && (
                     <span className="text-[13px] text-secondary">
@@ -83,11 +83,32 @@ export default function TaskList() {
                     </div>
                   </div>
                   <div className="px-4 py-3">
-                    <ul className="list-disc list-inside text-[15px] text-dark space-y-1">
-                      {dateGroup.updates.map((update, i) => (
-                        <li key={i}>{update}</li>
-                      ))}
-                    </ul>
+                    {dateGroup.pending && dateGroup.pending.length > 0 && (
+                      <div className="mb-3">
+                        <span className="text-[13px] font-semibold text-primary uppercase tracking-wide">
+                          New Tasks
+                        </span>
+                        <ul className="list-disc list-inside text-[15px] text-dark space-y-1 mt-1">
+                          {dateGroup.pending.map((task, i) => (
+                            <li key={i}>{task}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {dateGroup.updates && dateGroup.updates.length > 0 && (
+                      <div>
+                        {dateGroup.pending && dateGroup.pending.length > 0 && (
+                          <span className="text-[13px] font-semibold text-secondary uppercase tracking-wide">
+                            Completed
+                          </span>
+                        )}
+                        <ul className="list-disc list-inside text-[15px] text-dark space-y-1 mt-1">
+                          {dateGroup.updates.map((update, i) => (
+                            <li key={i}>{update}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                     {dateGroup.resources && dateGroup.resources.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-border">
                         <span className="text-[13px] font-semibold text-secondary uppercase tracking-wide">

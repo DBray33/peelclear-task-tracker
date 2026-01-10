@@ -137,6 +137,7 @@ export const uiUpdates = [
   {
     date: "Jan 9, 2026",
     hours: 0.5,
+    pending: [],
     updates: [
       "Updated navbar logo with correct color from Brandfolder assets",
       "Changed nav cart icon color to white for better contrast against orange background",
