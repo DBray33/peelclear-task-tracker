@@ -109,6 +109,14 @@ export default function TaskList() {
                         </ul>
                       </div>
                     )}
+                    {dateGroup.notes && (
+                      <div className="mt-3 pt-3 border-t border-border">
+                        <span className="text-[13px] font-semibold text-secondary uppercase tracking-wide">
+                          Notes
+                        </span>
+                        <p className="text-[15px] text-dark mt-1 italic">{dateGroup.notes}</p>
+                      </div>
+                    )}
                     {dateGroup.resources && dateGroup.resources.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-border">
                         <span className="text-[13px] font-semibold text-secondary uppercase tracking-wide">

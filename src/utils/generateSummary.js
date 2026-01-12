@@ -1,10 +1,12 @@
-import { tasks, billingInfo, clientInfo, providerInfo, backlog } from '../data/tasks';
+import { tasks, billingInfo, clientInfo, providerInfo, backlog, uiUpdates } from '../data/tasks';
 
 export function generateSummary() {
   const resolvedTasks = tasks.filter(t => t.status === 'Resolved');
   const openTasks = tasks.filter(t => t.status !== 'Resolved');
 
-  const totalHours = tasks.reduce((sum, t) => sum + (t.hours || 0), 0);
+  const taskHours = tasks.reduce((sum, t) => sum + (t.hours || 0), 0);
+  const uiHours = uiUpdates.reduce((sum, u) => sum + (u.hours || 0), 0);
+  const totalHours = taskHours + uiHours;
   const totalAmount = totalHours * billingInfo.rate;
 
   let output = `PEELCLEAR WEBSITE MAINTENANCE - TASK TRACKER
@@ -40,6 +42,16 @@ Resolved Tasks: ${resolvedTasks.length}
 `;
     openTasks.forEach(task => {
       output += formatTask(task);
+    });
+  }
+
+  if (uiUpdates.length > 0) {
+    output += `UI/UX UPDATES
+=============
+
+`;
+    uiUpdates.forEach(update => {
+      output += formatUiUpdate(update);
     });
   }
 
@@ -112,9 +124,56 @@ ${task.likelyCauses.map(c => `  - ${c}`).join('\n')}
 `;
   }
 
+  if (task.codeSnippet) {
+    output += `Code Snippet:
+------------------------------------------------------------
+${task.codeSnippet}
+------------------------------------------------------------
+
+`;
+  }
+
   if (task.resources && task.resources.length > 0) {
     output += `Resources:
 ${task.resources.map(r => `  ${r.name}:\n  ${r.url}`).join('\n\n')}
+
+`;
+  }
+
+  output += `---
+
+`;
+
+  return output;
+}
+
+function formatUiUpdate(update) {
+  let output = `[${update.date}] - ${update.hours} hours
+`;
+
+  if (update.pending && update.pending.length > 0) {
+    output += `Pending:
+${update.pending.map(p => `  - ${p}`).join('\n')}
+
+`;
+  }
+
+  if (update.updates && update.updates.length > 0) {
+    output += `Completed:
+${update.updates.map(u => `  - ${u}`).join('\n')}
+
+`;
+  }
+
+  if (update.notes) {
+    output += `Notes: ${update.notes}
+
+`;
+  }
+
+  if (update.resources && update.resources.length > 0) {
+    output += `Resources:
+${update.resources.map(r => `  ${r.name}:\n  ${r.url}`).join('\n\n')}
 
 `;
   }

@@ -21,43 +21,68 @@ export const tasks = [
   {
     number: "001b",
     title: "$0 Checkout Failing with 100% Coupon",
-    status: "In Progress",
+    status: "Resolved",
     priority: false,
     dateAdded: "Jan 9, 2026",
-    dateResolved: "",
+    dateResolved: "Jan 12, 2026",
     source: "WhatsApp (Arash reported coupon 'spon12345' not working)",
-    hours: 0,
-    issue: "Orders with 100% discount coupon fail at checkout with error 'There was an error processing your order.'",
-    investigation: "Coupons apply correctly. Free shipping appears (per 001a fix). Error occurs when clicking 'Place Order' with $0 total. Root cause: WooCommerce Stripe plugin cannot process $0 orders. This is a known bug, not fixed by WooCommerce. Stripe API itself handles $0 fine, but the plugin doesn't. Oddly, test orders #61073 and #61074 completed successfully on Jan 7. They likely used 'Pay in Person' option which was visible at checkout then.",
+    hours: 1.5,
+    issue: "When a coupon discounted the cart to $0.00 (including free shipping), checkout failed with 'There was an error processing your order.' In the Payment Information step, no payment options rendered (Stripe/PayPal/COD not shown), so no payment_method was being submitted. Stripe cannot process $0 charges, so any attempt to route $0 orders through Stripe will fail.",
+    investigation: "Coupons apply correctly. Free shipping appears (per 001a fix). Error occurs when clicking 'Place Order' with $0 total. The checkout UI (Block/checkout experience) did not render any gateways for $0 totals, resulting in no posted payment_method. Without a valid gateway/payment_method, the order submission errored instead of completing as a $0 order.",
     likelyCauses: [
-      "'Accept for virtual orders' unchecked in COD settings may be hiding it for $0 orders now"
+      "Checkout UI (Block/checkout experience) did not render any gateways for $0 totals",
+      "No payment_method was being submitted with the order",
+      "Stripe cannot process $0 charges"
     ],
-    solution: "In progress: Use existing 'Pay in Person' (Cash on Delivery) gateway for $0 orders. Add code snippet to hide it when cart total > $0. Rename to 'No Payment Required.' Confirming with client whether Pay in Person is currently used for anything before making changes.",
-    notes: ""
+    solution: "Two-part fix: (1) Configure offline gateway for $0 orders: WooCommerce > Settings > Payments > Take offline payments > Cash on delivery (COD). Renamed COD to customer-safe label - Title: 'No payment required', Description: 'This order is fully covered by your discount. No payment is required.', Instructions: same. Left 'Enable for shipping methods' blank (no restriction). Left 'Accept for virtual orders' unchecked. (2) Added PHP snippet via Snippets plugin named '$0 checkout - force No payment required gateway' with two hooks: woocommerce_available_payment_gateways filter (priority 100) to show only COD when total <= $0 and hide COD when total > $0, and woocommerce_checkout_process action (priority 5) to force payment_method='cod' if UI fails to post a payment method for $0 orders.",
+    notes: "TESTING COUPON: 'spon12345 - copy' (Type: Percentage discount, Amount: 100%, Allow free shipping: enabled, Usage limit per coupon: 1, Usage limit per user: unlimited). Coupon agent was changed from 'arash-1993' to 'admin' to avoid notifications during testing. Expiry date was edited - ensure it is saved via 'Update' in coupon editor. PRE-FIX TEST: Applied coupon to bring total to $0.00 with free shipping. Payment step showed no gateways and Place Order returned the generic processing error. Failed test order created as Pending payment (Order #61268). POST-FIX TEST: Same flow - add product > apply coupon > select free shipping > proceed to payment > Place Order. Order completed successfully with thank-you page displaying Total: $0.00, Payment method: 'No payment required'. Successful test order created (Order #61269). SANITY TEST: Proceeded to checkout without coupon (total > $0). Verified 'No payment required' did NOT show. Verified Stripe credit/debit and PayPal displayed normally. CLEANUP: Order #61268 (failed/pending) set to Cancelled. Order #61269 (successful $0 test) set to Cancelled. Cart emptied after testing. ROLLBACK PLAN: (1) Revert COD settings - Title back to 'Pay in Person', Description back to 'Pay by card or another accepted payment method', Instructions back to 'Pay by card or another accepted payment method'. (2) Deactivate snippet: Snippets > All Snippets > toggle off '$0 checkout - force No payment required gateway'.",
+    codeSnippet: `/**
+ * $0 checkout: force an offline gateway (COD) and ensure payment_method posts as COD.
+ * Rollback: deactivate this snippet.
+ */
+add_filter('woocommerce_available_payment_gateways', function($gateways) {
+    if (is_admin() || !function_exists('WC') || !WC()->cart) return $gateways;
+
+    $total = (float) WC()->cart->get_total('edit');
+
+    // If total is $0, keep ONLY COD
+    if ($total <= 0) {
+        foreach ($gateways as $id => $gateway) {
+            if ($id !== 'cod') unset($gateways[$id]);
+        }
+        return $gateways;
+    }
+
+    // If total > $0, remove COD
+    unset($gateways['cod']);
+    return $gateways;
+}, 100);
+
+/**
+ * Some checkout UIs (or custom checkout templates) fail to render gateways for $0 totals.
+ * This guarantees the posted payment_method is "cod" for $0 orders.
+ */
+add_action('woocommerce_checkout_process', function() {
+    if (!function_exists('WC') || !WC()->cart) return;
+
+    $total = (float) WC()->cart->get_total('edit');
+    if ($total > 0) return;
+
+    // If nothing was posted, set COD.
+    if (empty($_POST['payment_method'])) {
+        $_POST['payment_method'] = 'cod';
+    }
+}, 5);`
   },
   {
     number: "002",
-    title: "Remove Mobile Menu Animation",
-    status: "Open",
-    priority: false,
-    dateAdded: "Jan 5, 2026",
-    source: "Teams meeting",
-    hours: 0,
-    issue: "Remove swipe up animation on mobile menu.",
-    investigation: "",
-    likelyCauses: [],
-    solution: "",
-    notes: ""
-  },
-  {
-    number: "003",
     title: "iOS Shop Page Scroll/Footer Bug",
     status: "Open",
     priority: false,
     dateAdded: "Jan 5, 2026",
     source: "Teams meeting",
     hours: 0,
-    issue: "On the shop page on mobile (specifically iPhone), scrolling gets blocked partway down , won't go further until it randomly allows more scrolling. Footer also loads before all products are visible.",
+    issue: "On the shop page on mobile (specifically iPhone), scrolling gets blocked partway down, won't go further until it randomly allows more scrolling. Footer also loads before all products are visible.",
     investigation: "iOS Safari + WooCommerce lazy loading conflict. iOS Safari calculates page height before new products load, so user scrolls to what Safari thinks is the 'end', footer renders prematurely, then products load via AJAX and height recalculates.",
     likelyCauses: [
       "AJAX product filters or infinite scroll plugin",
@@ -69,7 +94,7 @@ export const tasks = [
     notes: "Likely fix: disable infinite scroll or set min-height on product container"
   },
   {
-    number: "004",
+    number: "003",
     title: "Training Course Access for Account Holders",
     status: "Open",
     priority: false,
@@ -80,24 +105,10 @@ export const tasks = [
     investigation: "Need to investigate how training access is currently gated.",
     likelyCauses: [],
     solution: "",
-    notes: "Related to [007]. Client wants to verify training video uploads as part of this work."
+    notes: "Related to [005]. Client wants to verify training video uploads as part of this work."
   },
   {
-    number: "005",
-    title: "Find an Installer Map , Info Card Z-Index",
-    status: "Open",
-    priority: false,
-    dateAdded: "Jan 7, 2026",
-    source: "WhatsApp",
-    hours: 0,
-    issue: "When clicking an installer pin on the map, the info card appears behind other pins instead of on top.",
-    investigation: "Z-index issue on the map info window/popup. Google Maps info windows should auto-raise, but custom styling or conflicting CSS may be overriding.",
-    likelyCauses: [],
-    solution: "",
-    notes: "Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc)."
-  },
-  {
-    number: "006",
+    number: "004",
     title: "Plugin Audit",
     status: "Open",
     priority: false,
@@ -112,7 +123,7 @@ export const tasks = [
     notes: ""
   },
   {
-    number: "007",
+    number: "005",
     title: "Training Videos Upload Verification",
     status: "Open",
     priority: false,
@@ -131,9 +142,48 @@ export const tasks = [
       { name: "PeelClear Sample Kit Guide", url: "https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0" }
     ]
   },
+  {
+    number: "006",
+    title: "Remove Mobile Menu Animation",
+    status: "Open",
+    priority: false,
+    dateAdded: "Jan 5, 2026",
+    source: "Teams meeting",
+    hours: 0,
+    issue: "Remove swipe up animation on mobile menu.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: ""
+  },
+  {
+    number: "007",
+    title: "Find an Installer Map - Info Card Z-Index",
+    status: "Open",
+    priority: false,
+    dateAdded: "Jan 7, 2026",
+    source: "WhatsApp",
+    hours: 0,
+    issue: "When clicking an installer pin on the map, the info card appears behind other pins instead of on top.",
+    investigation: "Z-index issue on the map info window/popup. Google Maps info windows should auto-raise, but custom styling or conflicting CSS may be overriding.",
+    likelyCauses: [],
+    solution: "",
+    notes: "Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc)."
+  },
 ];
 
 export const uiUpdates = [
+  {
+    date: "Jan 12, 2026",
+    hours: 0.25,
+    pending: [],
+    updates: [
+      "Footer UI/UX fixes - copyright text alignment issues on mobile/tablet (container padding, align content)",
+      "Changed mobile menu logo to new block logo, reduced size from 80px to 60px (client requested 40px but it was too small)"
+    ],
+    notes: "Client requested spacing added to footer company info, but it was already done by someone else.",
+    resources: []
+  },
   {
     date: "Jan 9, 2026",
     hours: 0.5,
@@ -187,8 +237,8 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 2.0,
-  totalAmountDue: 140.00,
+  totalHours: 3.75,
+  totalAmountDue: 262.50,
   openTasks: 6,
-  resolvedTasks: 1
+  resolvedTasks: 2
 };
