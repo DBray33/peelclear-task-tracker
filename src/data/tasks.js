@@ -124,6 +124,23 @@ export const tasks = [
   },
   {
     number: "007",
+    title: "Mobile Hero Background Video",
+    status: "Open",
+    priority: false,
+    dateAdded: "Jan 13, 2026",
+    source: "WhatsApp",
+    hours: 0,
+    issue: "Change the mobile hero section background image to use the provided video instead.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: "",
+    resources: [
+      { name: "Hero Video (No Text)", url: "https://www.dropbox.com/scl/fi/yizcxwefd1xas01yik3ki/THIS-ISNT-PAINT-NO-TEXT.mp4?rlkey=tbd4m8k9acnzzoamipgtl7c3t&st=l7h6mesy&dl=0" }
+    ]
+  },
+  {
+    number: "008",
     title: "Find an Installer Map - Info Card Z-Index",
     status: "Open",
     priority: false,
@@ -205,6 +222,6 @@ export const backlog = [
 export const stats = {
   totalHours: 3.75,
   totalAmountDue: 262.50,
-  openTasks: 6,
+  openTasks: 7,
   resolvedTasks: 2
 };
