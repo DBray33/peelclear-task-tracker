@@ -74,7 +74,7 @@ export const tasks = [
     notes: "Related to [005]. Client wants to verify training video uploads as part of this work."
   },
   {
-    number: "004",
+    number: "005",
     title: "Plugin Audit",
     status: "Open",
     priority: false,
@@ -89,7 +89,7 @@ export const tasks = [
     notes: ""
   },
   {
-    number: "005",
+    number: "004",
     title: "Training Videos Upload Verification",
     status: "Open",
     priority: false,
@@ -124,19 +124,23 @@ export const tasks = [
   },
   {
     number: "007",
-    title: "Mobile Hero Background Video",
-    status: "Open",
+    title: "Mobile Hero Background Video + Desktop Fallback Poster",
+    status: "Resolved",
     priority: false,
     dateAdded: "Jan 13, 2026",
+    dateResolved: "Jan 13, 2026",
     source: "WhatsApp",
-    hours: 0,
-    issue: "Change the mobile hero section background image to use the provided video instead.",
-    investigation: "",
+    hours: 0.5,
+    issue: "Implement a mobile-specific vertical hero background video while retaining the existing horizontal video for desktop/tablet. Update the desktop/tablet fallback (poster) image to a new still.",
+    investigation: "Elementor does support background video playback on mobile when 'Play On Mobile' is enabled. The Video Link field in this context behaves as global, so using one container caused the mobile video to appear on desktop/tablet as well. Resolution: use separate inner hero containers per breakpoint and control visibility via Elementor responsive settings (no custom JS/CSS required).",
     likelyCauses: [],
-    solution: "",
-    notes: "",
+    solution: "ELEMENTOR HERO STRUCTURE: Within the main Hero section, created/confirmed two inner containers (Desktop/tablet hero and Mobile hero). Applied responsive visibility: Desktop/tablet hero has Hide on Mobile = YES, Hide on Desktop/Tablet = NO. Mobile hero has Hide on Desktop = YES, Hide on Tablet = YES, Hide on Mobile = NO. BACKGROUND VIDEO URLS: Desktop/Tablet (horizontal) uses https://peelclear.com/wp-content/uploads/2025/10/tiffany.mohasesi_s-Video-Oct-7-2025-VEED.mp4. Mobile (vertical) uses https://peelclear.com/wp-content/uploads/2026/01/THIS-ISNT-PAINT-NO-TEXT-mobile.mp4. MOBILE PLAYBACK: In the Mobile hero container Style > Background > Video, Play On Mobile toggled to YES. DESKTOP/TABLET FALLBACK IMAGE: Updated from tesla-peel-scaled.png to tiffany.mohasesi_s-Video-Oct-7-2025-VEED-poster.jpg.",
+    notes: "RESULT: Mobile now displays and plays the vertical hero background video. Desktop/Tablet continue to display the horizontal hero background video. Desktop/Tablet fallback image updated to the new poster still. No custom JavaScript/CSS required, implemented fully within Elementor using container duplication + responsive visibility. ROLLBACK: Revert fallback image back to https://peelclear.com/wp-content/uploads/2025/10/tesla-peel-scaled.png. Remove/disable Mobile hero container and restore a single hero container with the desktop/tablet video if desired.",
     resources: [
-      { name: "Hero Video (No Text)", url: "https://www.dropbox.com/scl/fi/yizcxwefd1xas01yik3ki/THIS-ISNT-PAINT-NO-TEXT.mp4?rlkey=tbd4m8k9acnzzoamipgtl7c3t&st=l7h6mesy&dl=0" }
+      { name: "Mobile Video (Vertical)", url: "https://peelclear.com/wp-content/uploads/2026/01/THIS-ISNT-PAINT-NO-TEXT-mobile.mp4" },
+      { name: "Desktop/Tablet Video (Horizontal)", url: "https://peelclear.com/wp-content/uploads/2025/10/tiffany.mohasesi_s-Video-Oct-7-2025-VEED.mp4" },
+      { name: "New Fallback Poster", url: "https://peelclear.com/wp-content/uploads/2026/01/tiffany.mohasesi_s-Video-Oct-7-2025-VEED-poster.jpg" },
+      { name: "Old Fallback Image", url: "https://peelclear.com/wp-content/uploads/2025/10/tesla-peel-scaled.png" }
     ]
   },
   {
@@ -220,8 +224,8 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 3.75,
-  totalAmountDue: 262.50,
-  openTasks: 7,
-  resolvedTasks: 2
+  totalHours: 4.25,
+  totalAmountDue: 297.50,
+  openTasks: 6,
+  resolvedTasks: 3
 };
