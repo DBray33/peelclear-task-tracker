@@ -1,3 +1,4 @@
+// Last updated: Jan 12, 2026
 export const tasks = [
   {
     number: "001a",
@@ -22,57 +23,22 @@ export const tasks = [
     number: "001b",
     title: "$0 Checkout Failing with 100% Coupon",
     status: "Resolved",
-    priority: false,
+    priority: true,
     dateAdded: "Jan 9, 2026",
     dateResolved: "Jan 12, 2026",
     source: "WhatsApp (Arash reported coupon 'spon12345' not working)",
     hours: 1.5,
-    issue: "When a coupon discounted the cart to $0.00 (including free shipping), checkout failed with 'There was an error processing your order.' In the Payment Information step, no payment options rendered (Stripe/PayPal/COD not shown), so no payment_method was being submitted. Stripe cannot process $0 charges, so any attempt to route $0 orders through Stripe will fail.",
-    investigation: "Coupons apply correctly. Free shipping appears (per 001a fix). Error occurs when clicking 'Place Order' with $0 total. The checkout UI (Block/checkout experience) did not render any gateways for $0 totals, resulting in no posted payment_method. Without a valid gateway/payment_method, the order submission errored instead of completing as a $0 order.",
+    issue: "When a coupon discounted the cart to $0.00 (including free shipping), checkout could fail with 'There was an error processing your order.' In the Payment Information step, no payment options rendered (Stripe/PayPal/COD not shown), so no payment_method was being submitted.",
+    investigation: "Coupons applied correctly and free shipping appeared (per 001a fix). Failures occurred specifically when total hit $0.00 and the checkout UI did not render any gateways. ROOT CAUSE DISCOVERY: The checkout is not stock WooCommerce. It is rendered via Elementor Theme Builder Single Page 'Checkout' template (Template ID 59837) which uses a WooLentor/ShopLentor Pro Multi-Step Checkout widget (WooLentor template ID 59818). This custom multi-step/AJAX checkout can re-evaluate totals and gateways during step transitions, making cart-total-based gateway forcing unreliable.",
     likelyCauses: [
-      "Checkout UI (Block/checkout experience) did not render any gateways for $0 totals",
-      "No payment_method was being submitted with the order",
-      "Stripe cannot process $0 charges"
+      "Elementor Theme Builder Single Page 'Checkout' template intercepting /checkout/ (Template ID 59837)",
+      "WooLentor/ShopLentor Pro Multi-Step Checkout widget renders checkout (WooLentor template ID 59818)",
+      "Multi-step AJAX checkout re-evaluates gateways during step transitions",
+      "At $0 totals, gateways may not render consistently and payment_method may not post"
     ],
-    solution: "Two-part fix: (1) Configure offline gateway for $0 orders: WooCommerce > Settings > Payments > Take offline payments > Cash on delivery (COD). Renamed COD to customer-safe label - Title: 'No payment required', Description: 'This order is fully covered by your discount. No payment is required.', Instructions: same. Left 'Enable for shipping methods' blank (no restriction). Left 'Accept for virtual orders' unchecked. (2) Added PHP snippet via Snippets plugin named '$0 checkout - force No payment required gateway' with two hooks: woocommerce_available_payment_gateways filter (priority 100) to show only COD when total <= $0 and hide COD when total > $0, and woocommerce_checkout_process action (priority 5) to force payment_method='cod' if UI fails to post a payment method for $0 orders.",
-    notes: "TESTING COUPON: 'spon12345 - copy' (Type: Percentage discount, Amount: 100%, Allow free shipping: enabled, Usage limit per coupon: 1, Usage limit per user: unlimited). Coupon agent was changed from 'arash-1993' to 'admin' to avoid notifications during testing. Expiry date was edited - ensure it is saved via 'Update' in coupon editor. PRE-FIX TEST: Applied coupon to bring total to $0.00 with free shipping. Payment step showed no gateways and Place Order returned the generic processing error. Failed test order created as Pending payment (Order #61268). POST-FIX TEST: Same flow - add product > apply coupon > select free shipping > proceed to payment > Place Order. Order completed successfully with thank-you page displaying Total: $0.00, Payment method: 'No payment required'. Successful test order created (Order #61269). SANITY TEST: Proceeded to checkout without coupon (total > $0). Verified 'No payment required' did NOT show. Verified Stripe credit/debit and PayPal displayed normally. CLEANUP: Order #61268 (failed/pending) set to Cancelled. Order #61269 (successful $0 test) set to Cancelled. Cart emptied after testing. ROLLBACK PLAN: (1) Revert COD settings - Title back to 'Pay in Person', Description back to 'Pay by card or another accepted payment method', Instructions back to 'Pay by card or another accepted payment method'. (2) Deactivate snippet: Snippets > All Snippets > toggle off '$0 checkout - force No payment required gateway'.",
-    codeSnippet: `/**
- * $0 checkout: force an offline gateway (COD) and ensure payment_method posts as COD.
- * Rollback: deactivate this snippet.
- */
-add_filter('woocommerce_available_payment_gateways', function($gateways) {
-    if (is_admin() || !function_exists('WC') || !WC()->cart) return $gateways;
-
-    $total = (float) WC()->cart->get_total('edit');
-
-    // If total is $0, keep ONLY COD
-    if ($total <= 0) {
-        foreach ($gateways as $id => $gateway) {
-            if ($id !== 'cod') unset($gateways[$id]);
-        }
-        return $gateways;
-    }
-
-    // If total > $0, remove COD
-    unset($gateways['cod']);
-    return $gateways;
-}, 100);
-
-/**
- * Some checkout UIs (or custom checkout templates) fail to render gateways for $0 totals.
- * This guarantees the posted payment_method is "cod" for $0 orders.
- */
-add_action('woocommerce_checkout_process', function() {
-    if (!function_exists('WC') || !WC()->cart) return;
-
-    $total = (float) WC()->cart->get_total('edit');
-    if ($total > 0) return;
-
-    // If nothing was posted, set COD.
-    if (empty($_POST['payment_method'])) {
-        $_POST['payment_method'] = 'cod';
-    }
-}, 5);`
+    solution: "Left the site in a clean baseline state with no forced gateways. Deactivated the '$0 checkout - force No payment required gateway' PHP snippet and disabled Cash on Delivery (including removing the 'No payment required' label). After running Elementor's Data Updater to complete the pending database update, multiple test orders using a 100% off coupon (total = $0.00) were completed successfully. Paid checkout was also verified to show Stripe (card) and PayPal only.",
+    trialAndError: "Attempted fix (rolled back): Enabled COD and relabeled it as 'No payment required,' then added a PHP snippet to force COD for $0 totals and hide COD for paid totals. This initially allowed a $0 order to complete but was later reported as unsafe because the WooLentor/ShopLentor multi-step/AJAX flow can re-evaluate totals/gateways during step transitions and intermittently expose the 'No payment required' option to paid carts, creating a free-order risk. Rolled back by turning the snippet OFF and disabling COD.",
+    notes: "TESTING COUPON: 'spon12345 - copy' (Percentage, 100% off, Allow free shipping enabled). Agent was temporarily changed from 'arash-1993' to 'admin' during testing to avoid notifications. PRE-FIX TEST: $0.00 checkout produced the generic processing error and did not render payment options. POST-FIX TEST (attempted fix): $0.00 order completed with 'No payment required' shown as payment method, then later determined unsafe and rolled back. ELEMENTOR RECOVERY: Elementor Data Updater completed, which restored proper template rendering on /checkout/ after toggling multi-step settings caused the checkout form to disappear temporarily. FINAL VALIDATION: With snippet OFF and COD OFF, multiple $0 coupon test orders completed successfully and paid checkout rendered Stripe/PayPal normally. Test orders were cleaned up (cancelled/trashed) after validation."
   },
   {
     number: "002",
