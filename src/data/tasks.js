@@ -80,11 +80,28 @@ export const tasks = [
             result: "NOT FIXED (scroll hang + footer overlay still present). Quick View button displayed but modal no longer opened.",
             rolledBack: true,
             rollbackConfirmed: "Quick View opens again after restoring"
+          },
+          {
+            test: "WP Rocket CSS background lazy-load test",
+            action: "Disabled WP Rocket > Media > LazyLoad > 'Enable for CSS background images', saved + cleared cache",
+            result: "NOT FIXED (same iOS hang point, footer overlay persists)",
+            rolledBack: true
+          },
+          {
+            test: "DevTools inspection (initial)",
+            action: "Searched for overflow/scroll-container culprits",
+            result: "Only notable match: grecaptcha-badge (overflow:hidden, position:fixed, visibility:hidden). Not considered causal (hidden reCAPTCHA badge widget).",
+            rolledBack: false
+          },
+          {
+            test: "DevTools check (body/html computed overflow)",
+            action: "Inspected computed styles on html and body elements",
+            result: "html overflow: hidden auto (x hidden, y auto). body overflow: hidden auto. html/body height: ~12734.6px. body position: static. body transform: none. INFERENCE: iOS Safari scroll hang may be caused by overflow-y:auto applied to html/body (known to create scroll-container quirks on long pages).",
+            rolledBack: false
           }
         ],
         nextSteps: [
-          "iOS Safari viewport/scroll-container behavior (overflow/scroll containers, sticky/transform interactions, vh/dvh sizing)",
-          "WP Rocket CSS background lazy-load (Elementor sections often use background images)"
+          "Add iOS-only CSS to force html/body overflow-y: visible while keeping overflow-x: hidden, then retest iPhone"
         ]
       }
     ]
