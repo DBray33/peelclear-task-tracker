@@ -153,6 +153,69 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
             </div>
           )}
 
+          {/* Session Notes */}
+          {task.sessionNotes && task.sessionNotes.length > 0 && (
+            <div className="mb-3">
+              <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-2">
+                Session Notes
+              </h4>
+              {task.sessionNotes.map((session, idx) => (
+                <div key={idx} className="mb-4 p-3 bg-light-bg rounded-lg">
+                  <div className="text-[13px] font-semibold text-primary mb-2">{session.date}</div>
+
+                  {session.summary && (
+                    <p className="text-[14px] text-dark mb-2">{session.summary}</p>
+                  )}
+
+                  {session.confirmed && session.confirmed.length > 0 && (
+                    <div className="mb-2">
+                      <span className="text-[12px] font-semibold text-secondary uppercase">Confirmed:</span>
+                      <ul className="list-disc list-inside text-[14px] text-dark mt-1 space-y-1">
+                        {session.confirmed.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {session.testsCompleted && session.testsCompleted.length > 0 && (
+                    <div className="mb-2">
+                      <span className="text-[12px] font-semibold text-secondary uppercase">Tests Completed:</span>
+                      {session.testsCompleted.map((test, i) => (
+                        <div key={i} className="mt-2 p-2 bg-white rounded border border-border">
+                          <div className="text-[13px] font-medium text-dark">{test.test}</div>
+                          {test.settingsBefore && (
+                            <p className="text-[12px] text-secondary mt-1">Settings before: {test.settingsBefore}</p>
+                          )}
+                          <p className="text-[12px] text-secondary mt-1">Action: {test.action}</p>
+                          <p className={`text-[12px] mt-1 font-medium ${test.result.includes('NOT FIXED') ? 'text-red-600' : 'text-green-600'}`}>
+                            Result: {test.result}
+                          </p>
+                          {test.rolledBack && (
+                            <span className="inline-block mt-1 text-[11px] bg-warning/20 text-warning px-2 py-0.5 rounded">
+                              Rolled back
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {session.nextSteps && session.nextSteps.length > 0 && (
+                    <div>
+                      <span className="text-[12px] font-semibold text-secondary uppercase">Next Steps:</span>
+                      <ul className="list-disc list-inside text-[14px] text-dark mt-1 space-y-1">
+                        {session.nextSteps.map((step, i) => (
+                          <li key={i}>{step}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Resources */}
           {task.resources && task.resources.length > 0 && (
             <div className="mb-3">

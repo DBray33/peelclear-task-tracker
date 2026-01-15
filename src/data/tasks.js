@@ -43,7 +43,7 @@ export const tasks = [
   {
     number: "002",
     title: "iOS Shop Page Scroll/Footer Bug",
-    status: "Open",
+    status: "In Progress",
     priority: false,
     dateAdded: "Jan 5, 2026",
     source: "Teams meeting",
@@ -57,7 +57,37 @@ export const tasks = [
       "Deprecated -webkit-overflow-scrolling: touch CSS"
     ],
     solution: "",
-    notes: "Likely fix: disable infinite scroll or set min-height on product container"
+    notes: "Likely fix: disable infinite scroll or set min-height on product container",
+    sessionNotes: [
+      {
+        date: "Jan 15, 2026",
+        summary: "Scroll hangs at consistent point (around '3M PPS Series 1.0 Adapter'), footer appears over product grid before all products visible. After short wait or bounce, scrolling resumes.",
+        confirmed: [
+          "Product card markup uses WooLentor grid (wrapper: woolentor-product-item, image class: woolentor-product-img, grid: #woolentor-grid-69691e58674f6)",
+          "Product images include explicit width/height (300x300) and srcset, no obvious Rocket-specific lazy attributes visible"
+        ],
+        testsCompleted: [
+          {
+            test: "WP Rocket exclusion test (targeted)",
+            action: "Added 'woolentor-product-img' under WP Rocket > Media > Excluded images or iframes, saved + cleared cache",
+            result: "NOT FIXED (same hang point + footer overlay)",
+            rolledBack: true
+          },
+          {
+            test: "ShopLentor/WooLentor Quick View test (JS/feature isolation)",
+            settingsBefore: "Module ON, Quick View on Shop/Archive OFF, AJAX add to cart ON, Thumbnail layout Slider, Social share ON",
+            action: "Toggled module Enable/Disable to OFF, saved, cleared cache",
+            result: "NOT FIXED (scroll hang + footer overlay still present). Quick View button displayed but modal no longer opened.",
+            rolledBack: true,
+            rollbackConfirmed: "Quick View opens again after restoring"
+          }
+        ],
+        nextSteps: [
+          "iOS Safari viewport/scroll-container behavior (overflow/scroll containers, sticky/transform interactions, vh/dvh sizing)",
+          "WP Rocket CSS background lazy-load (Elementor sections often use background images)"
+        ]
+      }
+    ]
   },
   {
     number: "003",
@@ -226,6 +256,7 @@ export const backlog = [
 export const stats = {
   totalHours: 4.25,
   totalAmountDue: 297.50,
-  openTasks: 6,
+  openTasks: 5,
+  inProgressTasks: 1,
   resolvedTasks: 3
 };
