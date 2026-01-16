@@ -192,16 +192,21 @@ export const tasks = [
   {
     number: "006",
     title: "Remove Mobile Menu Animation",
-    status: "Open",
+    status: "Resolved",
     priority: false,
     dateAdded: "Jan 5, 2026",
+    dateResolved: "Jan 16, 2026",
     source: "Teams meeting",
-    hours: 0,
-    issue: "Remove swipe up animation on mobile menu.",
-    investigation: "",
-    likelyCauses: [],
-    solution: "",
-    notes: ""
+    hours: 1,
+    issue: "ElementsKit mobile/offcanvas hamburger menu was sliding up (animated reveal) on all breakpoints where the hamburger menu is visible (including iPhone Safari). Multiple Customizer 'Additional CSS' attempts did not reliably override the animation (worked in DevTools but not on the live build).",
+    investigation: "ElementsKit's frontend CSS / active-state rules were overriding Customizer 'Additional CSS' due to cascade/order and/or optimization ordering. DevTools worked because inline 'element style' wins.",
+    likelyCauses: [
+      "ElementsKit frontend CSS overriding Customizer Additional CSS",
+      "Cascade/order and optimization ordering issues",
+      "Active-state rules with higher specificity"
+    ],
+    solution: "Added a Code Snippets (PHP) snippet (frontend) named 'ElementsKit Offcanvas - Disable Animation'. Snippet registers/enqueues an empty stylesheet handle (peelclear-ekit-offcanvas-noanim) and injects late-loading inline CSS override via wp_add_inline_style() targeting ElementsKit offcanvas wrapper/panel/overlay classes (including hyphen and underscore variants). Forces: transition: none !important, animation: none !important, transition-delay: 0s !important. Result: offcanvas/hamburger menu opens instantly with no slide animation.",
+    notes: "CLEANUP: Remove all ElementsKit/offcanvas animation-related rules previously added in Appearance > Customize > Additional CSS. Keep only unrelated CSS (e.g., YITH Store Locator rules and commented 'Hide Register' block). Clear and preload WP Rocket cache after cleanup. ROLLBACK: Disable or delete the Code Snippets snippet, then clear and preload WP Rocket cache (and any CDN cache if applicable). Selector testing showed some ElementsKit nodes differ by template/context (e.g., .ekit-sidebar-widget existed but .ekit-sidebar-widget-container not always present), so the snippet targets multiple likely nodes and active-state class variants."
   },
   {
     number: "007",
@@ -305,9 +310,9 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 6,
-  totalAmountDue: 420,
-  openTasks: 5,
+  totalHours: 7,
+  totalAmountDue: 490,
+  openTasks: 4,
   inProgressTasks: 0,
-  resolvedTasks: 4
+  resolvedTasks: 5
 };
