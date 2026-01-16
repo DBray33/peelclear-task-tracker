@@ -47,7 +47,7 @@ export const tasks = [
     priority: true,
     dateAdded: "Jan 5, 2026",
     source: "Teams meeting",
-    hours: 0,
+    hours: 1,
     issue: "On the shop page on mobile (specifically iPhone), scrolling gets blocked partway down, won't go further until it randomly allows more scrolling. Footer also loads before all products are visible.",
     investigation: "iOS Safari + WooCommerce lazy loading conflict. iOS Safari calculates page height before new products load, so user scrolls to what Safari thinks is the 'end', footer renders prematurely, then products load via AJAX and height recalculates.",
     likelyCauses: [
@@ -102,6 +102,33 @@ export const tasks = [
         ],
         nextSteps: [
           "Add iOS-only CSS to force html/body overflow-y: visible while keeping overflow-x: hidden, then retest iPhone"
+        ]
+      },
+      {
+        date: "Jan 16, 2026",
+        summary: "BREAKTHROUGH: Root cause confirmed. Scroll hang resolved. Footer overlay still present (separate issue).",
+        confirmed: [
+          "Found Elementor-generated CSS in PeelClear Kit template (Post ID 8, post-8.css?ver=1.1715794642): html, body { overflow-x: hidden !important; }",
+          "Applying overflow-x hidden to <html> is the trigger for iOS Safari scroll-stall behavior"
+        ],
+        testsCompleted: [
+          {
+            test: "Fix: Change overflow rule in Elementor Kit",
+            action: "Changed Site Settings > Custom CSS FROM: html, body { overflow-x: hidden !important; } TO: body { overflow-x: hidden !important; }",
+            result: "iOS Safari scroll hang STOPPED",
+            rolledBack: false
+          },
+          {
+            test: "A/B Confirmation",
+            action: "Reverted to html, body rule, then switched back to body-only",
+            result: "Reverting caused scroll hang to RETURN immediately. Body-only removed hang again. Root cause confirmed.",
+            rolledBack: false
+          }
+        ],
+        additionalNotes: "Also corrected invalid CSS syntax in same block: .otgs-development-site-front-end { display: none !important; } (unrelated to scroll issue). Revert shortcut: https://peelclear.com/wp-admin/post.php?post=8&action=elementor",
+        currentStatus: "Scroll hang: RESOLVED. Footer overlay (footer appearing over products before end of grid): STILL PRESENT on iPhone.",
+        nextSteps: [
+          "Footer overlay is a separate issue likely caused by layout/CSS positioning (negative margin, absolute/fixed positioning, z-index, or Elementor container height/overflow issue), not WP Rocket lazy-load"
         ]
       }
     ]
@@ -271,8 +298,8 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 4.25,
-  totalAmountDue: 297.50,
+  totalHours: 5.25,
+  totalAmountDue: 367.50,
   openTasks: 5,
   inProgressTasks: 1,
   resolvedTasks: 3

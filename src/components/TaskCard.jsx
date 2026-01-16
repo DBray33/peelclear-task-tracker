@@ -201,6 +201,20 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
                     </div>
                   )}
 
+                  {session.currentStatus && (
+                    <div className="mb-2 p-2 bg-white rounded border border-border">
+                      <span className="text-[12px] font-semibold text-secondary uppercase">Current Status:</span>
+                      <p className="text-[14px] text-dark mt-1">{session.currentStatus}</p>
+                    </div>
+                  )}
+
+                  {session.additionalNotes && (
+                    <div className="mb-2">
+                      <span className="text-[12px] font-semibold text-secondary uppercase">Additional Notes:</span>
+                      <p className="text-[14px] text-dark mt-1">{session.additionalNotes}</p>
+                    </div>
+                  )}
+
                   {session.nextSteps && session.nextSteps.length > 0 && (
                     <div>
                       <span className="text-[12px] font-semibold text-secondary uppercase">Next Steps:</span>
