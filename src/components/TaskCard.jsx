@@ -202,9 +202,9 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
                   )}
 
                   {session.currentStatus && (
-                    <div className="mb-2 p-2 bg-white rounded border border-border">
+                    <div className={`mb-2 p-2 rounded border ${session.currentStatus.includes('RESOLVED') ? 'bg-green-100 border-green-300' : 'bg-white border-border'}`}>
                       <span className="text-[12px] font-semibold text-secondary uppercase">Current Status:</span>
-                      <p className="text-[14px] text-dark mt-1">{session.currentStatus}</p>
+                      <p className={`text-[14px] mt-1 ${session.currentStatus.includes('RESOLVED') ? 'text-green-800' : 'text-dark'}`}>{session.currentStatus}</p>
                     </div>
                   )}
 

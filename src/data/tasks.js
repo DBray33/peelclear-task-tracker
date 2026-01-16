@@ -1,4 +1,4 @@
-// Last updated: Jan 12, 2026
+// Last updated: Jan 16, 2026
 export const tasks = [
   {
     number: "001a",
@@ -43,20 +43,21 @@ export const tasks = [
   {
     number: "002",
     title: "iOS Shop Page Scroll/Footer Bug",
-    status: "In Progress",
-    priority: true,
+    status: "Resolved",
+    priority: false,
     dateAdded: "Jan 5, 2026",
+    dateResolved: "Jan 16, 2026",
     source: "Teams meeting",
-    hours: 1,
+    hours: 1.75,
     issue: "On the shop page on mobile (specifically iPhone), scrolling gets blocked partway down, won't go further until it randomly allows more scrolling. Footer also loads before all products are visible.",
-    investigation: "iOS Safari + WooCommerce lazy loading conflict. iOS Safari calculates page height before new products load, so user scrolls to what Safari thinks is the 'end', footer renders prematurely, then products load via AJAX and height recalculates.",
+    investigation: "iOS Safari + WooCommerce lazy loading conflict. iOS Safari calculates page height before new products load, so user scrolls to what Safari thinks is the 'end', footer renders prematurely, then products load via AJAX and height recalculates. Debug environment: Safari iPhone Web Inspector (Develop > dan iPhone > peelclear.com > /shop) used to inspect DOM/CSS and validate behavior in real iOS Safari.",
     likelyCauses: [
       "AJAX product filters or infinite scroll plugin",
       "Elementor smooth scroll conflicting with iOS momentum scrolling",
       "Lazy load on product images (ShortPixel, Jetpack, or theme-level)",
       "Deprecated -webkit-overflow-scrolling: touch CSS"
     ],
-    solution: "",
+    solution: "Two fixes applied: (1) Changed Elementor Kit Custom CSS from 'html, body { overflow-x: hidden !important; }' to 'body { overflow-x: hidden !important; }' to resolve iOS Safari scroll stall. (2) Modified WL: Product Grid - Modern widget in Elementor Theme Builder template 'Elementor Products Archive' (Instances: All Product Archives) to use 2 columns on mobile and reduced Add to Cart / Select Options typography for mobile. Both fixes resolved respective issues.",
     notes: "Likely fix: disable infinite scroll or set min-height on product container",
     sessionNotes: [
       {
@@ -106,14 +107,16 @@ export const tasks = [
       },
       {
         date: "Jan 16, 2026",
-        summary: "BREAKTHROUGH: Root cause confirmed. Scroll hang resolved. Footer overlay still present (separate issue).",
+        summary: "FINAL RESOLUTION: Both scroll hang and footer overlay issues resolved.",
+        debugEnvironment: "Reproduced + debugged using Safari iPhone Web Inspector / iPhone development environment (Develop > dan iPhone > peelclear.com > /shop) to inspect DOM/CSS and validate behavior in real iOS Safari.",
         confirmed: [
           "Found Elementor-generated CSS in PeelClear Kit template (Post ID 8, post-8.css?ver=1.1715794642): html, body { overflow-x: hidden !important; }",
-          "Applying overflow-x hidden to <html> is the trigger for iOS Safari scroll-stall behavior"
+          "Applying overflow-x hidden to <html> is the trigger for iOS Safari scroll-stall behavior",
+          "A/B proof: reverting to html, body made the stall return immediately, switching back to body-only removed it again"
         ],
         testsCompleted: [
           {
-            test: "Fix: Change overflow rule in Elementor Kit",
+            test: "Fix #1: Change overflow rule in Elementor Kit",
             action: "Changed Site Settings > Custom CSS FROM: html, body { overflow-x: hidden !important; } TO: body { overflow-x: hidden !important; }",
             result: "iOS Safari scroll hang STOPPED",
             rolledBack: false
@@ -123,13 +126,17 @@ export const tasks = [
             action: "Reverted to html, body rule, then switched back to body-only",
             result: "Reverting caused scroll hang to RETURN immediately. Body-only removed hang again. Root cause confirmed.",
             rolledBack: false
+          },
+          {
+            test: "Fix #2: Product Grid Layout (resolved footer symptom)",
+            action: "Modified Elementor Theme Builder template 'Elementor Products Archive' (Instances: All Product Archives). Widget: WL: Product Grid - Modern. Content > Layout > Columns: set to Two (mobile). Style: reduced Add to Cart / Select Options typography for mobile so buttons are not oversized.",
+            result: "Shop page looks correct on mobile. Footer no longer appears before the product grid finishes.",
+            rolledBack: false
           }
         ],
         additionalNotes: "Also corrected invalid CSS syntax in same block: .otgs-development-site-front-end { display: none !important; } (unrelated to scroll issue). Revert shortcut: https://peelclear.com/wp-admin/post.php?post=8&action=elementor",
-        currentStatus: "Scroll hang: RESOLVED. Footer overlay (footer appearing over products before end of grid): STILL PRESENT on iPhone.",
-        nextSteps: [
-          "Footer overlay is a separate issue likely caused by layout/CSS positioning (negative margin, absolute/fixed positioning, z-index, or Elementor container height/overflow issue), not WP Rocket lazy-load"
-        ]
+        currentStatus: "FULLY RESOLVED. Scroll hang: fixed via body-only overflow rule. Footer overlay: fixed via 2-column mobile grid layout.",
+        nextSteps: []
       }
     ]
   },
@@ -298,9 +305,9 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 5.25,
-  totalAmountDue: 367.50,
+  totalHours: 6,
+  totalAmountDue: 420,
   openTasks: 5,
-  inProgressTasks: 1,
-  resolvedTasks: 3
+  inProgressTasks: 0,
+  resolvedTasks: 4
 };
