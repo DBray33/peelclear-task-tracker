@@ -6,8 +6,8 @@ export default function TaskList() {
   const [expandedTask, setExpandedTask] = useState(null);
   const [uiExpanded, setUiExpanded] = useState(false);
 
-  const openTasks = tasks.filter(t => t.status !== 'Resolved');
-  const resolvedTasks = tasks.filter(t => t.status === 'Resolved');
+  const openTasks = tasks.filter(t => t.status !== 'Resolved').sort((a, b) => a.number.localeCompare(b.number));
+  const resolvedTasks = tasks.filter(t => t.status === 'Resolved').sort((a, b) => a.number.localeCompare(b.number));
 
   // Check if there are any pending UI tasks
   const hasPendingUiTasks = uiUpdates.some(u => u.pending && u.pending.length > 0);
@@ -85,28 +85,32 @@ export default function TaskList() {
                   <div className="px-4 py-3">
                     {dateGroup.pending && dateGroup.pending.length > 0 && (
                       <div className="mb-3">
-                        <span className="text-[13px] font-semibold text-primary uppercase tracking-wide">
-                          New Tasks
+                        <span className="text-[13px] font-semibold text-purple uppercase tracking-wide">
+                          To Do
                         </span>
-                        <ul className="list-disc list-inside text-[15px] text-dark space-y-1 mt-1">
+                        <div className="mt-2 space-y-2">
                           {dateGroup.pending.map((task, i) => (
-                            <li key={i}>{task}</li>
+                            <div key={i} className="flex items-start gap-3">
+                              <span className="flex-shrink-0 mt-1.5 w-2 h-2 rounded-full bg-purple" />
+                              <p className="text-[15px] text-dark">{task}</p>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     )}
                     {dateGroup.updates && dateGroup.updates.length > 0 && (
                       <div>
-                        {dateGroup.pending && dateGroup.pending.length > 0 && (
-                          <span className="text-[13px] font-semibold text-secondary uppercase tracking-wide">
-                            Completed
-                          </span>
-                        )}
-                        <ul className="list-disc list-inside text-[15px] text-dark space-y-1 mt-1">
+                        <span className="text-[13px] font-semibold text-success uppercase tracking-wide">
+                          Done
+                        </span>
+                        <div className="mt-2 space-y-2">
                           {dateGroup.updates.map((update, i) => (
-                            <li key={i}>{update}</li>
+                            <div key={i} className="flex items-start gap-3">
+                              <span className="flex-shrink-0 mt-1.5 w-2 h-2 rounded-full bg-success" />
+                              <p className="text-[15px] text-dark">{update}</p>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     )}
                     {dateGroup.notes && (

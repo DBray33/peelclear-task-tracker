@@ -152,10 +152,10 @@ export const tasks = [
     investigation: "Need to investigate how training access is currently gated.",
     likelyCauses: [],
     solution: "",
-    notes: "Related to [005]. Client wants to verify training video uploads as part of this work."
+    notes: "Related to [009]. Client wants to verify training video uploads as part of this work."
   },
   {
-    number: "005",
+    number: "009",
     title: "Plugin Audit",
     status: "Open",
     priority: false,
@@ -243,9 +243,46 @@ export const tasks = [
     solution: "",
     notes: "Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc)."
   },
+  {
+    number: "005",
+    title: "Add Legal & Compliance Pages",
+    status: "Open",
+    priority: false,
+    dateAdded: "Jan 16, 2026",
+    source: "",
+    hours: 0,
+    issue: [
+      "Add Privacy Policy page",
+      "Add Terms & Conditions page",
+      "Add Dealer / Installer Agreement page",
+      "Add Limited Warranty page",
+      "Add Certification Agreement page",
+      "Add Checkout + SMS Disclosure"
+    ],
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: ""
+  },
 ];
 
 export const uiUpdates = [
+  {
+    date: "Jan 16, 2026",
+    hours: 0.25,
+    pending: [
+      "Add spacing above PayPal button on product page (Add to Order button touching Pay with PayPal)"
+    ],
+    updates: [
+      "Fixed grammatical error on checkout coupon text: 'Apply coupon code to get a discount. Collect coupons by shopping more.'",
+      "Removed right padding on mobile checkout column",
+      "Added 20px left padding to tablet checkout column",
+      "Added 20px margin between contact/shipping/payment card and coupon application card on mobile and tablet",
+      "Checkout page now centered with proper card spacing"
+    ],
+    notes: "",
+    resources: []
+  },
   {
     date: "Jan 12, 2026",
     hours: 0.25,
@@ -310,9 +347,9 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 7,
-  totalAmountDue: 490,
-  openTasks: 4,
+  totalHours: 7.25,
+  totalAmountDue: 507.50,
+  openTasks: 5,
   inProgressTasks: 0,
   resolvedTasks: 5
 };
