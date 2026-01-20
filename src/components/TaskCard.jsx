@@ -5,6 +5,7 @@ const statusStyles = {
   'In Progress': 'bg-warning/20 text-warning',
   'Resolved': 'bg-success text-white',
   'Cannot Reproduce': 'bg-purple/20 text-purple',
+  'Superseded': 'bg-secondary/20 text-secondary',
 };
 
 export default function TaskCard({ task, isExpanded, onToggle }) {
@@ -138,6 +139,20 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
                   {task.solution}
                 </p>
               )}
+            </div>
+          )}
+
+          {/* Tasks (subtasks/checklist) */}
+          {task.tasks && task.tasks.length > 0 && (
+            <div className="mb-3">
+              <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-1">
+                Tasks
+              </h4>
+              <ul className="list-disc list-inside text-[15px] text-dark space-y-1">
+                {task.tasks.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
             </div>
           )}
 

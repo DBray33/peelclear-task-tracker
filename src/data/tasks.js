@@ -1,4 +1,4 @@
-// Last updated: Jan 16, 2026
+// Last updated: Jan 20, 2026
 export const tasks = [
   {
     number: "001a",
@@ -244,25 +244,83 @@ export const tasks = [
     notes: "Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc)."
   },
   {
-    number: "005",
-    title: "Add Legal & Compliance Pages",
+    number: "010",
+    title: "Legal Compliance Pages + Consent Checkbox",
     status: "Open",
-    priority: false,
-    dateAdded: "Jan 16, 2026",
-    source: "",
+    priority: true,
+    dateAdded: "Jan 20, 2026",
+    source: "Teams meeting (Jon)",
     hours: 0,
-    issue: [
-      "Add Privacy Policy page",
-      "Add Terms & Conditions page",
-      "Add Dealer / Installer Agreement page",
-      "Add Limited Warranty page",
-      "Add Certification Agreement page",
-      "Add Checkout + SMS Disclosure"
-    ],
+    issue: "Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.",
     investigation: "",
     likelyCauses: [],
     solution: "",
-    notes: ""
+    tasks: [
+      "Jon has created Privacy Policy and Terms and Conditions pages - need to link in footer",
+      "Jon to create Refund/Return Policy page",
+      "Jon to create Shipping Policy page",
+      "Add all 4 policy pages to footer navigation",
+      "Add required consent checkbox to WooCommerce checkout: 'I agree to the Privacy Policy, Terms and Conditions, and SMS communications' with link to Privacy Policy (Code Snippet needed)",
+      "Add same consent checkbox to Contact form in Gravity Forms (same form used on homepage and Become an Installer page)"
+    ],
+    notes: "Reference CeramicPro's footer/policy pages as template. Checkout uses ShopLentor multi-step checkout widget, may need testing. Supersedes [005]."
+  },
+  {
+    number: "011",
+    title: "Remove Unused Plugins and Plugin Bloat",
+    status: "Open",
+    priority: true,
+    dateAdded: "Jan 20, 2026",
+    source: "Teams meeting (performance audit)",
+    hours: 0,
+    issue: "Site has 49 active plugins and 35 inactive plugins causing 3.5s server response time. Client approved cleanup.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    tasks: [
+      "Delete 35 inactive plugins (LearnDash suite, WPML suite, duplicate free versions, unused membership plugins)",
+      "Audit Essential Addons - 82 of 115 widgets enabled, most unused. Disable unused widgets.",
+      "Review if Essential Addons can be fully removed (ElementsKit handles nav/menu)",
+      "Enable WP Rocket 'Remove Unused CSS' and 'Delay JavaScript Execution'",
+      "Deactivate: Child Theme Configurator, WP File Manager (security risk), User Switching",
+      "Review: Site Kit (redundant if GTM handles GA4), WP Sheet Editor plugins (occasional use)"
+    ],
+    notes: "Current scores: Mobile 33/100, Desktop 43/100. Target after cleanup: Mobile 50-55, Desktop 65-75. Full audit document created."
+  },
+  {
+    number: "012",
+    title: "Reduce Mobile Animations",
+    status: "Open",
+    priority: true,
+    dateAdded: "Jan 20, 2026",
+    source: "Teams meeting",
+    hours: 0,
+    issue: "Homepage has entrance animations and scroll effects adding JavaScript processing overhead on mobile.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: "Asked client Jan 16 if animations should be removed after fixing mobile menu animation. No response then. Now approved as part of performance cleanup. Check Elementor motion effects settings on homepage sections."
+  },
+  {
+    number: "013",
+    title: "Compress Site Assets",
+    status: "Open",
+    priority: true,
+    dateAdded: "Jan 20, 2026",
+    source: "Teams meeting (performance audit)",
+    hours: 0,
+    issue: "Page size is 14-23 MB, should be under 3 MB. Heavy video and image files.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    tasks: [
+      "Compress tesla-peel-scaled.png (2.7 MB PNG to ~200 KB WebP)",
+      "Compress or replace mobile hero video (currently 5.9 MB)",
+      "Compress desktop hero video (currently 6.5 MB)",
+      "Run ShortPixel bulk optimization on all images",
+      "Enable WebP conversion in ShortPixel"
+    ],
+    notes: "Use ShortPixel (~$5/month) for image compression and WebP conversion. Client was warned Jan 12 that mobile video would impact performance but insisted on adding it."
   },
 ];
 
@@ -349,7 +407,7 @@ export const backlog = [
 export const stats = {
   totalHours: 7.25,
   totalAmountDue: 507.50,
-  openTasks: 5,
+  openTasks: 8,
   inProgressTasks: 0,
   resolvedTasks: 5
 };

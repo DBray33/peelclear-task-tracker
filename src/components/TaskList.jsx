@@ -6,8 +6,8 @@ export default function TaskList() {
   const [expandedTask, setExpandedTask] = useState(null);
   const [uiExpanded, setUiExpanded] = useState(false);
 
-  const openTasks = tasks.filter(t => t.status !== 'Resolved').sort((a, b) => a.number.localeCompare(b.number));
-  const resolvedTasks = tasks.filter(t => t.status === 'Resolved').sort((a, b) => a.number.localeCompare(b.number));
+  const openTasks = tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded').sort((a, b) => a.number.localeCompare(b.number));
+  const resolvedTasks = tasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded').sort((a, b) => a.number.localeCompare(b.number));
 
   // Check if there are any pending UI tasks
   const hasPendingUiTasks = uiUpdates.some(u => u.pending && u.pending.length > 0);
@@ -18,7 +18,7 @@ export default function TaskList() {
 
   return (
     <div className="px-4 pt-4 pb-4 md:px-6">
-      {/* UI/UX Updates Section */}
+      {/* Minor Tweaks Section */}
       <div className="mb-6">
         <div className={`bg-white rounded-xl shadow-sm border border-border overflow-hidden transition-shadow duration-300 ${
           uiExpanded ? 'shadow-md' : ''
@@ -34,7 +34,7 @@ export default function TaskList() {
                 </svg>
               </span>
               <div className="text-left">
-                <h3 className="text-[15px] font-medium text-dark">UI/UX Updates</h3>
+                <h3 className="text-[15px] font-medium text-dark">Minor Tweaks</h3>
                 <div className="flex items-center gap-2 mt-1">
                   <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
                     hasPendingUiTasks
@@ -148,7 +148,7 @@ export default function TaskList() {
               </div>
             ) : (
               <div className="p-6 text-center border-t border-border">
-                <p className="text-[15px] text-secondary">No UI/UX updates yet</p>
+                <p className="text-[15px] text-secondary">No minor tweaks yet</p>
               </div>
             )}
           </div>
