@@ -256,10 +256,10 @@ export const tasks = [
     likelyCauses: [],
     solution: "",
     tasks: [
-      "Jon has created Privacy Policy and Terms and Conditions pages - need to link in footer",
-      "Jon to create Refund/Return Policy page",
+      "[DONE] Jon has created Privacy Policy and Terms and Conditions pages - need to link in footer",
+      "[IN PROGRESS] Jon to create Refund/Return Policy page",
       "Jon to create Shipping Policy page",
-      "Add all 4 policy pages to footer navigation",
+      "[DONE] Add Privacy Policy, Terms and Conditions, and Return Policy links to footer navigation",
       "[DONE] Add consent checkbox to WooCommerce checkout with terms and privacy policy links",
       "Add consent checkbox with privacy/terms links to HubSpot forms (homepage contact form, Become an Installer page) - NEED HUBSPOT ACCESS"
     ],
