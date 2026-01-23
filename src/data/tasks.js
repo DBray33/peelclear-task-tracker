@@ -260,10 +260,10 @@ export const tasks = [
       "Jon to create Refund/Return Policy page",
       "Jon to create Shipping Policy page",
       "Add all 4 policy pages to footer navigation",
-      "Add required consent checkbox to WooCommerce checkout: 'I agree to the Privacy Policy, Terms and Conditions, and SMS communications' with link to Privacy Policy (Code Snippet needed)",
-      "Add same consent checkbox to Contact form in Gravity Forms (same form used on homepage and Become an Installer page)"
+      "[DONE] Add consent checkbox to WooCommerce checkout with terms and privacy policy links",
+      "Add consent checkbox with privacy/terms links to HubSpot forms (homepage contact form, Become an Installer page) - NEED HUBSPOT ACCESS"
     ],
-    notes: "Reference CeramicPro's footer/policy pages as template. Checkout uses ShopLentor multi-step checkout widget, may need testing. Supersedes [005]."
+    notes: "Reference CeramicPro's footer/policy pages as template. Checkout checkbox added: 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. I have read and agree to the website terms and conditions.' Contact forms are HubSpot (not Gravity Forms). Supersedes [005]."
   },
   {
     number: "011",
@@ -325,6 +325,16 @@ export const tasks = [
 ];
 
 export const uiUpdates = [
+  {
+    date: "Jan 20, 2026",
+    hours: 0,
+    pending: [],
+    updates: [
+      "Fixed About Us page 'Become an Installer' button link (was /become-a-distributor-partner/, changed to /become-an-installer/)"
+    ],
+    notes: "",
+    resources: []
+  },
   {
     date: "Jan 16, 2026",
     hours: 0.25,

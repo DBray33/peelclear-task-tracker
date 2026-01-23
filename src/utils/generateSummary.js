@@ -1,8 +1,8 @@
 import { tasks, billingInfo, clientInfo, providerInfo, backlog, uiUpdates } from '../data/tasks';
 
 export function generateSummary() {
-  const resolvedTasks = tasks.filter(t => t.status === 'Resolved');
-  const openTasks = tasks.filter(t => t.status !== 'Resolved');
+  const resolvedTasks = tasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded');
+  const openTasks = tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded');
 
   const taskHours = tasks.reduce((sum, t) => sum + (t.hours || 0), 0);
   const uiHours = uiUpdates.reduce((sum, u) => sum + (u.hours || 0), 0);
@@ -114,6 +114,13 @@ ${task.likelyCauses.map(c => `  - ${c}`).join('\n')}
 
   if (task.solution) {
     output += `Solution: ${task.solution}
+
+`;
+  }
+
+  if (task.tasks && task.tasks.length > 0) {
+    output += `Tasks:
+${task.tasks.map(t => `  - ${t}`).join('\n')}
 
 `;
   }
