@@ -257,7 +257,7 @@ export const tasks = [
     solution: "",
     tasks: [
       "[DONE] Jon has created Privacy Policy and Terms and Conditions pages - need to link in footer",
-      "[IN PROGRESS] Jon to create Refund/Return Policy page",
+      "[DONE] Jon to create Refund/Return Policy page",
       "Jon to create Shipping Policy page",
       "[DONE] Add Privacy Policy, Terms and Conditions, and Return Policy links to footer navigation",
       "[DONE] Add consent checkbox to WooCommerce checkout with terms and privacy policy links",
