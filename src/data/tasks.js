@@ -1,4 +1,4 @@
-// Last updated: Jan 20, 2026
+// Last updated: Jan 23, 2026
 export const tasks = [
   {
     number: "001a",
@@ -250,7 +250,7 @@ export const tasks = [
     priority: true,
     dateAdded: "Jan 20, 2026",
     source: "Teams meeting (Jon)",
-    hours: 0,
+    hours: 0.75,
     issue: "Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.",
     investigation: "",
     likelyCauses: [],
@@ -415,8 +415,8 @@ export const backlog = [
 ];
 
 export const stats = {
-  totalHours: 7.25,
-  totalAmountDue: 507.50,
+  totalHours: 8,
+  totalAmountDue: 560,
   openTasks: 8,
   inProgressTasks: 0,
   resolvedTasks: 5
