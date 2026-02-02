@@ -334,12 +334,12 @@ export const tasks = [
     dateAdded: "Jan 24, 2026",
     dateResolved: "Jan 24, 2026",
     source: "Performance Audit",
-    hours: 0.75,
+    hours: 0.5,
     issue: "Essential Addons loading CSS/JS for all 82 widgets site-wide.",
-    investigation: "Ran database query to find actual usage.",
+    investigation: "",
     likelyCauses: [],
     solution: "Disabled 79 of 82 widgets (96% reduction). Kept: Advanced Menu, Dual Color Heading, Countdown.",
-    notes: "Results: Mobile 28 to 59 (+31). Desktop 51 to 66 (+15). Single biggest improvement before WP Rocket JS fix. Rollback: Re-enable widgets in Essential Addons > Elements"
+    notes: "Rollback: Re-enable widgets in Essential Addons > Elements"
   },
   {
     number: "019",
@@ -350,7 +350,7 @@ export const tasks = [
     dateAdded: "Jan 24, 2026",
     dateResolved: "Jan 24, 2026",
     source: "Performance Audit",
-    hours: 0.25,
+    hours: 0.5,
     issue: "ElementsKit loading CSS/JS for all widgets site-wide.",
     investigation: "",
     likelyCauses: [],
@@ -368,10 +368,10 @@ export const tasks = [
     source: "Performance Audit",
     hours: 1.5,
     issue: "Site scoring 37 mobile / 67 desktop. TBT over 1,000ms.",
-    investigation: "Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)",
+    investigation: "Most time spent in Chrome DevTools debugging, analyzing network waterfall and main thread activity to identify what was causing the slow load, and troubleshooting potential fixes. Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)",
     likelyCauses: [],
     solution: "Removed the line. Kept only jquery and js-before/after exclusions.",
-    notes: "Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Pending: Client needs to test Stripe checkout with real order. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions"
+    notes: "Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions"
   },
   // Open tasks - these carry over to current period
   {
@@ -661,8 +661,8 @@ export const billingHistory = [
   { period: "January 7-31, 2026", task: "015 - WP Rocket CSS", hours: 0.5, amount: 35 },
   { period: "January 7-31, 2026", task: "016 - Stripe Snippet", hours: 0.25, amount: 17.50 },
   { period: "January 7-31, 2026", task: "017 - ShortPixel Optimization", hours: 1, amount: 70 },
-  { period: "January 7-31, 2026", task: "018 - Essential Addons Cleanup", hours: 0.75, amount: 52.50 },
-  { period: "January 7-31, 2026", task: "019 - ElementsKit Cleanup", hours: 0.25, amount: 17.50 },
+  { period: "January 7-31, 2026", task: "018 - Essential Addons Cleanup", hours: 0.5, amount: 35 },
+  { period: "January 7-31, 2026", task: "019 - ElementsKit Cleanup", hours: 0.5, amount: 35 },
   { period: "January 7-31, 2026", task: "020 - WP Rocket JS Fix", hours: 1.5, amount: 105 },
   { period: "January 7-31, 2026", task: "010 - Legal Pages (partial)", hours: 0.75, amount: 52.50 },
   { period: "January 7-31, 2026", task: "021 - reCAPTCHA (partial)", hours: 0.25, amount: 17.50 },

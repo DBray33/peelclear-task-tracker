@@ -204,15 +204,13 @@ Notes: DO NOT enable WebP delivery on this site - it breaks images. Rollback: Sh
 Status: Resolved
 Date Added: Jan 24, 2026 | Resolved: Jan 24, 2026
 Source: Performance Audit
-Hours: 0.75
+Hours: 0.5
 
 Issue: Essential Addons loading CSS/JS for all 82 widgets site-wide.
 
-Investigation: Ran database query to find actual usage.
-
 Solution: Disabled 79 of 82 widgets (96% reduction). Kept: Advanced Menu, Dual Color Heading, Countdown.
 
-Notes: Results: Mobile 28 to 59 (+31). Desktop 51 to 66 (+15). Single biggest improvement before WP Rocket JS fix. Rollback: Re-enable widgets in Essential Addons > Elements
+Notes: Rollback: Re-enable widgets in Essential Addons > Elements
 
 ---
 
@@ -220,7 +218,7 @@ Notes: Results: Mobile 28 to 59 (+31). Desktop 51 to 66 (+15). Single biggest im
 Status: Resolved
 Date Added: Jan 24, 2026 | Resolved: Jan 24, 2026
 Source: Performance Audit
-Hours: 0.25
+Hours: 0.5
 
 Issue: ElementsKit loading CSS/JS for all widgets site-wide.
 
@@ -238,11 +236,11 @@ Hours: 1.5
 
 Issue: Site scoring 37 mobile / 67 desktop. TBT over 1,000ms.
 
-Investigation: Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)
+Investigation: Most time spent in Chrome DevTools debugging, analyzing network waterfall and main thread activity to identify what was causing the slow load, and troubleshooting potential fixes. Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)
 
 Solution: Removed the line. Kept only jquery and js-before/after exclusions.
 
-Notes: Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Pending: Client needs to test Stripe checkout with real order. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions
+Notes: Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions
 
 ---
 
