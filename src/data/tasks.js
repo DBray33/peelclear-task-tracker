@@ -1,9 +1,62 @@
-// Last updated: Jan 23, 2026
+// Last updated: Jan 26, 2026
+
+// Billing periods - semi-monthly within calendar months
+export const billingPeriods = [
+  {
+    id: "jan-7-31-2026",
+    label: "Jan 7-31",
+    fullLabel: "January 7-31, 2026",
+    startDate: "2026-01-07",
+    endDate: "2026-01-31",
+    note: "Startup period (3.5 weeks)",
+    status: "pending" // "paid", "pending", "current", "upcoming"
+  },
+  {
+    id: "feb-1-15-2026",
+    label: "Feb 1-15",
+    fullLabel: "February 1-15, 2026",
+    startDate: "2026-02-01",
+    endDate: "2026-02-15",
+    note: "",
+    status: "current"
+  },
+  {
+    id: "feb-16-28-2026",
+    label: "Feb 16-28",
+    fullLabel: "February 16-28, 2026",
+    startDate: "2026-02-16",
+    endDate: "2026-02-28",
+    note: "",
+    status: "upcoming"
+  }
+];
+
+// Period-specific notes and Q&As from calls
+export const periodNotes = [
+  {
+    billingPeriod: "feb-1-15-2026",
+    title: "Notes & Q&A",
+    date: "Jan 31, 2026",
+    source: "Phone call",
+    items: [
+      {
+        label: "Image Uploads",
+        content: "JPG for all photos (products, lifestyle, hero images). PNG only when transparency is needed (logos, icons, overlays). ShortPixel compresses both but JPGs are significantly smaller for photographic content. If team is uploading product photos as PNGs, switch to JPG."
+      },
+      {
+        label: "WooCommerce-Only Access",
+        content: "WordPress has a built-in 'Shop Manager' role. Gives full WooCommerce access (orders, products, customers, reports) with zero access to themes, plugins, Elementor, or site settings. Create a new user with Shop Manager role for any non-web team members who need store access."
+      }
+    ]
+  }
+];
+
 export const tasks = [
   {
     number: "001a",
     title: "Free Shipping Not Appearing with Coupon",
     status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
     priority: false,
     dateAdded: "Jan 7, 2026",
     dateResolved: "Jan 7, 2026",
@@ -23,6 +76,7 @@ export const tasks = [
     number: "001b",
     title: "$0 Checkout Failing with 100% Coupon",
     status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
     priority: false,
     dateAdded: "Jan 9, 2026",
     dateResolved: "Jan 12, 2026",
@@ -44,6 +98,7 @@ export const tasks = [
     number: "002",
     title: "iOS Shop Page Scroll/Footer Bug",
     status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
     priority: false,
     dateAdded: "Jan 5, 2026",
     dateResolved: "Jan 16, 2026",
@@ -141,58 +196,10 @@ export const tasks = [
     ]
   },
   {
-    number: "003",
-    title: "Training Course Access for Account Holders",
-    status: "Open",
-    priority: false,
-    dateAdded: "Jan 5, 2026",
-    source: "Teams meeting",
-    hours: 0,
-    issue: "Anyone with an account should have access to training videos, not tied to purchases.",
-    investigation: "Need to investigate how training access is currently gated.",
-    likelyCauses: [],
-    solution: "",
-    notes: "Related to [009]. Client wants to verify training video uploads as part of this work."
-  },
-  {
-    number: "009",
-    title: "Plugin Audit",
-    status: "Open",
-    priority: false,
-    dateAdded: "Jan 7, 2026",
-    dateResolved: "",
-    source: "",
-    hours: 0,
-    issue: "Review and audit all installed plugins for updates, conflicts, and necessity.",
-    investigation: "",
-    likelyCauses: [],
-    solution: "",
-    notes: ""
-  },
-  {
-    number: "004",
-    title: "Training Videos Upload Verification",
-    status: "Open",
-    priority: false,
-    dateAdded: "Jan 9, 2026",
-    dateResolved: "",
-    source: "WhatsApp (Arash)",
-    hours: 0,
-    issue: "Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.",
-    investigation: "",
-    likelyCauses: [],
-    solution: "",
-    notes: "",
-    resources: [
-      { name: "Training Series Pt.1 (Gabriel)", url: "https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0" },
-      { name: "Training Series Pt.2", url: "https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0" },
-      { name: "PeelClear Sample Kit Guide", url: "https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0" }
-    ]
-  },
-  {
     number: "006",
     title: "Remove Mobile Menu Animation",
     status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
     priority: false,
     dateAdded: "Jan 5, 2026",
     dateResolved: "Jan 16, 2026",
@@ -212,6 +219,7 @@ export const tasks = [
     number: "007",
     title: "Mobile Hero Background Video + Desktop Fallback Poster",
     status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
     priority: false,
     dateAdded: "Jan 13, 2026",
     dateResolved: "Jan 13, 2026",
@@ -230,9 +238,214 @@ export const tasks = [
     ]
   },
   {
+    number: "013",
+    title: "Compress Site Assets",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 20, 2026",
+    dateResolved: "Jan 24, 2026",
+    source: "Teams meeting (performance audit)",
+    hours: 0,
+    hoursNote: "Tracked in [014] & [017]",
+    issue: "Page size is 14-23 MB, should be under 3 MB. Heavy video and image files.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "All subtasks complete. Hero video compression tracked in [014]. ShortPixel image optimization tracked in [017]. WebP delivery tested and intentionally disabled due to ShopLentor/Elementor compatibility issues.",
+    tasks: [
+      "[DONE] Compress tesla-peel-scaled.png (2.7 MB PNG to ~200 KB WebP)",
+      "[DONE] Compress or replace mobile hero video (currently 5.9 MB)",
+      "[DONE] Compress desktop hero video (currently 6.5 MB)",
+      "[DONE] Run ShortPixel bulk optimization on all images",
+      "[DONE] Enable WebP conversion in ShortPixel (tested, disabled due to compatibility)"
+    ],
+    notes: "Work tracked in [014] and [017]. WebP delivery tested and intentionally disabled due to ShopLentor/Elementor compatibility issues."
+  },
+  {
+    number: "014",
+    title: "Hero Video Compression",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 21, 2026",
+    dateResolved: "Jan 21, 2026",
+    source: "Performance Audit",
+    hours: 0.5,
+    issue: "Hero videos totaling 12.2 MB loading on every page view regardless of device.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Compressed both hero videos using ffmpeg and hosted on Google Cloud Storage with 1-year cache headers. Mobile: 5.8 MB to 1.4 MB. Desktop: 6.4 MB to 1.9 MB. Added 40% dark overlay to mask compression artifacts.",
+    notes: "Results: Total video size 12.2 MB to 3.3 MB (73% reduction). Desktop PSI 43 to 61 (+18). Rollback: Replace Elementor hero video URLs with original WordPress Media Library URLs."
+  },
+  {
+    number: "015",
+    title: "WP Rocket CSS Optimization",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 21, 2026",
+    dateResolved: "Jan 21, 2026",
+    source: "Performance Audit",
+    hours: 0.5,
+    issue: "70+ render-blocking CSS files (433 KB) delaying page rendering.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Enabled Minify CSS and Remove Unused CSS in WP Rocket > File Optimization.",
+    notes: "Results: Mobile TBT 1,450ms to 270ms (-81%). Render-blocking resources eliminated. Rollback: WP Rocket > File Optimization > Uncheck 'Optimize CSS delivery' > Save > Clear cache"
+  },
+  {
+    number: "016",
+    title: "Stripe Code Snippet",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 24, 2026",
+    dateResolved: "Jan 24, 2026",
+    source: "Performance Audit",
+    hours: 0.25,
+    issue: "WooCommerce Stripe loading 231 KB on every page including homepage.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Added Code Snippets snippet 'Stripe - Load only on cart/checkout' to block Stripe site-wide. DreamRide still loads its own Stripe (~210 KB). May affect Apple Pay/Google Pay express checkout.",
+    notes: "Rollback: Code Snippets > Deactivate 'Stripe - Load only on cart/checkout'"
+  },
+  {
+    number: "017",
+    title: "ShortPixel Image Optimization",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 23, 2026",
+    dateResolved: "Jan 24, 2026",
+    source: "Performance Audit",
+    hours: 1,
+    issue: "Images not optimized, contributing to page weight.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Purchased 30K ShortPixel credits ($19.99). Bulk optimized 3,975 images (32% compression). WebP tested but disabled due to compatibility issues with ShopLentor/Elementor.",
+    notes: "DO NOT enable WebP delivery on this site - it breaks images. Rollback: ShortPixel > Settings > Advanced > Restore originals"
+  },
+  {
+    number: "018",
+    title: "Essential Addons Widget Cleanup",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 24, 2026",
+    dateResolved: "Jan 24, 2026",
+    source: "Performance Audit",
+    hours: 0.75,
+    issue: "Essential Addons loading CSS/JS for all 82 widgets site-wide.",
+    investigation: "Ran database query to find actual usage.",
+    likelyCauses: [],
+    solution: "Disabled 79 of 82 widgets (96% reduction). Kept: Advanced Menu, Dual Color Heading, Countdown.",
+    notes: "Results: Mobile 28 to 59 (+31). Desktop 51 to 66 (+15). Single biggest improvement before WP Rocket JS fix. Rollback: Re-enable widgets in Essential Addons > Elements"
+  },
+  {
+    number: "019",
+    title: "ElementsKit Widget Cleanup",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 24, 2026",
+    dateResolved: "Jan 24, 2026",
+    source: "Performance Audit",
+    hours: 0.25,
+    issue: "ElementsKit loading CSS/JS for all widgets site-wide.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Disabled ~60 unused widgets. Kept only mobile menu/offcanvas functionality. Cannot fully remove without rebuilding navigation.",
+    notes: "Rollback: Re-enable widgets in ElementsKit > Elements"
+  },
+  {
+    number: "020",
+    title: "WP Rocket JS Delay Fix",
+    status: "Resolved",
+    billingPeriod: "jan-7-31-2026",
+    priority: false,
+    dateAdded: "Jan 26, 2026",
+    dateResolved: "Jan 26, 2026",
+    source: "Performance Audit",
+    hours: 1.5,
+    issue: "Site scoring 37 mobile / 67 desktop. TBT over 1,000ms.",
+    investigation: "Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)",
+    likelyCauses: [],
+    solution: "Removed the line. Kept only jquery and js-before/after exclusions.",
+    notes: "Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Pending: Client needs to test Stripe checkout with real order. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions"
+  },
+  // Open tasks - these carry over to current period
+  {
+    number: "022",
+    title: "Tax Exemption",
+    status: "Open",
+    billingPeriod: "feb-1-15-2026",
+    priority: true,
+    dateAdded: "Feb 2, 2026",
+    source: "Phone call (Jan 31)",
+    hours: 0,
+    issue: "Awaiting more info from client.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: ""
+  },
+  {
+    number: "003",
+    title: "Training Course Access for Account Holders",
+    status: "Open",
+    billingPeriod: "feb-1-15-2026",
+    priority: false,
+    dateAdded: "Jan 5, 2026",
+    source: "Teams meeting",
+    hours: 0,
+    issue: "Anyone with an account should have access to training videos, not tied to purchases.",
+    investigation: "Need to investigate how training access is currently gated.",
+    likelyCauses: [],
+    solution: "",
+    notes: "Related to [009]. Client wants to verify training video uploads as part of this work."
+  },
+  {
+    number: "009",
+    title: "Plugin Audit",
+    status: "Open",
+    billingPeriod: "feb-1-15-2026",
+    priority: false,
+    dateAdded: "Jan 7, 2026",
+    dateResolved: "",
+    source: "",
+    hours: 0,
+    issue: "Review and audit all installed plugins for updates, conflicts, and necessity.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: ""
+  },
+  {
+    number: "004",
+    title: "Training Videos Upload Verification",
+    status: "Open",
+    billingPeriod: "feb-1-15-2026",
+    priority: false,
+    dateAdded: "Jan 9, 2026",
+    dateResolved: "",
+    source: "WhatsApp (Arash)",
+    hours: 0,
+    issue: "Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: "",
+    resources: [
+      { name: "Training Series Pt.1 (Gabriel)", url: "https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0" },
+      { name: "Training Series Pt.2", url: "https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0" },
+      { name: "PeelClear Sample Kit Guide", url: "https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0" }
+    ]
+  },
+  {
     number: "008",
     title: "Find an Installer Map - Info Card Z-Index",
     status: "Open",
+    billingPeriod: "feb-1-15-2026",
     priority: false,
     dateAdded: "Jan 7, 2026",
     source: "WhatsApp",
@@ -247,10 +460,12 @@ export const tasks = [
     number: "010",
     title: "Legal Compliance Pages + Consent Checkbox",
     status: "Open",
+    billingPeriod: "feb-1-15-2026",
     priority: true,
     dateAdded: "Jan 20, 2026",
     source: "Teams meeting (Jon)",
-    hours: 0.75,
+    hours: 0,
+    priorPeriodHours: { "jan-7-31-2026": { hours: 0.75, note: "Footer links + checkout consent checkbox" } },
     issue: "Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.",
     investigation: "",
     likelyCauses: [],
@@ -269,6 +484,7 @@ export const tasks = [
     number: "011",
     title: "Remove Unused Plugins and Plugin Bloat",
     status: "Open",
+    billingPeriod: "feb-1-15-2026",
     priority: true,
     dateAdded: "Jan 20, 2026",
     source: "Teams meeting (performance audit)",
@@ -279,18 +495,19 @@ export const tasks = [
     solution: "",
     tasks: [
       "Delete 35 inactive plugins (LearnDash suite, WPML suite, duplicate free versions, unused membership plugins)",
-      "Audit Essential Addons - 82 of 115 widgets enabled, most unused. Disable unused widgets.",
+      "[DONE] Audit Essential Addons - 82 of 115 widgets enabled, most unused. Disable unused widgets. [see [018]]",
       "Review if Essential Addons can be fully removed (ElementsKit handles nav/menu)",
-      "Enable WP Rocket 'Remove Unused CSS' and 'Delay JavaScript Execution'",
+      "[DONE] Enable WP Rocket 'Remove Unused CSS' and 'Delay JavaScript Execution' [see [015] and [020]]",
       "Deactivate: Child Theme Configurator, WP File Manager (security risk), User Switching",
       "Review: Site Kit (redundant if GTM handles GA4), WP Sheet Editor plugins (occasional use)"
     ],
-    notes: "Current scores: Mobile 33/100, Desktop 43/100. Target after cleanup: Mobile 50-55, Desktop 65-75. Full audit document created."
+    notes: "Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor."
   },
   {
     number: "012",
     title: "Reduce Mobile Animations",
     status: "Open",
+    billingPeriod: "feb-1-15-2026",
     priority: true,
     dateAdded: "Jan 20, 2026",
     source: "Teams meeting",
@@ -302,31 +519,38 @@ export const tasks = [
     notes: "Asked client Jan 16 if animations should be removed after fixing mobile menu animation. No response then. Now approved as part of performance cleanup. Check Elementor motion effects settings on homepage sections."
   },
   {
-    number: "013",
-    title: "Compress Site Assets",
+    number: "021",
+    title: "reCAPTCHA Performance Investigation",
     status: "Open",
-    priority: true,
-    dateAdded: "Jan 20, 2026",
-    source: "Teams meeting (performance audit)",
+    billingPeriod: "feb-1-15-2026",
+    priority: false,
+    dateAdded: "Jan 21, 2026",
+    source: "Performance Audit",
     hours: 0,
-    issue: "Page size is 14-23 MB, should be under 3 MB. Heavy video and image files.",
-    investigation: "",
+    priorPeriodHours: { "jan-7-31-2026": { hours: 0.25, note: "Initial investigation, disabled GF reCAPTCHA" } },
+    issue: "reCAPTCHA loading 8 times on homepage (2,858 KB, 1,692ms main thread time).",
+    investigation: "Disabled GF reCAPTCHA v3 site-wide. Removed hidden GF elements from /become-an-installer. Remaining instances are from HubSpot forms/chat.",
     likelyCauses: [],
     solution: "",
-    tasks: [
-      "Compress tesla-peel-scaled.png (2.7 MB PNG to ~200 KB WebP)",
-      "Compress or replace mobile hero video (currently 5.9 MB)",
-      "Compress desktop hero video (currently 6.5 MB)",
-      "Run ShortPixel bulk optimization on all images",
-      "Enable WebP conversion in ShortPixel"
-    ],
-    notes: "Use ShortPixel (~$5/month) for image compression and WebP conversion. Client was warned Jan 12 that mobile video would impact performance but insisted on adding it."
+    notes: "Blocked: Need HubSpot admin access."
   },
 ];
 
 export const uiUpdates = [
   {
+    date: "Feb 1, 2026",
+    billingPeriod: "feb-1-15-2026",
+    hours: 0,
+    pending: [
+      "Add spacing above PayPal button on product page (Add to Order button touching Pay with PayPal)"
+    ],
+    updates: [],
+    notes: "Carried over from Jan 16",
+    resources: []
+  },
+  {
     date: "Jan 20, 2026",
+    billingPeriod: "jan-7-31-2026",
     hours: 0,
     pending: [],
     updates: [
@@ -337,6 +561,7 @@ export const uiUpdates = [
   },
   {
     date: "Jan 16, 2026",
+    billingPeriod: "jan-7-31-2026",
     hours: 0.25,
     pending: [
       "Add spacing above PayPal button on product page (Add to Order button touching Pay with PayPal)"
@@ -353,6 +578,7 @@ export const uiUpdates = [
   },
   {
     date: "Jan 12, 2026",
+    billingPeriod: "jan-7-31-2026",
     hours: 0.25,
     pending: [],
     updates: [
@@ -364,6 +590,7 @@ export const uiUpdates = [
   },
   {
     date: "Jan 9, 2026",
+    billingPeriod: "jan-7-31-2026",
     hours: 0.5,
     pending: [],
     updates: [
@@ -385,8 +612,6 @@ export const uiUpdates = [
 ];
 
 export const billingInfo = {
-  currentPeriod: "January 7-31, 2026",
-  periodNote: "3 weeks this period. Biweekly (week over week) starting February.",
   rate: 70,
   stripeLink: "#stripe-link"
 };
@@ -407,17 +632,111 @@ export const providerInfo = {
 
 export const backlog = [
   {
+    item: "Homepage scroll jank/stutter",
+    source: "Jan 26 Performance Audit",
+    priority: "Medium",
+    notes: "Not related to PSI scores (TBT is 0ms). Likely CSS animations or lazy loading."
+  },
+  {
     item: "Duplicate UPS shipping options at checkout",
     source: "Jan 7 investigation",
     priority: "Low",
     notes: "Multiple UPS Ground options appearing in shipping method selector"
+  },
+  {
+    item: "SSL redirect (HTTP to HTTPS)",
+    source: "Jan 21 PSI test",
+    priority: "Low",
+    notes: "Site doesn't force HTTPS redirect"
   }
 ];
 
-export const stats = {
-  totalHours: 8,
-  totalAmountDue: 560,
-  openTasks: 8,
-  inProgressTasks: 0,
-  resolvedTasks: 5
-};
+export const billingHistory = [
+  { period: "January 7-31, 2026", task: "001a - Free Shipping", hours: 1.5, amount: 105 },
+  { period: "January 7-31, 2026", task: "001b - $0 Checkout", hours: 1.5, amount: 105 },
+  { period: "January 7-31, 2026", task: "002 - iOS Shop Scroll Bug", hours: 1.75, amount: 122.50 },
+  { period: "January 7-31, 2026", task: "006 - Mobile Menu Animation", hours: 1, amount: 70 },
+  { period: "January 7-31, 2026", task: "007 - Hero Video Mobile", hours: 0.5, amount: 35 },
+  { period: "January 7-31, 2026", task: "014 - Hero Video Compression", hours: 0.5, amount: 35 },
+  { period: "January 7-31, 2026", task: "015 - WP Rocket CSS", hours: 0.5, amount: 35 },
+  { period: "January 7-31, 2026", task: "016 - Stripe Snippet", hours: 0.25, amount: 17.50 },
+  { period: "January 7-31, 2026", task: "017 - ShortPixel Optimization", hours: 1, amount: 70 },
+  { period: "January 7-31, 2026", task: "018 - Essential Addons Cleanup", hours: 0.75, amount: 52.50 },
+  { period: "January 7-31, 2026", task: "019 - ElementsKit Cleanup", hours: 0.25, amount: 17.50 },
+  { period: "January 7-31, 2026", task: "020 - WP Rocket JS Fix", hours: 1.5, amount: 105 },
+  { period: "January 7-31, 2026", task: "010 - Legal Pages (partial)", hours: 0.75, amount: 52.50 },
+  { period: "January 7-31, 2026", task: "021 - reCAPTCHA (partial)", hours: 0.25, amount: 17.50 },
+  { period: "January 7-31, 2026", task: "UI Updates", hours: 1, amount: 70 },
+];
+
+// Helper function to get tasks for a specific period
+export function getTasksForPeriod(periodId) {
+  const period = billingPeriods.find(p => p.id === periodId);
+  if (!period) return { tasks: [], uiUpdates: [] };
+
+  // For resolved tasks, show in the period they were resolved
+  // For open tasks, show in current period (they carry over)
+  const periodTasks = tasks.filter(t => {
+    if (t.status === 'Resolved' || t.status === 'Superseded') {
+      return t.billingPeriod === periodId;
+    } else {
+      // Open tasks appear in their assigned period and all subsequent periods
+      const taskPeriodIndex = billingPeriods.findIndex(p => p.id === t.billingPeriod);
+      const currentPeriodIndex = billingPeriods.findIndex(p => p.id === periodId);
+      return taskPeriodIndex <= currentPeriodIndex;
+    }
+  });
+
+  const periodUiUpdates = uiUpdates.filter(u => u.billingPeriod === periodId);
+
+  return { tasks: periodTasks, uiUpdates: periodUiUpdates };
+}
+
+// Helper function to calculate period stats
+export function getPeriodStats(periodId) {
+  const period = billingPeriods.find(p => p.id === periodId);
+  const { tasks: periodTasks, uiUpdates: periodUiUpdates } = getTasksForPeriod(periodId);
+
+  // For open tasks count, use ALL open tasks (they carry over between periods)
+  const allOpenTasks = tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded');
+  const resolvedTasks = periodTasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded');
+
+  // For past periods (paid/pending), use billingHistory as source of truth
+  // This includes partial hours from open tasks that were billed in that period
+  const isPastPeriod = period?.status === 'paid' || period?.status === 'pending';
+
+  let totalHours, amountDue;
+
+  if (isPastPeriod && period?.fullLabel) {
+    const periodBilling = billingHistory.filter(entry => entry.period === period.fullLabel);
+    totalHours = periodBilling.reduce((sum, entry) => sum + entry.hours, 0);
+    amountDue = periodBilling.reduce((sum, entry) => sum + entry.amount, 0);
+  } else {
+    // For current/upcoming periods, calculate from tasks
+    const taskHours = periodTasks.reduce((sum, t) => sum + (t.hours || 0), 0);
+    const uiHours = periodUiUpdates.reduce((sum, u) => sum + (u.hours || 0), 0);
+    totalHours = taskHours + uiHours;
+    amountDue = totalHours * billingInfo.rate;
+  }
+
+  // Calculate prior period hours for carryover tasks
+  const priorHours = periodTasks.reduce((sum, t) => {
+    if (t.priorPeriodHours) {
+      return sum + Object.values(t.priorPeriodHours).reduce((s, data) => {
+        // Handle both old format (just hours) and new format (object with hours)
+        const hours = typeof data === 'object' ? data.hours : data;
+        return s + hours;
+      }, 0);
+    }
+    return sum;
+  }, 0);
+
+  return {
+    totalHours,
+    amountDue,
+    openTasks: allOpenTasks.length,
+    resolvedTasks: resolvedTasks.length,
+    priorHours,
+    carryoverTasks: allOpenTasks.filter(t => t.priorPeriodHours && Object.keys(t.priorPeriodHours).length > 0)
+  };
+}

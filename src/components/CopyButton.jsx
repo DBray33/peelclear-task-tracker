@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { generateSummary } from '../utils/generateSummary';
 
-export default function CopyButton() {
+export default function CopyButton({ selectedPeriod }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    const summary = generateSummary();
+    const summary = generateSummary(selectedPeriod);
 
     // Try modern clipboard API first
     if (navigator.clipboard && navigator.clipboard.writeText) {

@@ -1,4 +1,4 @@
-import { tasks, billingInfo, clientInfo, providerInfo, backlog, stats } from '../src/data/tasks.js';
+import { tasks, billingInfo, billingPeriods, clientInfo, providerInfo, backlog, uiUpdates } from '../src/data/tasks.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -7,18 +7,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function generateSummary() {
-  const resolvedTasks = tasks.filter(t => t.status === 'Resolved');
-  const openTasks = tasks.filter(t => t.status !== 'Resolved');
+  const resolvedTasks = tasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded');
+  const openTasks = tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded');
 
   // Calculate totals from actual task data
-  const totalHours = tasks.reduce((sum, t) => sum + (t.hours || 0), 0);
+  const taskHours = tasks.reduce((sum, t) => sum + (t.hours || 0), 0);
+  const uiHours = uiUpdates.reduce((sum, u) => sum + (u.hours || 0), 0);
+  const totalHours = taskHours + uiHours;
   const totalAmount = totalHours * billingInfo.rate;
+
+  // Get current period info
+  const currentPeriod = billingPeriods.find(p => p.status === 'current') || billingPeriods[0];
 
   let output = `PEELCLEAR WEBSITE MAINTENANCE - TASK TRACKER
 ============================================
 
-BILLING PERIOD: ${billingInfo.currentPeriod}
-${billingInfo.periodNote ? `Note: ${billingInfo.periodNote}` : ''}
+BILLING PERIOD: ${currentPeriod?.fullLabel || 'Unknown'}
+${currentPeriod?.note ? `Note: ${currentPeriod.note}` : ''}
 
 SUMMARY
 -------

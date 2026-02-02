@@ -1,19 +1,44 @@
-import { tasks, billingInfo, clientInfo, providerInfo, backlog, uiUpdates } from '../data/tasks';
+import { billingInfo, billingPeriods, clientInfo, providerInfo, backlog, billingHistory, getTasksForPeriod, periodNotes, tasks as allTasks } from '../data/tasks';
 
-export function generateSummary() {
-  const resolvedTasks = tasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded');
-  const openTasks = tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded');
+export function generateSummary(periodId) {
+  // Get the selected period info
+  const period = billingPeriods.find(p => p.id === periodId) || billingPeriods.find(p => p.status === 'current') || billingPeriods[0];
+  const effectivePeriodId = period?.id;
 
-  const taskHours = tasks.reduce((sum, t) => sum + (t.hours || 0), 0);
-  const uiHours = uiUpdates.reduce((sum, u) => sum + (u.hours || 0), 0);
-  const totalHours = taskHours + uiHours;
-  const totalAmount = totalHours * billingInfo.rate;
+  // Get period-filtered tasks and UI updates
+  const { tasks: periodTasks, uiUpdates: periodUiUpdates } = getTasksForPeriod(effectivePeriodId);
+
+  const resolvedTasks = periodTasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded');
+
+  // For open tasks, count ALL open tasks (they carry over between periods)
+  const openTasks = allTasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded');
+
+  // Get notes for this period
+  const currentPeriodNotes = periodNotes.filter(n => n.billingPeriod === effectivePeriodId);
+
+  // Filter billing history by period
+  const periodBillingHistory = billingHistory.filter(entry => entry.period === period?.fullLabel);
+
+  // For past periods (paid/pending), use billingHistory for hours/amount
+  const isPastPeriod = period?.status === 'paid' || period?.status === 'pending';
+
+  let totalHours, totalAmount;
+
+  if (isPastPeriod && periodBillingHistory.length > 0) {
+    totalHours = periodBillingHistory.reduce((sum, entry) => sum + entry.hours, 0);
+    totalAmount = periodBillingHistory.reduce((sum, entry) => sum + entry.amount, 0);
+  } else {
+    const taskHours = periodTasks.reduce((sum, t) => sum + (t.hours || 0), 0);
+    const uiHours = periodUiUpdates.reduce((sum, u) => sum + (u.hours || 0), 0);
+    totalHours = taskHours + uiHours;
+    totalAmount = totalHours * billingInfo.rate;
+  }
 
   let output = `PEELCLEAR WEBSITE MAINTENANCE - TASK TRACKER
 ============================================
 
-BILLING PERIOD: ${billingInfo.currentPeriod}
-${billingInfo.periodNote ? `Note: ${billingInfo.periodNote}` : ''}
+BILLING PERIOD: ${period?.fullLabel || 'Unknown'}
+${period?.note ? `Note: ${period.note}` : ''}
 
 SUMMARY
 -------
@@ -24,6 +49,26 @@ Resolved Tasks: ${resolvedTasks.length}
 
 
 `;
+
+  // Notes & Q&A
+  if (currentPeriodNotes.length > 0) {
+    output += `NOTES & Q&A
+===========
+
+`;
+    currentPeriodNotes.forEach(noteGroup => {
+      output += `[${noteGroup.date}] ${noteGroup.source}
+`;
+      noteGroup.items.forEach(item => {
+        output += `
+${item.label}:
+${item.content}
+`;
+      });
+      output += `
+`;
+    });
+  }
 
   if (resolvedTasks.length > 0) {
     output += `RESOLVED TASKS
@@ -45,17 +90,18 @@ Resolved Tasks: ${resolvedTasks.length}
     });
   }
 
-  if (uiUpdates.length > 0) {
+  if (periodUiUpdates.length > 0) {
     output += `UI/UX UPDATES
 =============
 
 `;
-    uiUpdates.forEach(update => {
+    periodUiUpdates.forEach(update => {
       output += formatUiUpdate(update);
     });
   }
 
-  if (backlog.length > 0) {
+  // Only show backlog on current period
+  if (period?.status === 'current' && backlog.length > 0) {
     output += `BACKLOG
 =======
 
@@ -68,6 +114,22 @@ Resolved Tasks: ${resolvedTasks.length}
 
 `;
     });
+  }
+
+  if (periodBillingHistory && periodBillingHistory.length > 0) {
+    output += `BILLING HISTORY
+===============
+
+`;
+    periodBillingHistory.forEach(entry => {
+      output += `${entry.task} | ${entry.hours.toFixed(2)} | $${entry.amount.toFixed(2)}
+`;
+    });
+    const totalHrs = periodBillingHistory.reduce((sum, e) => sum + e.hours, 0);
+    const totalAmt = periodBillingHistory.reduce((sum, e) => sum + e.amount, 0);
+    output += `TOTAL | ${totalHrs.toFixed(2)} | $${totalAmt.toFixed(2)}
+
+`;
   }
 
   output += `
@@ -89,9 +151,23 @@ function formatTask(task) {
 Status: ${task.status}${task.priority ? ' | PRIORITY' : ''}
 Date Added: ${task.dateAdded}${task.dateResolved ? ` | Resolved: ${task.dateResolved}` : ''}
 ${task.source ? `Source: ${task.source}` : ''}
-Hours: ${task.hours || 0}
+Hours: ${task.hours || 0}${task.hoursNote ? ` (${task.hoursNote})` : ''}
 
 `;
+
+  // Prior period hours
+  if (task.priorPeriodHours && Object.keys(task.priorPeriodHours).length > 0) {
+    output += `Prior Billing:
+`;
+    Object.entries(task.priorPeriodHours).forEach(([periodId, data]) => {
+      const hours = typeof data === 'object' ? data.hours : data;
+      const note = typeof data === 'object' ? data.note : null;
+      output += `  - ${periodId}: ${hours} hrs${note ? ` (${note})` : ''}
+`;
+    });
+    output += `
+`;
+  }
 
   if (task.issue) {
     output += `Issue: ${task.issue}
@@ -138,6 +214,66 @@ ${task.codeSnippet}
 ------------------------------------------------------------
 
 `;
+  }
+
+  if (task.sessionNotes && task.sessionNotes.length > 0) {
+    output += `Session Notes:
+`;
+    task.sessionNotes.forEach(session => {
+      output += `  [${session.date}]
+`;
+      if (session.summary) {
+        output += `  Summary: ${session.summary}
+`;
+      }
+      if (session.debugEnvironment) {
+        output += `  Debug Environment: ${session.debugEnvironment}
+`;
+      }
+      if (session.confirmed && session.confirmed.length > 0) {
+        output += `  Confirmed:
+${session.confirmed.map(c => `    - ${c}`).join('\n')}
+`;
+      }
+      if (session.testsCompleted && session.testsCompleted.length > 0) {
+        output += `  Tests Completed:
+`;
+        session.testsCompleted.forEach(test => {
+          output += `    * ${test.test}
+`;
+          if (test.settingsBefore) {
+            output += `      Settings Before: ${test.settingsBefore}
+`;
+          }
+          output += `      Action: ${test.action}
+      Result: ${test.result}
+`;
+          if (test.rolledBack) {
+            output += `      [Rolled Back]
+`;
+          }
+          if (test.rollbackConfirmed) {
+            output += `      Rollback Confirmed: ${test.rollbackConfirmed}
+`;
+          }
+        });
+      }
+      if (session.currentStatus) {
+        output += `  Current Status: ${session.currentStatus}
+`;
+      }
+      if (session.additionalNotes) {
+        output += `  Additional Notes: ${session.additionalNotes}
+`;
+      }
+      if (session.nextSteps && session.nextSteps.length > 0) {
+        output += `  Next Steps:
+${session.nextSteps.map(s => `    - ${s}`).join('\n')}
+`;
+      }
+      output += `
+`;
+    });
   }
 
   if (task.resources && task.resources.length > 0) {

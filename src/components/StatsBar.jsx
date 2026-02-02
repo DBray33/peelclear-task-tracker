@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import { tasks, uiUpdates, billingInfo } from '../data/tasks';
+import { billingPeriods, billingInfo, getPeriodStats } from '../data/tasks';
 import CopyButton from './CopyButton';
 
-export default function StatsBar() {
+export default function StatsBar({ selectedPeriod }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const taskHours = tasks.reduce((sum, task) => sum + task.hours, 0);
-  const uiHours = uiUpdates.reduce((sum, update) => sum + update.hours, 0);
-  const totalHours = taskHours + uiHours;
-  const amountDue = totalHours * billingInfo.rate;
-  const openTasks = tasks.filter(t => t.status !== 'Resolved').length;
-  const resolvedTasks = tasks.filter(t => t.status === 'Resolved').length;
+
+  const period = billingPeriods.find(p => p.id === selectedPeriod);
+  const stats = getPeriodStats(selectedPeriod);
+
+  const { totalHours, amountDue, openTasks, resolvedTasks, priorHours, carryoverTasks } = stats;
 
   return (
     <div className="px-4 py-4 md:px-6">
@@ -25,7 +24,7 @@ export default function StatsBar() {
               <div className="text-[13px] text-secondary">Hours</div>
             </div>
             <div>
-              <div className="text-xl font-semibold text-dark">{billingInfo.currentPeriod}</div>
+              <div className="text-xl font-semibold text-dark">{period?.fullLabel || 'Unknown'}</div>
               <div className="text-[13px] text-secondary">Billing Period</div>
             </div>
           </div>
@@ -72,18 +71,31 @@ export default function StatsBar() {
             <div className="border-t border-border pt-4">
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-[15px] font-semibold text-dark">Billing Period</h2>
-                <span className="text-[13px] px-2 py-1 bg-light-bg rounded-full text-secondary">
-                  {amountDue > 0 ? 'Pending' : 'Paid'}
+                <span className={`text-[13px] px-2 py-1 rounded-full ${
+                  period?.status === 'paid' ? 'bg-green-100 text-green-700' :
+                  period?.status === 'pending' ? 'bg-warning/10 text-warning' :
+                  period?.status === 'current' ? 'bg-primary/10 text-primary' :
+                  'bg-light-bg text-secondary'
+                }`}>
+                  {period?.status === 'paid' ? 'Paid' :
+                   period?.status === 'pending' ? 'Pending' :
+                   period?.status === 'current' ? 'Current' : 'Upcoming'}
                 </span>
               </div>
 
               <div className="space-y-2 text-[15px]">
                 <div className="flex justify-between">
                   <span className="text-secondary">Period</span>
-                  <span className="text-dark font-medium">{billingInfo.currentPeriod}</span>
+                  <span className="text-dark font-medium">{period?.fullLabel || 'Unknown'}</span>
                 </div>
-                {billingInfo.periodNote && (
-                  <p className="text-[13px] text-secondary italic">{billingInfo.periodNote}</p>
+                {period?.note && (
+                  <p className="text-[13px] text-secondary italic">{period.note}</p>
+                )}
+                {priorHours > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-secondary">Prior Period Hours</span>
+                    <span className="text-dark font-medium">{priorHours.toFixed(2)} hrs</span>
+                  </div>
                 )}
               </div>
 
@@ -100,7 +112,7 @@ export default function StatsBar() {
               )}
 
               <div className="mt-3">
-                <CopyButton />
+                <CopyButton selectedPeriod={selectedPeriod} />
               </div>
             </div>
           </div>

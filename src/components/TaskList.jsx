@@ -1,16 +1,34 @@
 import { useState } from 'react';
-import { tasks, uiUpdates } from '../data/tasks';
+import { getTasksForPeriod, billingPeriods, periodNotes } from '../data/tasks';
 import TaskCard from './TaskCard';
 
-export default function TaskList() {
+export default function TaskList({ selectedPeriod }) {
   const [expandedTask, setExpandedTask] = useState(null);
   const [uiExpanded, setUiExpanded] = useState(false);
+  const [notesExpanded, setNotesExpanded] = useState(false);
 
-  const openTasks = tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded').sort((a, b) => a.number.localeCompare(b.number));
-  const resolvedTasks = tasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded').sort((a, b) => a.number.localeCompare(b.number));
+  // Get period-filtered tasks and UI updates
+  const { tasks: periodTasks, uiUpdates } = getTasksForPeriod(selectedPeriod);
+
+  // Get notes for this period
+  const currentPeriodNotes = periodNotes.filter(n => n.billingPeriod === selectedPeriod);
+
+  const openTasks = periodTasks
+    .filter(t => t.status !== 'Resolved' && t.status !== 'Superseded')
+    .sort((a, b) => {
+      // Priority tasks first, then by number
+      if (a.priority && !b.priority) return -1;
+      if (!a.priority && b.priority) return 1;
+      return a.number.localeCompare(b.number);
+    });
+  const resolvedTasks = periodTasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded').sort((a, b) => a.number.localeCompare(b.number));
 
   // Check if there are any pending UI tasks
   const hasPendingUiTasks = uiUpdates.some(u => u.pending && u.pending.length > 0);
+
+  // Check if this is a past period (paid or pending, not current or upcoming)
+  const currentPeriod = billingPeriods.find(p => p.id === selectedPeriod);
+  const isPastPeriod = currentPeriod?.status === 'paid' || currentPeriod?.status === 'pending';
 
   const handleToggle = (taskNumber) => {
     setExpandedTask(expandedTask === taskNumber ? null : taskNumber);
@@ -18,6 +36,70 @@ export default function TaskList() {
 
   return (
     <div className="px-4 pt-4 pb-4 md:px-6">
+      {/* Notes & Q&A Section */}
+      {currentPeriodNotes.length > 0 && (
+        <div className="mb-6">
+          {currentPeriodNotes.map((noteGroup, idx) => (
+            <div key={idx} className={`bg-white rounded-xl shadow-sm border border-border overflow-hidden transition-shadow duration-300 ${
+              notesExpanded ? 'shadow-md' : ''
+            }`}>
+              <button
+                onClick={() => setNotesExpanded(!notesExpanded)}
+                className="w-full px-4 py-3 flex items-center justify-between"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </span>
+                  <div className="text-left">
+                    <h3 className="text-[15px] font-medium text-dark">{noteGroup.title}</h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                        {noteGroup.items.length} {noteGroup.items.length === 1 ? 'item' : 'items'}
+                      </span>
+                      <span className="text-[13px] text-secondary">
+                        {noteGroup.source} - {noteGroup.date}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <svg
+                  className={`w-5 h-5 text-secondary transition-transform duration-300 ${
+                    notesExpanded ? 'rotate-180' : ''
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                notesExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+              }`}>
+                <div className="border-t border-border">
+                  {noteGroup.items.map((item, itemIdx) => (
+                    <div key={itemIdx} className={itemIdx > 0 ? 'border-t border-border' : ''}>
+                      <div className="px-4 py-3">
+                        <span className="text-[13px] font-semibold text-primary uppercase tracking-wide">
+                          {item.label}
+                        </span>
+                        <p className="text-[14px] text-dark mt-2 leading-relaxed">
+                          {item.content}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Minor Tweaks Section */}
       <div className="mb-6">
         <div className={`bg-white rounded-xl shadow-sm border border-border overflow-hidden transition-shadow duration-300 ${
@@ -200,7 +282,14 @@ export default function TaskList() {
           </div>
         ) : (
           <div className="bg-white rounded-xl p-6 text-center border border-border">
-            <p className="text-[15px] text-secondary">No open tasks</p>
+            {isPastPeriod ? (
+              <>
+                <p className="text-[15px] text-secondary">All open tasks moved to next period</p>
+                <p className="text-[13px] text-secondary/70 mt-1">Incomplete tasks carry over with their full history</p>
+              </>
+            ) : (
+              <p className="text-[15px] text-secondary">No open tasks</p>
+            )}
           </div>
         )}
       </div>

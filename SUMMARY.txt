@@ -1,15 +1,15 @@
 PEELCLEAR WEBSITE MAINTENANCE - TASK TRACKER
 ============================================
 
-BILLING PERIOD: January 7-31, 2026
-Note: 3 weeks this period. Biweekly (week over week) starting February.
+BILLING PERIOD: February 1-15, 2026
+
 
 SUMMARY
 -------
-Total Hours: 1.50
-Amount Due: $105.00 (@ $70/hr)
-Open Tasks: 8
-Resolved Tasks: 1
+Total Hours: 12.00
+Amount Due: $840.00 (@ $70/hr)
+Open Tasks: 9
+Resolved Tasks: 13
 
 
 RESOLVED TASKS
@@ -36,45 +36,37 @@ Notes: Affected 222 products across 5 shipping classes. Only added Free Shipping
 
 ---
 
-OPEN TASKS
-==========
-
 [001b] $0 Checkout Failing with 100% Coupon
-Status: In Progress
-Date Added: Jan 9, 2026
+Status: Resolved
+Date Added: Jan 9, 2026 | Resolved: Jan 12, 2026
 Source: WhatsApp (Arash reported coupon 'spon12345' not working)
-Hours: 0
+Hours: 1.5
 
-Issue: Orders with 100% discount coupon fail at checkout with error 'There was an error processing your order.'
+Issue: When a coupon discounted the cart to $0.00 (including free shipping), checkout could fail with 'There was an error processing your order.' In the Payment Information step, no payment options rendered (Stripe/PayPal/COD not shown), so no payment_method was being submitted.
 
-Investigation: Coupons apply correctly. Free shipping appears (per 001a fix). Error occurs when clicking 'Place Order' with $0 total. Root cause: WooCommerce Stripe plugin cannot process $0 orders. This is a known bug, not fixed by WooCommerce. Stripe API itself handles $0 fine, but the plugin doesn't. Oddly, test orders #61073 and #61074 completed successfully on Jan 7. They likely used 'Pay in Person' option which was visible at checkout then.
+Investigation: Coupons applied correctly and free shipping appeared (per 001a fix). Failures occurred specifically when total hit $0.00 and the checkout UI did not render any gateways. ROOT CAUSE DISCOVERY: The checkout is not stock WooCommerce. It is rendered via Elementor Theme Builder Single Page 'Checkout' template (Template ID 59837) which uses a WooLentor/ShopLentor Pro Multi-Step Checkout widget (WooLentor template ID 59818). This custom multi-step/AJAX checkout can re-evaluate totals and gateways during step transitions, making cart-total-based gateway forcing unreliable.
 
 Likely Causes:
-  - 'Accept for virtual orders' unchecked in COD settings may be hiding it for $0 orders now
+  - Elementor Theme Builder Single Page 'Checkout' template intercepting /checkout/ (Template ID 59837)
+  - WooLentor/ShopLentor Pro Multi-Step Checkout widget renders checkout (WooLentor template ID 59818)
+  - Multi-step AJAX checkout re-evaluates gateways during step transitions
+  - At $0 totals, gateways may not render consistently and payment_method may not post
 
-Solution: In progress: Use existing 'Pay in Person' (Cash on Delivery) gateway for $0 orders. Add code snippet to hide it when cart total > $0. Rename to 'No Payment Required.' Confirming with client whether Pay in Person is currently used for anything before making changes.
+Solution: Left the site in a clean baseline state with no forced gateways. Deactivated the '$0 checkout - force No payment required gateway' PHP snippet and disabled Cash on Delivery (including removing the 'No payment required' label). After running Elementor's Data Updater to complete the pending database update, multiple test orders using a 100% off coupon (total = $0.00) were completed successfully. Paid checkout was also verified to show Stripe (card) and PayPal only.
 
----
-
-[002] Remove Mobile Menu Animation
-Status: Open
-Date Added: Jan 5, 2026
-Source: Teams meeting
-Hours: 0
-
-Issue: Remove swipe up animation on mobile menu.
+Notes: TESTING COUPON: 'spon12345 - copy' (Percentage, 100% off, Allow free shipping enabled). Agent was temporarily changed from 'arash-1993' to 'admin' during testing to avoid notifications. PRE-FIX TEST: $0.00 checkout produced the generic processing error and did not render payment options. POST-FIX TEST (attempted fix): $0.00 order completed with 'No payment required' shown as payment method, then later determined unsafe and rolled back. ELEMENTOR RECOVERY: Elementor Data Updater completed, which restored proper template rendering on /checkout/ after toggling multi-step settings caused the checkout form to disappear temporarily. FINAL VALIDATION: With snippet OFF and COD OFF, multiple $0 coupon test orders completed successfully and paid checkout rendered Stripe/PayPal normally. Test orders were cleaned up (cancelled/trashed) after validation.
 
 ---
 
-[003] iOS Shop Page Scroll/Footer Bug
-Status: Open
-Date Added: Jan 5, 2026
+[002] iOS Shop Page Scroll/Footer Bug
+Status: Resolved
+Date Added: Jan 5, 2026 | Resolved: Jan 16, 2026
 Source: Teams meeting
-Hours: 0
+Hours: 1.75
 
-Issue: On the shop page on mobile (specifically iPhone), scrolling gets blocked partway down , won't go further until it randomly allows more scrolling. Footer also loads before all products are visible.
+Issue: On the shop page on mobile (specifically iPhone), scrolling gets blocked partway down, won't go further until it randomly allows more scrolling. Footer also loads before all products are visible.
 
-Investigation: iOS Safari + WooCommerce lazy loading conflict. iOS Safari calculates page height before new products load, so user scrolls to what Safari thinks is the 'end', footer renders prematurely, then products load via AJAX and height recalculates.
+Investigation: iOS Safari + WooCommerce lazy loading conflict. iOS Safari calculates page height before new products load, so user scrolls to what Safari thinks is the 'end', footer renders prematurely, then products load via AJAX and height recalculates. Debug environment: Safari iPhone Web Inspector (Develop > dan iPhone > peelclear.com > /shop) used to inspect DOM/CSS and validate behavior in real iOS Safari.
 
 Likely Causes:
   - AJAX product filters or infinite scroll plugin
@@ -82,11 +74,192 @@ Likely Causes:
   - Lazy load on product images (ShortPixel, Jetpack, or theme-level)
   - Deprecated -webkit-overflow-scrolling: touch CSS
 
+Solution: Two fixes applied: (1) Changed Elementor Kit Custom CSS from 'html, body { overflow-x: hidden !important; }' to 'body { overflow-x: hidden !important; }' to resolve iOS Safari scroll stall. (2) Modified WL: Product Grid - Modern widget in Elementor Theme Builder template 'Elementor Products Archive' (Instances: All Product Archives) to use 2 columns on mobile and reduced Add to Cart / Select Options typography for mobile. Both fixes resolved respective issues.
+
 Notes: Likely fix: disable infinite scroll or set min-height on product container
 
 ---
 
-[004] Training Course Access for Account Holders
+[006] Remove Mobile Menu Animation
+Status: Resolved
+Date Added: Jan 5, 2026 | Resolved: Jan 16, 2026
+Source: Teams meeting
+Hours: 1
+
+Issue: ElementsKit mobile/offcanvas hamburger menu was sliding up (animated reveal) on all breakpoints where the hamburger menu is visible (including iPhone Safari). Multiple Customizer 'Additional CSS' attempts did not reliably override the animation (worked in DevTools but not on the live build).
+
+Investigation: ElementsKit's frontend CSS / active-state rules were overriding Customizer 'Additional CSS' due to cascade/order and/or optimization ordering. DevTools worked because inline 'element style' wins.
+
+Likely Causes:
+  - ElementsKit frontend CSS overriding Customizer Additional CSS
+  - Cascade/order and optimization ordering issues
+  - Active-state rules with higher specificity
+
+Solution: Added a Code Snippets (PHP) snippet (frontend) named 'ElementsKit Offcanvas - Disable Animation'. Snippet registers/enqueues an empty stylesheet handle (peelclear-ekit-offcanvas-noanim) and injects late-loading inline CSS override via wp_add_inline_style() targeting ElementsKit offcanvas wrapper/panel/overlay classes (including hyphen and underscore variants). Forces: transition: none !important, animation: none !important, transition-delay: 0s !important. Result: offcanvas/hamburger menu opens instantly with no slide animation.
+
+Notes: CLEANUP: Remove all ElementsKit/offcanvas animation-related rules previously added in Appearance > Customize > Additional CSS. Keep only unrelated CSS (e.g., YITH Store Locator rules and commented 'Hide Register' block). Clear and preload WP Rocket cache after cleanup. ROLLBACK: Disable or delete the Code Snippets snippet, then clear and preload WP Rocket cache (and any CDN cache if applicable). Selector testing showed some ElementsKit nodes differ by template/context (e.g., .ekit-sidebar-widget existed but .ekit-sidebar-widget-container not always present), so the snippet targets multiple likely nodes and active-state class variants.
+
+---
+
+[007] Mobile Hero Background Video + Desktop Fallback Poster
+Status: Resolved
+Date Added: Jan 13, 2026 | Resolved: Jan 13, 2026
+Source: WhatsApp
+Hours: 0.5
+
+Issue: Implement a mobile-specific vertical hero background video while retaining the existing horizontal video for desktop/tablet. Update the desktop/tablet fallback (poster) image to a new still.
+
+Investigation: Elementor does support background video playback on mobile when 'Play On Mobile' is enabled. The Video Link field in this context behaves as global, so using one container caused the mobile video to appear on desktop/tablet as well. Resolution: use separate inner hero containers per breakpoint and control visibility via Elementor responsive settings (no custom JS/CSS required).
+
+Solution: ELEMENTOR HERO STRUCTURE: Within the main Hero section, created/confirmed two inner containers (Desktop/tablet hero and Mobile hero). Applied responsive visibility: Desktop/tablet hero has Hide on Mobile = YES, Hide on Desktop/Tablet = NO. Mobile hero has Hide on Desktop = YES, Hide on Tablet = YES, Hide on Mobile = NO. BACKGROUND VIDEO URLS: Desktop/Tablet (horizontal) uses https://peelclear.com/wp-content/uploads/2025/10/tiffany.mohasesi_s-Video-Oct-7-2025-VEED.mp4. Mobile (vertical) uses https://peelclear.com/wp-content/uploads/2026/01/THIS-ISNT-PAINT-NO-TEXT-mobile.mp4. MOBILE PLAYBACK: In the Mobile hero container Style > Background > Video, Play On Mobile toggled to YES. DESKTOP/TABLET FALLBACK IMAGE: Updated from tesla-peel-scaled.png to tiffany.mohasesi_s-Video-Oct-7-2025-VEED-poster.jpg.
+
+Notes: RESULT: Mobile now displays and plays the vertical hero background video. Desktop/Tablet continue to display the horizontal hero background video. Desktop/Tablet fallback image updated to the new poster still. No custom JavaScript/CSS required, implemented fully within Elementor using container duplication + responsive visibility. ROLLBACK: Revert fallback image back to https://peelclear.com/wp-content/uploads/2025/10/tesla-peel-scaled.png. Remove/disable Mobile hero container and restore a single hero container with the desktop/tablet video if desired.
+
+Resources:
+  Mobile Video (Vertical):
+  https://peelclear.com/wp-content/uploads/2026/01/THIS-ISNT-PAINT-NO-TEXT-mobile.mp4
+
+  Desktop/Tablet Video (Horizontal):
+  https://peelclear.com/wp-content/uploads/2025/10/tiffany.mohasesi_s-Video-Oct-7-2025-VEED.mp4
+
+  New Fallback Poster:
+  https://peelclear.com/wp-content/uploads/2026/01/tiffany.mohasesi_s-Video-Oct-7-2025-VEED-poster.jpg
+
+  Old Fallback Image:
+  https://peelclear.com/wp-content/uploads/2025/10/tesla-peel-scaled.png
+
+---
+
+[013] Compress Site Assets
+Status: Resolved
+Date Added: Jan 20, 2026 | Resolved: Jan 24, 2026
+Source: Teams meeting (performance audit)
+Hours: 0
+
+Issue: Page size is 14-23 MB, should be under 3 MB. Heavy video and image files.
+
+Solution: All subtasks complete. Hero video compression tracked in [014]. ShortPixel image optimization tracked in [017]. WebP delivery tested and intentionally disabled due to ShopLentor/Elementor compatibility issues.
+
+Notes: Work tracked in [014] and [017]. WebP delivery tested and intentionally disabled due to ShopLentor/Elementor compatibility issues.
+
+---
+
+[014] Hero Video Compression
+Status: Resolved
+Date Added: Jan 21, 2026 | Resolved: Jan 21, 2026
+Source: Performance Audit
+Hours: 0.5
+
+Issue: Hero videos totaling 12.2 MB loading on every page view regardless of device.
+
+Solution: Compressed both hero videos using ffmpeg and hosted on Google Cloud Storage with 1-year cache headers. Mobile: 5.8 MB to 1.4 MB. Desktop: 6.4 MB to 1.9 MB. Added 40% dark overlay to mask compression artifacts.
+
+Notes: Results: Total video size 12.2 MB to 3.3 MB (73% reduction). Desktop PSI 43 to 61 (+18). Rollback: Replace Elementor hero video URLs with original WordPress Media Library URLs.
+
+---
+
+[015] WP Rocket CSS Optimization
+Status: Resolved
+Date Added: Jan 21, 2026 | Resolved: Jan 21, 2026
+Source: Performance Audit
+Hours: 0.5
+
+Issue: 70+ render-blocking CSS files (433 KB) delaying page rendering.
+
+Solution: Enabled Minify CSS and Remove Unused CSS in WP Rocket > File Optimization.
+
+Notes: Results: Mobile TBT 1,450ms to 270ms (-81%). Render-blocking resources eliminated. Rollback: WP Rocket > File Optimization > Uncheck 'Optimize CSS delivery' > Save > Clear cache
+
+---
+
+[016] Stripe Code Snippet
+Status: Resolved
+Date Added: Jan 24, 2026 | Resolved: Jan 24, 2026
+Source: Performance Audit
+Hours: 0.25
+
+Issue: WooCommerce Stripe loading 231 KB on every page including homepage.
+
+Solution: Added Code Snippets snippet 'Stripe - Load only on cart/checkout' to block Stripe site-wide. DreamRide still loads its own Stripe (~210 KB). May affect Apple Pay/Google Pay express checkout.
+
+Notes: Rollback: Code Snippets > Deactivate 'Stripe - Load only on cart/checkout'
+
+---
+
+[017] ShortPixel Image Optimization
+Status: Resolved
+Date Added: Jan 23, 2026 | Resolved: Jan 24, 2026
+Source: Performance Audit
+Hours: 1
+
+Issue: Images not optimized, contributing to page weight.
+
+Solution: Purchased 30K ShortPixel credits ($19.99). Bulk optimized 3,975 images (32% compression). WebP tested but disabled due to compatibility issues with ShopLentor/Elementor.
+
+Notes: DO NOT enable WebP delivery on this site - it breaks images. Rollback: ShortPixel > Settings > Advanced > Restore originals
+
+---
+
+[018] Essential Addons Widget Cleanup
+Status: Resolved
+Date Added: Jan 24, 2026 | Resolved: Jan 24, 2026
+Source: Performance Audit
+Hours: 0.75
+
+Issue: Essential Addons loading CSS/JS for all 82 widgets site-wide.
+
+Investigation: Ran database query to find actual usage.
+
+Solution: Disabled 79 of 82 widgets (96% reduction). Kept: Advanced Menu, Dual Color Heading, Countdown.
+
+Notes: Results: Mobile 28 to 59 (+31). Desktop 51 to 66 (+15). Single biggest improvement before WP Rocket JS fix. Rollback: Re-enable widgets in Essential Addons > Elements
+
+---
+
+[019] ElementsKit Widget Cleanup
+Status: Resolved
+Date Added: Jan 24, 2026 | Resolved: Jan 24, 2026
+Source: Performance Audit
+Hours: 0.25
+
+Issue: ElementsKit loading CSS/JS for all widgets site-wide.
+
+Solution: Disabled ~60 unused widgets. Kept only mobile menu/offcanvas functionality. Cannot fully remove without rebuilding navigation.
+
+Notes: Rollback: Re-enable widgets in ElementsKit > Elements
+
+---
+
+[020] WP Rocket JS Delay Fix
+Status: Resolved
+Date Added: Jan 26, 2026 | Resolved: Jan 26, 2026
+Source: Performance Audit
+Hours: 1.5
+
+Issue: Site scoring 37 mobile / 67 desktop. TBT over 1,000ms.
+
+Investigation: Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)
+
+Solution: Removed the line. Kept only jquery and js-before/after exclusions.
+
+Notes: Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Pending: Client needs to test Stripe checkout with real order. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions
+
+---
+
+OPEN TASKS
+==========
+
+[022] Tax Exemption
+Status: Open | PRIORITY
+Date Added: Feb 2, 2026
+Source: Phone call (Jan 31)
+Hours: 0
+
+Issue: Awaiting more info from client.
+
+---
+
+[003] Training Course Access for Account Holders
 Status: Open
 Date Added: Jan 5, 2026
 Source: Teams meeting
@@ -96,11 +269,41 @@ Issue: Anyone with an account should have access to training videos, not tied to
 
 Investigation: Need to investigate how training access is currently gated.
 
-Notes: Related to [007]. Client wants to verify training video uploads as part of this work.
+Notes: Related to [009]. Client wants to verify training video uploads as part of this work.
 
 ---
 
-[005] Find an Installer Map , Info Card Z-Index
+[009] Plugin Audit
+Status: Open
+Date Added: Jan 7, 2026
+
+Hours: 0
+
+Issue: Review and audit all installed plugins for updates, conflicts, and necessity.
+
+---
+
+[004] Training Videos Upload Verification
+Status: Open
+Date Added: Jan 9, 2026
+Source: WhatsApp (Arash)
+Hours: 0
+
+Issue: Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.
+
+Resources:
+  Training Series Pt.1 (Gabriel):
+  https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0
+
+  Training Series Pt.2:
+  https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0
+
+  PeelClear Sample Kit Guide:
+  https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0
+
+---
+
+[008] Find an Installer Map - Info Card Z-Index
 Status: Open
 Date Added: Jan 7, 2026
 Source: WhatsApp
@@ -114,47 +317,73 @@ Notes: Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to
 
 ---
 
-[006] Plugin Audit
-Status: Open
-Date Added: Jan 7, 2026
-
+[010] Legal Compliance Pages + Consent Checkbox
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting (Jon)
 Hours: 0
 
-Issue: Review and audit all installed plugins for updates, conflicts, and necessity.
+Issue: Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.
+
+Notes: Reference CeramicPro's footer/policy pages as template. Checkout checkbox added: 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. I have read and agree to the website terms and conditions.' Contact forms are HubSpot (not Gravity Forms). Supersedes [005].
 
 ---
 
-[007] Training Videos Upload Verification
-Status: Open
-Date Added: Jan 9, 2026
-Source: WhatsApp (Arash)
+[011] Remove Unused Plugins and Plugin Bloat
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting (performance audit)
 Hours: 0
 
-Issue: Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.
+Issue: Site has 49 active plugins and 35 inactive plugins causing 3.5s server response time. Client approved cleanup.
 
-Notes: Resources provided by Arash (Dropbox links): Training Series Pt.1 (Gabriel): https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0 | Training Series Pt.2: https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0 | PeelClear Sample Kit Guide: https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0
+Notes: Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor.
 
 ---
 
-[008] Logo Color Incorrect on Site
-Status: Open
-Date Added: Jan 9, 2026
-Source: WhatsApp (Arash screenshot)
+[012] Reduce Mobile Animations
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting
 Hours: 0
 
-Issue: Logo on site is different color than official Brandfolder logos.
+Issue: Homepage has entrance animations and scroll effects adding JavaScript processing overhead on mobile.
 
-Notes: Resource provided by Arash (Dropbox link) - Primary Logo - Orange Box: https://www.dropbox.com/scl/fo/0segx649rqich347wj36m/AB4aY9KlgeS_ioZXG-h7eTs?rlkey=a14qaibg1cgsmbe78brx7rzma&st=dgyw47fb&dl=0
+Notes: Asked client Jan 16 if animations should be removed after fixing mobile menu animation. No response then. Now approved as part of performance cleanup. Check Elementor motion effects settings on homepage sections.
+
+---
+
+[021] reCAPTCHA Performance Investigation
+Status: Open
+Date Added: Jan 21, 2026
+Source: Performance Audit
+Hours: 0
+
+Issue: reCAPTCHA loading 8 times on homepage (2,858 KB, 1,692ms main thread time).
+
+Investigation: Disabled GF reCAPTCHA v3 site-wide. Removed hidden GF elements from /become-an-installer. Remaining instances are from HubSpot forms/chat.
+
+Notes: Blocked: Need HubSpot admin access.
 
 ---
 
 BACKLOG
 =======
 
-1. Duplicate UPS shipping options at checkout
+1. Homepage scroll jank/stutter
+   Priority: Medium
+   Source: Jan 26 Performance Audit
+   Notes: Not related to PSI scores (TBT is 0ms). Likely CSS animations or lazy loading.
+
+2. Duplicate UPS shipping options at checkout
    Priority: Low
    Source: Jan 7 investigation
    Notes: Multiple UPS Ground options appearing in shipping method selector
+
+3. SSL redirect (HTTP to HTTPS)
+   Priority: Low
+   Source: Jan 21 PSI test
+   Notes: Site doesn't force HTTPS redirect
 
 
 --------------------------------------------
