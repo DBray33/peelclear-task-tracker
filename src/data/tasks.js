@@ -306,7 +306,7 @@ export const tasks = [
     issue: "WooCommerce Stripe loading 231 KB on every page including homepage.",
     investigation: "",
     likelyCauses: [],
-    solution: "Added Code Snippets snippet 'Stripe - Load only on cart/checkout' to block Stripe site-wide. DreamRide still loads its own Stripe (~210 KB). May affect Apple Pay/Google Pay express checkout.",
+    solution: "Added Code Snippets snippet 'Stripe - Load only on cart/checkout' to block Stripe site-wide. DreamRide still loads its own Stripe (~210 KB). May affect Apple Pay/Google Pay express checkout buttons.",
     notes: "Rollback: Code Snippets > Deactivate 'Stripe - Load only on cart/checkout'"
   },
   {
