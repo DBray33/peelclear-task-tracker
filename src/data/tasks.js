@@ -368,7 +368,7 @@ export const tasks = [
     source: "Performance Audit",
     hours: 1.5,
     issue: "Site scoring 37 mobile / 67 desktop. TBT over 1,000ms.",
-    investigation: "Most time spent in Chrome DevTools debugging, analyzing network waterfall and main thread activity to identify what was causing the slow load, and troubleshooting potential fixes. Developed a custom PageSpeed Insights benchmark tool to run statistically rigorous tests (3 warmup + 15 measurement runs per change) to accurately measure impact of each optimization. Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)",
+    investigation: "Most time spent in Chrome DevTools debugging, analyzing network waterfall and main thread activity to identify what was causing the slow load, and troubleshooting potential fixes. Developed a custom PageSpeed Insights benchmark tool to run statistically rigorous tests (3 warmup + 15 measurement runs per change) to accurately measure impact of each optimization. Root Cause: Regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)",
     likelyCauses: [],
     solution: "Removed the line. Kept only jquery and js-before/after exclusions.",
     notes: "Results: Mobile 30s to 60-90. Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions"
