@@ -240,7 +240,7 @@ Investigation: Most time spent in Chrome DevTools debugging, analyzing network w
 
 Solution: Removed the line. Kept only jquery and js-before/after exclusions.
 
-Notes: Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions
+Notes: Results: Mobile 30s to 60-90. Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions
 
 ---
 

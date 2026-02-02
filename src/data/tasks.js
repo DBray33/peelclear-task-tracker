@@ -371,7 +371,7 @@ export const tasks = [
     investigation: "Most time spent in Chrome DevTools debugging, analyzing network waterfall and main thread activity to identify what was causing the slow load, and troubleshooting potential fixes. Root Cause: Single regex in WP Rocket Delay JS exclusions was disabling the entire feature: (?:/wp-content/|/wp-includes/)(.)",
     likelyCauses: [],
     solution: "Removed the line. Kept only jquery and js-before/after exclusions.",
-    notes: "Results: Mobile 37 to 96 (+59). Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions"
+    notes: "Results: Mobile 30s to 60-90. Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions"
   },
   // Open tasks - these carry over to current period
   {
