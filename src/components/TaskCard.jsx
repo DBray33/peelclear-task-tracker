@@ -206,6 +206,11 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
             <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${statusClass}`}>
               {task.status}
             </span>
+            {task.blocked && (
+              <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-red-100 text-red-600">
+                {task.blocked}
+              </span>
+            )}
             {task.hours > 0 ? (
               <span className="text-[13px] text-secondary">
                 {task.hours} hrs

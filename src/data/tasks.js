@@ -400,6 +400,7 @@ export const tasks = [
     number: "003",
     title: "Training Course Access for Account Holders",
     status: "Open",
+    blocked: "Need Access",
     billingPeriod: "feb-1-15-2026",
     priority: false,
     dateAdded: "Jan 5, 2026",
@@ -409,7 +410,7 @@ export const tasks = [
     investigation: "Need to investigate how training access is currently gated.",
     likelyCauses: [],
     solution: "",
-    notes: "Related to [009]. Client wants to verify training video uploads as part of this work."
+    notes: "Blocked: Need WordPress admin or LMS access to investigate how training access is currently gated. Related to [009]. Client wants to verify training video uploads as part of this work."
   },
   {
     number: "009",
@@ -431,6 +432,7 @@ export const tasks = [
     number: "004",
     title: "Training Videos Upload Verification",
     status: "Open",
+    blocked: "Need Access",
     billingPeriod: "feb-1-15-2026",
     priority: false,
     dateAdded: "Jan 9, 2026",
@@ -441,7 +443,7 @@ export const tasks = [
     investigation: "",
     likelyCauses: [],
     solution: "",
-    notes: "",
+    notes: "Blocked: Need WordPress admin or LMS access to verify and upload training videos.",
     resources: [
       { name: "Training Series Pt.1 (Gabriel)", url: "https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0" },
       { name: "Training Series Pt.2", url: "https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0" },
@@ -452,6 +454,7 @@ export const tasks = [
     number: "008",
     title: "Find an Installer Map - Info Card Z-Index",
     status: "Open",
+    blocked: "Potential Non-Issue",
     billingPeriod: "feb-1-15-2026",
     priority: false,
     dateAdded: "Jan 7, 2026",
@@ -501,14 +504,14 @@ export const tasks = [
     likelyCauses: [],
     solution: "",
     tasks: [
-      "Delete 35 inactive plugins (LearnDash suite, WPML suite, duplicate free versions, unused membership plugins)",
+      "Delete 35 inactive plugins (LearnDash suite, WPML suite, unused membership plugins). DO NOT delete free versions of plugins that have a paid/pro counterpart (e.g. Essential Addons Free is required for Pro to function).",
       "[DONE] Audit Essential Addons - 82 of 115 widgets enabled, most unused. Disable unused widgets. [see [018]]",
       "Review if Essential Addons can be fully removed (ElementsKit handles nav/menu)",
       "[DONE] Enable WP Rocket 'Remove Unused CSS' and 'Delay JavaScript Execution' [see [015] and [020]]",
       "Deactivate: Child Theme Configurator, WP File Manager (security risk), User Switching",
       "Review: Site Kit (redundant if GTM handles GA4), WP Sheet Editor plugins (occasional use)"
     ],
-    notes: "Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor."
+    notes: "WARNING: Some 'duplicate free versions' are required by their Pro counterparts. Essential Addons Free was deactivated and it broke the Pro version. Before deleting any inactive free plugin, verify it is not a dependency for an active Pro plugin. Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor."
   },
   {
     number: "012",
