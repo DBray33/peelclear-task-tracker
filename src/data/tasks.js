@@ -373,22 +373,29 @@ export const tasks = [
     solution: "Removed the line. Kept only jquery and js-before/after exclusions.",
     notes: "Results: Mobile 30s to 60-90. Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions"
   },
-  // Open tasks - these carry over to current period
+  // February 1-15 resolved tasks
   {
     number: "022",
-    title: "Tax Exemption",
-    status: "Open",
+    title: "PA Tax Exemption Setup",
+    status: "Resolved",
     billingPeriod: "feb-1-15-2026",
-    priority: true,
+    priority: false,
     dateAdded: "Feb 2, 2026",
+    dateResolved: "Feb 12, 2026",
     source: "Phone call (Jan 31)",
-    hours: 0,
-    issue: "Awaiting more info from client.",
+    hours: 0.75,
+    issue: "Per-user product tax exemption for Pennsylvania orders. Shipping tax still charged.",
     investigation: "",
     likelyCauses: [],
-    solution: "",
-    notes: ""
+    solution: "Implemented three-part system:\n\n1. Zero Rate Tax Class (WooCommerce > Settings > Tax > Zero rate rates)\n   - Country: US, State: * (all), Rate: 0.0000, Shipping: unchecked\n\n2. Code Snippet \"PA Tax Exempt - User Profile Field\"\n   - Adds checkbox to user profiles under \"Tax Exemption\" heading\n   - Saves to user meta as pa_tax_exempt\n\n3. Code Snippet \"PA Tax Exempt - Tax Calculation\"\n   - Hooks into WooCommerce tax calculation\n   - Sets product tax class to Zero Rate when: user logged in + pa_tax_exempt = '1' + shipping state is PA\n   - Only affects product tax, not shipping\n\nModified: WooCommerce > Settings > Tax > \"Shipping tax class\" changed from \"based on cart items\" to \"Standard\" so shipping always uses Standard rate.",
+    testResults: [
+      "No exemption, PA shipping: $1.16 tax (baseline)",
+      "PA exempt, PA shipping: $0.89 tax (shipping only, product tax removed)",
+      "PA exempt, CA shipping: $1.44 tax (full CA tax, exemption doesn't apply)"
+    ],
+    notes: "Usage: Customer submits REV-1220 certificate > Staff validates > Users > Edit user > Check \"PA Tax Exempt\" box > Save. Rollback: Revert shipping tax setting to \"based on cart items\", deactivate both snippets, remove Zero Rate tax row, clear caches."
   },
+  // Open tasks - these carry over to current period
   {
     number: "003",
     title: "Training Course Access for Account Holders",
@@ -538,6 +545,17 @@ export const tasks = [
 
 export const uiUpdates = [
   {
+    date: "Feb 5, 2026",
+    billingPeriod: "feb-1-15-2026",
+    hours: 0.25,
+    pending: [],
+    updates: [
+      "Updated Terms and Conditions Section 8 warranty verbiage per Fabio (approved by Peter). Changed to new 20-Year Warranty + CARFAX language for Lifetime Limited Peelable Paint Performance warranty."
+    ],
+    notes: "",
+    resources: []
+  },
+  {
     date: "Feb 1, 2026",
     billingPeriod: "feb-1-15-2026",
     hours: 0,
@@ -652,6 +670,8 @@ export const backlog = [
 ];
 
 export const billingHistory = [
+  { period: "February 1-15, 2026", task: "022 - PA Tax Exemption", hours: 0.75, amount: 52.50 },
+  { period: "February 1-15, 2026", task: "UI Updates (Feb 5)", hours: 0.25, amount: 17.50 },
   { period: "January 7-31, 2026", task: "001a - Free Shipping", hours: 1.5, amount: 105 },
   { period: "January 7-31, 2026", task: "001b - $0 Checkout", hours: 1.5, amount: 105 },
   { period: "January 7-31, 2026", task: "002 - iOS Shop Scroll Bug", hours: 1.75, amount: 122.50 },

@@ -307,6 +307,23 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
             </div>
           )}
 
+          {/* Test Results */}
+          {task.testResults && task.testResults.length > 0 && (
+            <div className="mb-3">
+              <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-2">
+                Test Results
+              </h4>
+              <div className="p-3 bg-light-bg rounded-lg space-y-2">
+                {task.testResults.map((result, idx) => (
+                  <div key={idx} className="flex items-start gap-2 text-[14px] text-dark">
+                    <span className="text-secondary mt-0.5">•</span>
+                    <span>{result}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Tasks (subtasks/checklist) */}
           {task.tasks && task.tasks.length > 0 && (
             <div className="mb-3">

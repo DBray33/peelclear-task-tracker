@@ -6,11 +6,203 @@ BILLING PERIOD: February 1-15, 2026
 
 SUMMARY
 -------
-Total Hours: 12.00
-Amount Due: $840.00 (@ $70/hr)
-Open Tasks: 9
-Resolved Tasks: 13
+Total Hours: 1.00
+Amount Due: $70.00 (@ $70/hr)
+Open Tasks: 8
+Resolved Tasks: 1
 
+
+RESOLVED TASKS
+==============
+
+[022] PA Tax Exemption Setup
+Status: Resolved
+Date Added: Feb 2, 2026 | Resolved: Feb 12, 2026
+Source: Phone call (Jan 31)
+Hours: 0.75
+
+Issue: Per-user product tax exemption for Pennsylvania orders. Shipping tax still charged.
+
+Solution: Implemented three-part system:
+
+1. Zero Rate Tax Class (WooCommerce > Settings > Tax > Zero rate rates)
+   - Country: US, State: * (all), Rate: 0.0000, Shipping: unchecked
+
+2. Code Snippet "PA Tax Exempt - User Profile Field"
+   - Adds checkbox to user profiles under "Tax Exemption" heading
+   - Saves to user meta as pa_tax_exempt
+
+3. Code Snippet "PA Tax Exempt - Tax Calculation"
+   - Hooks into WooCommerce tax calculation
+   - Sets product tax class to Zero Rate when: user logged in + pa_tax_exempt = '1' + shipping state is PA
+   - Only affects product tax, not shipping
+
+Modified: WooCommerce > Settings > Tax > "Shipping tax class" changed from "based on cart items" to "Standard" so shipping always uses Standard rate.
+
+Test Results:
+- No exemption, PA shipping: $1.16 tax (baseline)
+- PA exempt, PA shipping: $0.89 tax (shipping only, product tax removed)
+- PA exempt, CA shipping: $1.44 tax (full CA tax, exemption doesn't apply)
+
+Notes: Usage: Customer submits REV-1220 certificate > Staff validates > Users > Edit user > Check "PA Tax Exempt" box > Save. Rollback: Revert shipping tax setting to "based on cart items", deactivate both snippets, remove Zero Rate tax row, clear caches.
+
+---
+
+UI/UX UPDATES
+=============
+
+[Feb 5, 2026] - 0.25 hours
+Completed:
+  - Updated Terms and Conditions Section 8 warranty verbiage per Fabio (approved by Peter). Changed to new 20-Year Warranty + CARFAX language for Lifetime Limited Peelable Paint Performance warranty.
+
+---
+
+BILLING HISTORY
+===============
+022 - PA Tax Exemption          | 0.75 | $52.50
+UI Updates (Feb 5)              | 0.25 | $17.50
+TOTAL                           | 1.00 | $70.00
+
+
+OPEN TASKS
+==========
+
+[003] Training Course Access for Account Holders
+Status: Open
+Date Added: Jan 5, 2026
+Source: Teams meeting
+Hours: 0
+
+Issue: Anyone with an account should have access to training videos, not tied to purchases.
+
+Investigation: Need to investigate how training access is currently gated.
+
+Notes: Related to [009]. Client wants to verify training video uploads as part of this work.
+
+---
+
+[009] Plugin Audit
+Status: Open
+Date Added: Jan 7, 2026
+
+Hours: 0
+
+Issue: Review and audit all installed plugins for updates, conflicts, and necessity.
+
+---
+
+[004] Training Videos Upload Verification
+Status: Open
+Date Added: Jan 9, 2026
+Source: WhatsApp (Arash)
+Hours: 0
+
+Issue: Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.
+
+Resources:
+  Training Series Pt.1 (Gabriel):
+  https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0
+
+  Training Series Pt.2:
+  https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0
+
+  PeelClear Sample Kit Guide:
+  https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0
+
+---
+
+[008] Find an Installer Map - Info Card Z-Index
+Status: Open
+Date Added: Jan 7, 2026
+Source: WhatsApp
+Hours: 0
+
+Issue: When clicking an installer pin on the map, the info card appears behind other pins instead of on top.
+
+Investigation: Z-index issue on the map info window/popup. Google Maps info windows should auto-raise, but custom styling or conflicting CSS may be overriding.
+
+Notes: Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc).
+
+---
+
+[010] Legal Compliance Pages + Consent Checkbox
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting (Jon)
+Hours: 0
+
+Issue: Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.
+
+Notes: Reference CeramicPro's footer/policy pages as template. Checkout checkbox added: 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. I have read and agree to the website terms and conditions.' Contact forms are HubSpot (not Gravity Forms). Supersedes [005].
+
+---
+
+[011] Remove Unused Plugins and Plugin Bloat
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting (performance audit)
+Hours: 0
+
+Issue: Site has 49 active plugins and 35 inactive plugins causing 3.5s server response time. Client approved cleanup.
+
+Notes: Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor.
+
+---
+
+[012] Reduce Mobile Animations
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting
+Hours: 0
+
+Issue: Homepage has entrance animations and scroll effects adding JavaScript processing overhead on mobile.
+
+Notes: Asked client Jan 16 if animations should be removed after fixing mobile menu animation. No response then. Now approved as part of performance cleanup. Check Elementor motion effects settings on homepage sections.
+
+---
+
+[021] reCAPTCHA Performance Investigation
+Status: Open
+Date Added: Jan 21, 2026
+Source: Performance Audit
+Hours: 0
+
+Issue: reCAPTCHA loading 8 times on homepage (2,858 KB, 1,692ms main thread time).
+
+Investigation: Disabled GF reCAPTCHA v3 site-wide. Removed hidden GF elements from /become-an-installer. Remaining instances are from HubSpot forms/chat.
+
+Notes: Blocked: Need HubSpot admin access.
+
+---
+
+BACKLOG
+=======
+
+1. Homepage scroll jank/stutter
+   Priority: Medium
+   Source: Jan 26 Performance Audit
+   Notes: Not related to PSI scores (TBT is 0ms). Likely CSS animations or lazy loading.
+
+2. Duplicate UPS shipping options at checkout
+   Priority: Low
+   Source: Jan 7 investigation
+   Notes: Multiple UPS Ground options appearing in shipping method selector
+
+3. SSL redirect (HTTP to HTTPS)
+   Priority: Low
+   Source: Jan 21 PSI test
+   Notes: Site doesn't force HTTPS redirect
+
+
+============================================
+ARCHIVED BILLING PERIODS
+============================================
+
+--------------------------------------------
+PREVIOUS PERIOD: January 7-31, 2026
+Note: Startup period (3.5 weeks)
+Total: 13.00 hours | $910.00
+--------------------------------------------
 
 RESOLVED TASKS
 ==============
@@ -243,146 +435,6 @@ Solution: Removed the line. Kept only jquery and js-before/after exclusions.
 Notes: Results: Mobile 30s to 60-90. Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions
 
 ---
-
-OPEN TASKS
-==========
-
-[022] Tax Exemption
-Status: Open | PRIORITY
-Date Added: Feb 2, 2026
-Source: Phone call (Jan 31)
-Hours: 0
-
-Issue: Awaiting more info from client.
-
----
-
-[003] Training Course Access for Account Holders
-Status: Open
-Date Added: Jan 5, 2026
-Source: Teams meeting
-Hours: 0
-
-Issue: Anyone with an account should have access to training videos, not tied to purchases.
-
-Investigation: Need to investigate how training access is currently gated.
-
-Notes: Related to [009]. Client wants to verify training video uploads as part of this work.
-
----
-
-[009] Plugin Audit
-Status: Open
-Date Added: Jan 7, 2026
-
-Hours: 0
-
-Issue: Review and audit all installed plugins for updates, conflicts, and necessity.
-
----
-
-[004] Training Videos Upload Verification
-Status: Open
-Date Added: Jan 9, 2026
-Source: WhatsApp (Arash)
-Hours: 0
-
-Issue: Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.
-
-Resources:
-  Training Series Pt.1 (Gabriel):
-  https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0
-
-  Training Series Pt.2:
-  https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0
-
-  PeelClear Sample Kit Guide:
-  https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0
-
----
-
-[008] Find an Installer Map - Info Card Z-Index
-Status: Open
-Date Added: Jan 7, 2026
-Source: WhatsApp
-Hours: 0
-
-Issue: When clicking an installer pin on the map, the info card appears behind other pins instead of on top.
-
-Investigation: Z-index issue on the map info window/popup. Google Maps info windows should auto-raise, but custom styling or conflicting CSS may be overriding.
-
-Notes: Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc).
-
----
-
-[010] Legal Compliance Pages + Consent Checkbox
-Status: Open | PRIORITY
-Date Added: Jan 20, 2026
-Source: Teams meeting (Jon)
-Hours: 0
-
-Issue: Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.
-
-Notes: Reference CeramicPro's footer/policy pages as template. Checkout checkbox added: 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. I have read and agree to the website terms and conditions.' Contact forms are HubSpot (not Gravity Forms). Supersedes [005].
-
----
-
-[011] Remove Unused Plugins and Plugin Bloat
-Status: Open | PRIORITY
-Date Added: Jan 20, 2026
-Source: Teams meeting (performance audit)
-Hours: 0
-
-Issue: Site has 49 active plugins and 35 inactive plugins causing 3.5s server response time. Client approved cleanup.
-
-Notes: Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor.
-
----
-
-[012] Reduce Mobile Animations
-Status: Open | PRIORITY
-Date Added: Jan 20, 2026
-Source: Teams meeting
-Hours: 0
-
-Issue: Homepage has entrance animations and scroll effects adding JavaScript processing overhead on mobile.
-
-Notes: Asked client Jan 16 if animations should be removed after fixing mobile menu animation. No response then. Now approved as part of performance cleanup. Check Elementor motion effects settings on homepage sections.
-
----
-
-[021] reCAPTCHA Performance Investigation
-Status: Open
-Date Added: Jan 21, 2026
-Source: Performance Audit
-Hours: 0
-
-Issue: reCAPTCHA loading 8 times on homepage (2,858 KB, 1,692ms main thread time).
-
-Investigation: Disabled GF reCAPTCHA v3 site-wide. Removed hidden GF elements from /become-an-installer. Remaining instances are from HubSpot forms/chat.
-
-Notes: Blocked: Need HubSpot admin access.
-
----
-
-BACKLOG
-=======
-
-1. Homepage scroll jank/stutter
-   Priority: Medium
-   Source: Jan 26 Performance Audit
-   Notes: Not related to PSI scores (TBT is 0ms). Likely CSS animations or lazy loading.
-
-2. Duplicate UPS shipping options at checkout
-   Priority: Low
-   Source: Jan 7 investigation
-   Notes: Multiple UPS Ground options appearing in shipping method selector
-
-3. SSL redirect (HTTP to HTTPS)
-   Priority: Low
-   Source: Jan 21 PSI test
-   Notes: Site doesn't force HTTPS redirect
-
 
 --------------------------------------------
 CLIENT: Peelclear
