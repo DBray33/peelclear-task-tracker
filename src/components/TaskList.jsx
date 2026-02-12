@@ -16,9 +16,10 @@ export default function TaskList({ selectedPeriod }) {
   const openTasks = periodTasks
     .filter(t => t.status !== 'Resolved' && t.status !== 'Superseded')
     .sort((a, b) => {
-      // Priority tasks first, then by number
+      // Priority tasks first, then newest priority first by number
       if (a.priority && !b.priority) return -1;
       if (!a.priority && b.priority) return 1;
+      if (a.priority && b.priority) return b.number.localeCompare(a.number);
       return a.number.localeCompare(b.number);
     });
   const resolvedTasks = periodTasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded').sort((a, b) => a.number.localeCompare(b.number));

@@ -53,6 +53,21 @@ export const periodNotes = [
 
 export const tasks = [
   {
+    number: "023",
+    title: "Send Quote for Coded Website Build",
+    status: "Open",
+    billingPeriod: "feb-1-15-2026",
+    priority: true,
+    dateAdded: "Feb 12, 2026",
+    source: "",
+    hours: 0,
+    issue: "Send quote for coded website build again.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "",
+    notes: ""
+  },
+  {
     number: "001a",
     title: "Free Shipping Not Appearing with Coupon",
     status: "Resolved",
