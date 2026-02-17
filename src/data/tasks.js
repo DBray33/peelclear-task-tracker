@@ -1,4 +1,4 @@
-// Last updated: Feb 16, 2026
+// Last updated: Feb 17, 2026
 
 // Billing periods - semi-monthly within calendar months
 export const billingPeriods = [
@@ -69,23 +69,26 @@ export const tasks = [
   },
   {
     number: "025",
-    title: "Ultra Shift Product Images Both Visible",
-    status: "Open",
+    title: "Ultra Shift Product Images Both Visible (iPhone Safari)",
+    status: "Resolved",
     billingPeriod: "feb-16-28-2026",
     priority: false,
     dateAdded: "Feb 16, 2026",
+    dateResolved: "Feb 17, 2026",
     source: "WhatsApp",
-    hours: 0,
-    issue: "On https://peelclear.com/product-category/colors/ultra-shift/ product cards show both image variants (glossy and matte color samples) stacked/visible at once. Should show glossy by default, matte on hover.",
-    investigation: "Check WooLentor/ShopLentor product grid widget settings for hover image effect. May also be product gallery configuration issue on individual products.",
+    hours: 1,
+    issue: "Product cards on Ultra Shift category page showed both gallery images stacked and duplicate product content on iPhone Safari only.",
+    investigation: "",
+    rootCause: "WP Rocket RUCSS stripping display:none rule for .woolentor-list-view-content. Safari 18 content-visibility:auto deferred the hiding.",
     likelyCauses: [],
-    solution: "",
-    notes: ""
+    solution: "Added woolentor-list-view(.*), woolentor-grid-view(.*), woolentor-product-card(.*) to WP Rocket CSS Safelist. Added Additional CSS override forcing display:none on .woolentor-list-view-content. Cleared Used CSS and cache.",
+    notes: "?nowprocket URL parameter confirms WP Rocket as cause of display issues."
   },
   {
     number: "024",
     title: "Cart Quantity Update Not Working",
     status: "Resolved",
+    resolvedBy: "Jon",
     billingPeriod: "feb-16-28-2026",
     priority: false,
     dateAdded: "Feb 16, 2026",
@@ -102,6 +105,7 @@ export const tasks = [
     number: "023",
     title: "Shop Page Image Popup Toggle",
     status: "Resolved",
+    resolvedBy: "Jon",
     billingPeriod: "feb-16-28-2026",
     priority: false,
     dateAdded: "Feb 16, 2026",
@@ -735,6 +739,7 @@ export const backlog = [
 ];
 
 export const billingHistory = [
+  { period: "February 16-28, 2026", task: "025 - Ultra Shift Images Fix", hours: 1, amount: 70 },
   { period: "February 1-15, 2026", task: "022 - PA Tax Exemption", hours: 0.75, amount: 52.50 },
   { period: "February 1-15, 2026", task: "UI Updates (Feb 5)", hours: 0.25, amount: 17.50 },
   { period: "January 7-31, 2026", task: "001a - Free Shipping", hours: 1.5, amount: 105 },

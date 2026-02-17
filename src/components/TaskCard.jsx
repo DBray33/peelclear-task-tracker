@@ -206,6 +206,11 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
             <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${statusClass}`}>
               {task.status}
             </span>
+            {task.resolvedBy && (
+              <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                By {task.resolvedBy}
+              </span>
+            )}
             {task.blocked && (
               <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-red-100 text-red-600">
                 {task.blocked}
@@ -276,6 +281,18 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
                 Investigation
               </h4>
               {parseText(task.investigation)}
+            </div>
+          )}
+
+          {/* Root Cause */}
+          {task.rootCause && (
+            <div className="mb-3">
+              <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-2">
+                Root Cause
+              </h4>
+              <div className="p-3 bg-red-50 rounded-lg border border-red-200">
+                {parseText(task.rootCause, { showPanel: false })}
+              </div>
             </div>
           )}
 
