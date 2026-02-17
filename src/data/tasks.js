@@ -1,4 +1,4 @@
-// Last updated: Jan 26, 2026
+// Last updated: Feb 16, 2026
 
 // Billing periods - semi-monthly within calendar months
 export const billingPeriods = [
@@ -18,7 +18,7 @@ export const billingPeriods = [
     startDate: "2026-02-01",
     endDate: "2026-02-15",
     note: "",
-    status: "current"
+    status: "pending"
   },
   {
     id: "feb-16-28-2026",
@@ -27,7 +27,7 @@ export const billingPeriods = [
     startDate: "2026-02-16",
     endDate: "2026-02-28",
     note: "",
-    status: "upcoming"
+    status: "current"
   }
 ];
 
@@ -53,19 +53,66 @@ export const periodNotes = [
 
 export const tasks = [
   {
-    number: "023",
-    title: "Send Quote for Coded Website Build",
+    number: "026",
+    title: "Inconsistent Quantity Toggle on Category Page",
     status: "Open",
-    billingPeriod: "feb-1-15-2026",
-    priority: true,
-    dateAdded: "Feb 12, 2026",
-    source: "",
+    billingPeriod: "feb-16-28-2026",
+    priority: false,
+    dateAdded: "Feb 16, 2026",
+    source: "WhatsApp",
     hours: 0,
-    issue: "Send quote for coded website build again.",
-    investigation: "",
+    issue: "On Ultra Shift category page, some products show +/- quantity toggle buttons while others don't. Should be consistent.",
+    investigation: "Check if difference is product type (simple vs variable). May be WooLentor grid widget setting or per-product configuration.",
     likelyCauses: [],
     solution: "",
     notes: ""
+  },
+  {
+    number: "025",
+    title: "Ultra Shift Product Images Both Visible",
+    status: "Open",
+    billingPeriod: "feb-16-28-2026",
+    priority: false,
+    dateAdded: "Feb 16, 2026",
+    source: "WhatsApp",
+    hours: 0,
+    issue: "On https://peelclear.com/product-category/colors/ultra-shift/ product cards show both image variants (glossy and matte color samples) stacked/visible at once. Should show glossy by default, matte on hover.",
+    investigation: "Check WooLentor/ShopLentor product grid widget settings for hover image effect. May also be product gallery configuration issue on individual products.",
+    likelyCauses: [],
+    solution: "",
+    notes: ""
+  },
+  {
+    number: "024",
+    title: "Cart Quantity Update Not Working",
+    status: "Resolved",
+    billingPeriod: "feb-16-28-2026",
+    priority: false,
+    dateAdded: "Feb 16, 2026",
+    dateResolved: "Feb 16, 2026",
+    source: "WhatsApp",
+    hours: 0,
+    issue: "Cart page quantity toggle (+/-) wasn't updating the cart. Changing quantity to zero did nothing. Reloading page reverted quantity back to original value.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Client (Jon) found the toggle setting and fixed it.",
+    notes: "No developer work required. Resolved by client."
+  },
+  {
+    number: "023",
+    title: "Shop Page Image Popup Toggle",
+    status: "Resolved",
+    billingPeriod: "feb-16-28-2026",
+    priority: false,
+    dateAdded: "Feb 16, 2026",
+    dateResolved: "Feb 16, 2026",
+    source: "WhatsApp",
+    hours: 0,
+    issue: "Popup was appearing when clicking on link options on shop pages.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Client (Jon) deleted and re-added the element with the popup toggle turned off.",
+    notes: "No developer work required. Resolved by client."
   },
   {
     number: "001a",
@@ -706,6 +753,11 @@ export const billingHistory = [
   { period: "January 7-31, 2026", task: "021 - reCAPTCHA (partial)", hours: 0.25, amount: 17.50 },
   { period: "January 7-31, 2026", task: "UI Updates", hours: 1, amount: 70 },
 ];
+
+// Helper function to get all open/in-progress tasks across all periods
+export function getAllOpenTasks() {
+  return tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded');
+}
 
 // Helper function to get tasks for a specific period
 export function getTasksForPeriod(periodId) {

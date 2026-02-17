@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import { billingPeriods, billingInfo, getPeriodStats } from '../data/tasks';
+import { billingPeriods, getPeriodStats } from '../data/tasks';
 import CopyButton from './CopyButton';
 
 export default function StatsBar({ selectedPeriod }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Hide StatsBar on Open Tasks view
+  if (selectedPeriod === 'open-tasks') return null;
+
   const period = billingPeriods.find(p => p.id === selectedPeriod);
   const stats = getPeriodStats(selectedPeriod);
 
-  const { totalHours, amountDue, openTasks, resolvedTasks, priorHours, carryoverTasks } = stats;
+  const { totalHours, amountDue, resolvedTasks, priorHours } = stats;
 
   return (
     <div className="px-4 py-4 md:px-6">
@@ -48,7 +51,7 @@ export default function StatsBar({ selectedPeriod }) {
         >
           <div className="px-4 pb-4 border-t border-border">
             {/* Stats Grid */}
-            <div className="grid grid-cols-4 gap-2 py-4">
+            <div className="grid grid-cols-3 gap-2 py-4">
               <div className="text-center">
                 <div className="text-lg font-semibold text-dark">{totalHours.toFixed(2)}</div>
                 <div className="text-[13px] text-secondary">Hours</div>
@@ -56,10 +59,6 @@ export default function StatsBar({ selectedPeriod }) {
               <div className="text-center">
                 <div className="text-lg font-semibold text-dark">${amountDue.toFixed(2)}</div>
                 <div className="text-[13px] text-secondary">Due</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-dark">{openTasks}</div>
-                <div className="text-[13px] text-secondary">Open</div>
               </div>
               <div className="text-center">
                 <div className="text-lg font-semibold text-dark">{resolvedTasks}</div>

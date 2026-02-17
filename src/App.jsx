@@ -4,13 +4,11 @@ import PeriodNav from './components/PeriodNav';
 import StatsBar from './components/StatsBar';
 import TaskList from './components/TaskList';
 import Footer from './components/Footer';
-import { billingPeriods } from './data/tasks';
 import './App.css';
 
 function App() {
-  // Default to current period
-  const currentPeriod = billingPeriods.find(p => p.status === 'current');
-  const [selectedPeriod, setSelectedPeriod] = useState(currentPeriod?.id || billingPeriods[0]?.id);
+  // Default to Open Tasks tab
+  const [selectedPeriod, setSelectedPeriod] = useState('open-tasks');
 
   return (
     <div className="min-h-screen bg-light-bg">
