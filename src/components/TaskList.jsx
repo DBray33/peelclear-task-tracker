@@ -55,8 +55,11 @@ export default function TaskList({ selectedPeriod }) {
   // Period view - resolved tasks, UI updates, notes, billing history
   const { tasks: periodTasks, uiUpdates } = getTasksForPeriod(selectedPeriod);
   const currentPeriodNotes = periodNotes.filter(n => n.billingPeriod === selectedPeriod);
-  const resolvedTasks = periodTasks
-    .filter(t => t.status === 'Resolved' || t.status === 'Superseded')
+  const devResolvedTasks = periodTasks
+    .filter(t => (t.status === 'Resolved' || t.status === 'Superseded') && !t.resolvedBy)
+    .sort((a, b) => a.number.localeCompare(b.number));
+  const clientResolvedTasks = periodTasks
+    .filter(t => t.status === 'Resolved' && t.resolvedBy)
     .sort((a, b) => a.number.localeCompare(b.number));
 
   // Get billing history for this period
@@ -270,12 +273,12 @@ export default function TaskList({ selectedPeriod }) {
       <div className="mb-6">
         <h2 className="text-[17px] font-semibold text-dark mb-3 flex items-center gap-2">
           Resolved
-          <span className="text-[13px] font-normal text-secondary">({resolvedTasks.length})</span>
+          <span className="text-[13px] font-normal text-secondary">({devResolvedTasks.length})</span>
         </h2>
 
-        {resolvedTasks.length > 0 ? (
+        {devResolvedTasks.length > 0 ? (
           <div className="space-y-3">
-            {resolvedTasks.map((task) => (
+            {devResolvedTasks.map((task) => (
               <TaskCard
                 key={task.number}
                 task={task}
@@ -290,6 +293,27 @@ export default function TaskList({ selectedPeriod }) {
           </div>
         )}
       </div>
+
+      {/* Resolved by Client */}
+      {clientResolvedTasks.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-[17px] font-semibold text-dark mb-3 flex items-center gap-2">
+            Resolved by Client
+            <span className="text-[13px] font-normal text-secondary">({clientResolvedTasks.length})</span>
+          </h2>
+
+          <div className="space-y-3">
+            {clientResolvedTasks.map((task) => (
+              <TaskCard
+                key={task.number}
+                task={task}
+                isExpanded={expandedTask === task.number}
+                onToggle={() => handleToggle(task.number)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Billing History */}
       {periodBillingHistory.length > 0 && (

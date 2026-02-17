@@ -9,7 +9,11 @@ export const billingPeriods = [
     startDate: "2026-01-07",
     endDate: "2026-01-31",
     note: "Startup period (3.5 weeks)",
-    status: "pending" // "paid", "pending", "current", "upcoming"
+    status: "paid",
+    invoiceNumber: "KWS-PEEL-202601-00",
+    invoiceDate: "January 31, 2026",
+    billingPeriodLabel: "January 7 - January 31, 2026",
+    billingNote: "Initial startup period (approximately 3.5 weeks)"
   },
   {
     id: "feb-1-15-2026",
@@ -18,7 +22,11 @@ export const billingPeriods = [
     startDate: "2026-02-01",
     endDate: "2026-02-15",
     note: "",
-    status: "pending"
+    status: "pending",
+    invoiceNumber: "KWS-PEEL-202602-A",
+    invoiceDate: "February 17, 2026",
+    billingPeriodLabel: "February 1 - February 15, 2026",
+    billingNote: ""
   },
   {
     id: "feb-16-28-2026",
@@ -27,7 +35,11 @@ export const billingPeriods = [
     startDate: "2026-02-16",
     endDate: "2026-02-28",
     note: "",
-    status: "current"
+    status: "current",
+    invoiceNumber: "KWS-PEEL-202602-B",
+    invoiceDate: "February 28, 2026",
+    billingPeriodLabel: "February 16 - February 28, 2026",
+    billingNote: ""
   }
 ];
 
@@ -476,12 +488,12 @@ export const tasks = [
     investigation: "Need to investigate how training access is currently gated.",
     likelyCauses: [],
     solution: "",
-    notes: "Blocked: Need WordPress admin or LMS access to investigate how training access is currently gated. Related to [009]. Client wants to verify training video uploads as part of this work."
+    notes: "Blocked: Need WordPress admin or LMS access to investigate how training access is currently gated. Related to [011]. Client wants to verify training video uploads as part of this work."
   },
   {
     number: "009",
     title: "Plugin Audit",
-    status: "Open",
+    status: "Superseded",
     billingPeriod: "feb-1-15-2026",
     priority: false,
     dateAdded: "Jan 7, 2026",
@@ -492,7 +504,7 @@ export const tasks = [
     investigation: "",
     likelyCauses: [],
     solution: "",
-    notes: ""
+    notes: "Merged into [011]."
   },
   {
     number: "004",
@@ -558,10 +570,10 @@ export const tasks = [
   },
   {
     number: "011",
-    title: "Remove Unused Plugins and Plugin Bloat",
+    title: "Plugin Audit & Cleanup",
     status: "Open",
     billingPeriod: "feb-1-15-2026",
-    priority: true,
+    priority: false,
     dateAdded: "Jan 20, 2026",
     source: "Teams meeting (performance audit)",
     hours: 0,
@@ -794,7 +806,8 @@ export function getPeriodStats(periodId) {
 
   // For open tasks count, use ALL open tasks (they carry over between periods)
   const allOpenTasks = tasks.filter(t => t.status !== 'Resolved' && t.status !== 'Superseded');
-  const resolvedTasks = periodTasks.filter(t => t.status === 'Resolved' || t.status === 'Superseded');
+  const resolvedTasks = periodTasks.filter(t => (t.status === 'Resolved' || t.status === 'Superseded') && !t.resolvedBy);
+  const clientResolvedTasks = periodTasks.filter(t => t.status === 'Resolved' && t.resolvedBy);
 
   // For past periods (paid/pending), use billingHistory as source of truth
   // This includes partial hours from open tasks that were billed in that period
@@ -831,6 +844,8 @@ export function getPeriodStats(periodId) {
     amountDue,
     openTasks: allOpenTasks.length,
     resolvedTasks: resolvedTasks.length,
+    clientResolvedTasks: clientResolvedTasks.length,
+    clientResolvedTaskList: clientResolvedTasks,
     priorHours,
     carryoverTasks: allOpenTasks.filter(t => t.priorPeriodHours && Object.keys(t.priorPeriodHours).length > 0)
   };

@@ -39,7 +39,7 @@ export default function CopyButton({ selectedPeriod }) {
   return (
     <button
       onClick={handleCopy}
-      className="w-full flex items-center justify-center gap-2 bg-dark text-white font-medium py-3 px-4 rounded-xl min-h-[44px] hover:bg-opacity-90 transition-colors"
+      className="flex-1 flex items-center justify-center gap-2 bg-dark text-white font-medium py-3 px-4 rounded-xl min-h-[44px] hover:bg-opacity-90 transition-colors"
     >
       {copied ? (
         <>

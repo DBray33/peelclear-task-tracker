@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { billingPeriods, getPeriodStats } from '../data/tasks';
 import CopyButton from './CopyButton';
+import { generateInvoice } from '../utils/generateInvoice';
 
 export default function StatsBar({ selectedPeriod }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -110,8 +111,17 @@ export default function StatsBar({ selectedPeriod }) {
                 </button>
               )}
 
-              <div className="mt-3">
+              <div className="mt-3 flex gap-2">
                 <CopyButton selectedPeriod={selectedPeriod} />
+                <button
+                  onClick={() => generateInvoice(selectedPeriod)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-dark text-white font-medium py-3 px-4 rounded-xl min-h-[44px] active:scale-[0.98] transition-transform"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Download Invoice
+                </button>
               </div>
             </div>
           </div>
