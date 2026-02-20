@@ -1,4 +1,4 @@
-// Last updated: Feb 17, 2026
+// Last updated: Feb 20, 2026
 
 // Billing periods - semi-monthly within calendar months
 export const billingPeriods = [
@@ -64,6 +64,38 @@ export const periodNotes = [
 ];
 
 export const tasks = [
+  {
+    number: "028",
+    title: "Homepage Contact Form HTML Fix",
+    status: "Resolved",
+    billingPeriod: "feb-16-28-2026",
+    priority: false,
+    dateAdded: "Feb 20, 2026",
+    dateResolved: "Feb 20, 2026",
+    source: "WhatsApp (Fabio Radic)",
+    hours: 0.25,
+    issue: "Homepage contact form appeared narrow and visually off on desktop and mobile. HubSpot form was nested inside a placeholder div with flex centering styles constraining it.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Removed placeholder div, placed HubSpot embed directly in the form box, widened container from 800px to 1000px, reduced padding, and tightened vertical spacing between form fields.",
+    notes: "Homepage was built entirely with raw HTML blocks in Elementor rather than native Elementor widgets, meaning the team cannot edit any section without touching code. Rollback: N/A, HTML edit only."
+  },
+  {
+    number: "027",
+    title: "Hide Pricing and Add to Cart for Guests",
+    status: "Resolved",
+    billingPeriod: "feb-16-28-2026",
+    priority: false,
+    dateAdded: "Feb 19, 2026",
+    dateResolved: "Feb 19, 2026",
+    source: "WhatsApp (Fabio Radic)",
+    hours: 0.25,
+    issue: "Pricing was visible to logged-out (guest) users on both the shop page and individual product pages.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Added new PHP snippet \"Hide Pricing and Add to Cart for Guests\" via Code Snippets. Snippet hooks into three WooCommerce filters: replaces price HTML with a styled \"Login to see pricing\" link pointing to /my-account/, removes the Add to Cart button on single product pages for guests, and disables purchasability on the backend as a safeguard.",
+    notes: "Verified: Tested in incognito. Prices hidden on shop and product pages, Add to Cart removed, logged-in users see everything normally. Rollback: Code Snippets > Deactivate \"Hide Pricing and Add to Cart for Guests\""
+  },
   {
     number: "026",
     title: "Inconsistent Quantity Toggle on Category Page",
@@ -751,6 +783,8 @@ export const backlog = [
 ];
 
 export const billingHistory = [
+  { period: "February 16-28, 2026", task: "028 - Homepage Form HTML Fix", hours: 0.25, amount: 17.50 },
+  { period: "February 16-28, 2026", task: "027 - Hide Pricing for Guests", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "025 - Ultra Shift Images Fix", hours: 1, amount: 70 },
   { period: "February 1-15, 2026", task: "022 - PA Tax Exemption", hours: 0.75, amount: 52.50 },
   { period: "February 1-15, 2026", task: "UI Updates (Feb 5)", hours: 0.25, amount: 17.50 },
