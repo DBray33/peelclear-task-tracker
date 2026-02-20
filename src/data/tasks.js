@@ -65,6 +65,22 @@ export const periodNotes = [
 
 export const tasks = [
   {
+    number: "029",
+    title: "Add Spacing Above PayPal Button on Product Page",
+    status: "Resolved",
+    billingPeriod: "feb-16-28-2026",
+    priority: false,
+    dateAdded: "Feb 20, 2026",
+    dateResolved: "Feb 20, 2026",
+    source: "Jan 16 backlog item",
+    hours: 0.25,
+    issue: "Add to Order button was touching the Pay with PayPal button on single product pages with no spacing between them.",
+    investigation: "",
+    likelyCauses: [],
+    solution: "Added CSS rule to Appearance > Customize > Additional CSS targeting .woocommerce-variation-add-to-cart and .cart with margin-bottom: 15px to create spacing above the PayPal button.",
+    notes: "Rollback: Remove rule from Additional CSS."
+  },
+  {
     number: "028",
     title: "Homepage Contact Form HTML Fix",
     status: "Resolved",
@@ -99,17 +115,18 @@ export const tasks = [
   {
     number: "026",
     title: "Inconsistent Quantity Toggle on Category Page",
-    status: "Open",
+    status: "Resolved",
     billingPeriod: "feb-16-28-2026",
     priority: false,
     dateAdded: "Feb 16, 2026",
+    dateResolved: "Feb 17, 2026",
     source: "WhatsApp",
     hours: 0,
     issue: "On Ultra Shift category page, some products show +/- quantity toggle buttons while others don't. Should be consistent.",
     investigation: "Check if difference is product type (simple vs variable). May be WooLentor grid widget setting or per-product configuration.",
     likelyCauses: [],
-    solution: "",
-    notes: ""
+    solution: "Fixed by the same WP Rocket CSS Safelist and cache changes applied in [025]. The RUCSS stripping was also affecting the quantity toggle rendering on some product cards.",
+    notes: "No additional hours. Resolved as part of [025]."
   },
   {
     number: "025",
@@ -672,11 +689,9 @@ export const uiUpdates = [
     date: "Feb 1, 2026",
     billingPeriod: "feb-1-15-2026",
     hours: 0,
-    pending: [
-      "Add spacing above PayPal button on product page (Add to Order button touching Pay with PayPal)"
-    ],
+    pending: [],
     updates: [],
-    notes: "Carried over from Jan 16",
+    notes: "Carried over from Jan 16. PayPal button spacing resolved in [029].",
     resources: []
   },
   {
@@ -694,9 +709,7 @@ export const uiUpdates = [
     date: "Jan 16, 2026",
     billingPeriod: "jan-7-31-2026",
     hours: 0.25,
-    pending: [
-      "Add spacing above PayPal button on product page (Add to Order button touching Pay with PayPal)"
-    ],
+    pending: [],
     updates: [
       "Fixed grammatical error on checkout coupon text: 'Apply coupon code to get a discount. Collect coupons by shopping more.'",
       "Removed right padding on mobile checkout column",
@@ -783,6 +796,7 @@ export const backlog = [
 ];
 
 export const billingHistory = [
+  { period: "February 16-28, 2026", task: "029 - PayPal Button Spacing", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "028 - Homepage Form HTML Fix", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "027 - Hide Pricing for Guests", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "025 - Ultra Shift Images Fix", hours: 1, amount: 70 },
