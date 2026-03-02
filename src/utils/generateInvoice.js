@@ -77,7 +77,7 @@ export function generateInvoice(periodId) {
   addField('Invoice Date:', period.invoiceDate);
   addField('Provider:', `${providerInfo.name} - ${providerInfo.contact}`);
   addField('Client:', 'Peelclear');
-  addField('Invoices sent to:', 'shona@peelclear.com');
+  addField('Invoices sent to:', 'accounting@peelclear.com');
   addField('Service:', 'Website Maintenance & Technical Support');
   addField('Billing Period:', period.billingPeriodLabel);
 
