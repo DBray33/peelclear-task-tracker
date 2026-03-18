@@ -1,211 +1,163 @@
 PEELCLEAR WEBSITE MAINTENANCE - TASK TRACKER
 ============================================
 
-BILLING PERIOD: February 1-15, 2026
+BILLING PERIOD: March 16-31, 2026
 
 
 SUMMARY
 -------
-Total Hours: 1.00
-Amount Due: $70.00 (@ $70/hr)
-Open Tasks: 8
-Resolved Tasks: 1
+Total Hours: 17.00
+Amount Due: $1190.00 (@ $70/hr)
+Open Tasks: 7
+Resolved Tasks: 25
 
 
 RESOLVED TASKS
 ==============
 
-[022] PA Tax Exemption Setup
+[LWL-001] Checkout Error + Header Nav Investigation (liquidwraplabs.com)
 Status: Resolved
-Date Added: Feb 2, 2026 | Resolved: Feb 12, 2026
-Source: Phone call (Jan 31)
-Hours: 0.75
+Date Added: Mar 18, 2026 | Resolved: Mar 18, 2026
+Source: Jon Frain (WhatsApp)
+Hours: 0.25
 
-Issue: Per-user product tax exemption for Pennsylvania orders. Shipping tax still charged.
+Issue: Checkout error after bulk plugin update. Header nav missing on inner pages.
 
-Solution: Implemented three-part system:
+Solution: Checkout: "High Build Primer - Base" out of stock in cart. WooCommerce blocks checkout when cart item unavailable. Not a plugin issue. Jon to remove item or update stock.
 
-1. Zero Rate Tax Class (WooCommerce > Settings > Tax > Zero rate rates)
-   - Country: US, State: * (all), Rate: 0.0000, Shipping: unchecked
+Header: Global header in Appearance > Customizer > Header was set to Default. Changed to Custom / "Header Main" to restore nav sitewide.
 
-2. Code Snippet "PA Tax Exempt - User Profile Field"
-   - Adds checkbox to user profiles under "Tax Exemption" heading
-   - Saves to user meta as pa_tax_exempt
-
-3. Code Snippet "PA Tax Exempt - Tax Calculation"
-   - Hooks into WooCommerce tax calculation
-   - Sets product tax class to Zero Rate when: user logged in + pa_tax_exempt = '1' + shipping state is PA
-   - Only affects product tax, not shipping
-
-Modified: WooCommerce > Settings > Tax > "Shipping tax class" changed from "based on cart items" to "Standard" so shipping always uses Standard rate.
-
-Test Results:
-- No exemption, PA shipping: $1.16 tax (baseline)
-- PA exempt, PA shipping: $0.89 tax (shipping only, product tax removed)
-- PA exempt, CA shipping: $1.44 tax (full CA tax, exemption doesn't apply)
-
-Notes: Usage: Customer submits REV-1220 certificate > Staff validates > Users > Edit user > Check "PA Tax Exempt" box > Save. Rollback: Revert shipping tax setting to "based on cart items", deactivate both snippets, remove Zero Rate tax row, clear caches.
+Notes: Rollback: Appearance > Header > Header style > Default > Publish > Clear cache.
 
 ---
 
-UI/UX UPDATES
-=============
+[031] HubSpot Form Landing Pages
+Status: Resolved
+Date Added: Mar 17, 2026 | Resolved: Mar 17, 2026
+Source: WhatsApp (Fabio)
+Hours: 1.5
 
-[Feb 5, 2026] - 0.25 hours
-Completed:
-  - Updated Terms and Conditions Section 8 warranty verbiage per Fabio (approved by Peter). Changed to new 20-Year Warranty + CARFAX language for Lifetime Limited Peelable Paint Performance warranty.
+Issue: Create 9 unique HubSpot form landing pages: 5 targeting B2B (shop owners, installers) and 4 targeting end consumers (people looking to find an installer near them), each with a unique HubSpot form embed tied to the traffic source platform.
 
----
+Solution: Activated Yoast Duplicate Post (inactive plugin) to enable page cloning. For B2B pages: cloned the existing /become-an-installer/ page 5 times. Each clone kept the original layout and content. Only the HubSpot form embed was swapped out via the HTML widget in Elementor. For end consumer pages: cloned one of the B2B pages and updated all on-page content to speak to someone looking to get peelable paint on their vehicle rather than become an installer. Cloned that updated page 3 more times and swapped the form embed on each. Updated SEO title and meta description on all 9 pages via Yoast. Fixed typo on original /become-an-installer/ page title (no additional time billed).
 
-BILLING HISTORY
-===============
-022 - PA Tax Exemption          | 0.75 | $52.50
-UI Updates (Feb 5)              | 0.25 | $17.50
-TOTAL                           | 1.00 | $70.00
-
-
-OPEN TASKS
-==========
-
-[003] Training Course Access for Account Holders
-Status: Open
-Date Added: Jan 5, 2026
-Source: Teams meeting
-Hours: 0
-
-Issue: Anyone with an account should have access to training videos, not tied to purchases.
-
-Investigation: Need to investigate how training access is currently gated.
-
-Notes: Related to [009]. Client wants to verify training video uploads as part of this work.
+Notes: Finding: Nested slug structure (get-started/whatsapp) is not supported without a parent page. WordPress auto-converts to flat slugs. All pages use flat slugs. Finding: peelclear.com/get-started/ already exists as a separate page. Flagged to Jon to confirm if it is used in any active campaigns before touching it. Rollback: Trash all 9 pages. Yoast Duplicate Post can be deactivated if no longer needed.
 
 ---
 
-[009] Plugin Audit
-Status: Open
-Date Added: Jan 7, 2026
+[030] CA Tax Exemption Setup
+Status: Resolved
+Date Added: Mar 13, 2026 | Resolved: Mar 13, 2026
+Source: Email (Shona Frain, Mar 10)
+Hours: 0.5
 
-Hours: 0
+Issue: Add California tax exemption option to match existing PA functionality. Customer requested after pushback from CA customers.
 
-Issue: Review and audit all installed plugins for updates, conflicts, and necessity.
+Solution: Updated both existing tax exemption snippets to support CA. (1) State Tax Exempt - User Profile Fields: Added CA Tax Exempt checkbox alongside PA checkbox. (2) State Tax Exempt - Tax Calculation: Added CA logic to check for ca_tax_exempt user meta when shipping to CA. No additional WooCommerce settings changes needed. Shipping tax class was already set to Standard from the PA implementation.
 
----
-
-[004] Training Videos Upload Verification
-Status: Open
-Date Added: Jan 9, 2026
-Source: WhatsApp (Arash)
-Hours: 0
-
-Issue: Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.
-
-Resources:
-  Training Series Pt.1 (Gabriel):
-  https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0
-
-  Training Series Pt.2:
-  https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0
-
-  PeelClear Sample Kit Guide:
-  https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0
+Notes: Completed Mar 13, billed with Mar 16-31 period. Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items.
 
 ---
 
-[008] Find an Installer Map - Info Card Z-Index
-Status: Open
-Date Added: Jan 7, 2026
+[029] Add Spacing Above PayPal Button on Product Page
+Status: Resolved
+Date Added: Feb 20, 2026 | Resolved: Feb 20, 2026
+Source: Jan 16 backlog item
+Hours: 0.25
+
+Issue: Add to Order button was touching the Pay with PayPal button on single product pages with no spacing between them.
+
+Solution: Added CSS rule to Appearance > Customize > Additional CSS targeting .woocommerce-variation-add-to-cart and .cart with margin-bottom: 15px to create spacing above the PayPal button.
+
+Notes: Rollback: Remove rule from Additional CSS.
+
+---
+
+[028] Homepage Contact Form HTML Fix
+Status: Resolved
+Date Added: Feb 20, 2026 | Resolved: Feb 20, 2026
+Source: WhatsApp (Fabio Radic)
+Hours: 0.25
+
+Issue: Homepage contact form appeared narrow and visually off on desktop and mobile. HubSpot form was nested inside a placeholder div with flex centering styles constraining it.
+
+Solution: Removed placeholder div, placed HubSpot embed directly in the form box, widened container from 800px to 1000px, reduced padding, and tightened vertical spacing between form fields.
+
+Notes: Homepage was built entirely with raw HTML blocks in Elementor rather than native Elementor widgets, meaning the team cannot edit any section without touching code. Rollback: N/A, HTML edit only.
+
+---
+
+[027] Hide Pricing and Add to Cart for Guests
+Status: Resolved
+Date Added: Feb 19, 2026 | Resolved: Feb 19, 2026
+Source: WhatsApp (Fabio Radic)
+Hours: 0.25
+
+Issue: Pricing was visible to logged-out (guest) users on both the shop page and individual product pages.
+
+Solution: Added new PHP snippet "Hide Pricing and Add to Cart for Guests" via Code Snippets. Snippet hooks into three WooCommerce filters: replaces price HTML with a styled "Login to see pricing" link pointing to /my-account/, removes the Add to Cart button on single product pages for guests, and disables purchasability on the backend as a safeguard.
+
+Notes: Verified: Tested in incognito. Prices hidden on shop and product pages, Add to Cart removed, logged-in users see everything normally. Rollback: Code Snippets > Deactivate "Hide Pricing and Add to Cart for Guests"
+
+---
+
+[026] Inconsistent Quantity Toggle on Category Page
+Status: Resolved
+Date Added: Feb 16, 2026 | Resolved: Feb 17, 2026
 Source: WhatsApp
 Hours: 0
 
-Issue: When clicking an installer pin on the map, the info card appears behind other pins instead of on top.
+Issue: On Ultra Shift category page, some products show +/- quantity toggle buttons while others don't. Should be consistent.
 
-Investigation: Z-index issue on the map info window/popup. Google Maps info windows should auto-raise, but custom styling or conflicting CSS may be overriding.
+Investigation: Check if difference is product type (simple vs variable). May be WooLentor grid widget setting or per-product configuration.
 
-Notes: Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc).
+Solution: Fixed by the same WP Rocket CSS Safelist and cache changes applied in [025]. The RUCSS stripping was also affecting the quantity toggle rendering on some product cards.
+
+Notes: No additional hours. Resolved as part of [025].
 
 ---
 
-[010] Legal Compliance Pages + Consent Checkbox
-Status: Open | PRIORITY
-Date Added: Jan 20, 2026
-Source: Teams meeting (Jon)
+[025] Ultra Shift Product Images Both Visible (iPhone Safari)
+Status: Resolved
+Date Added: Feb 16, 2026 | Resolved: Feb 17, 2026
+Source: WhatsApp
+Hours: 1
+
+Issue: Product cards on Ultra Shift category page showed both gallery images stacked and duplicate product content on iPhone Safari only.
+
+Solution: Added woolentor-list-view(.*), woolentor-grid-view(.*), woolentor-product-card(.*) to WP Rocket CSS Safelist. Added Additional CSS override forcing display:none on .woolentor-list-view-content. Cleared Used CSS and cache.
+
+Notes: ?nowprocket URL parameter confirms WP Rocket as cause of display issues.
+
+---
+
+[024] Cart Quantity Update Not Working
+Status: Resolved
+Date Added: Feb 16, 2026 | Resolved: Feb 16, 2026
+Source: WhatsApp
 Hours: 0
 
-Issue: Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.
+Issue: Cart page quantity toggle (+/-) wasn't updating the cart. Changing quantity to zero did nothing. Reloading page reverted quantity back to original value.
 
-Notes: Reference CeramicPro's footer/policy pages as template. Checkout checkbox added: 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. I have read and agree to the website terms and conditions.' Contact forms are HubSpot (not Gravity Forms). Supersedes [005].
+Solution: Client (Jon) found the toggle setting and fixed it.
+
+Notes: No developer work required. Resolved by client.
 
 ---
 
-[011] Remove Unused Plugins and Plugin Bloat
-Status: Open | PRIORITY
-Date Added: Jan 20, 2026
-Source: Teams meeting (performance audit)
+[023] Shop Page Image Popup Toggle
+Status: Resolved
+Date Added: Feb 16, 2026 | Resolved: Feb 16, 2026
+Source: WhatsApp
 Hours: 0
 
-Issue: Site has 49 active plugins and 35 inactive plugins causing 3.5s server response time. Client approved cleanup.
+Issue: Popup was appearing when clicking on link options on shop pages.
 
-Notes: Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor.
+Solution: Client (Jon) deleted and re-added the element with the popup toggle turned off.
 
----
-
-[012] Reduce Mobile Animations
-Status: Open | PRIORITY
-Date Added: Jan 20, 2026
-Source: Teams meeting
-Hours: 0
-
-Issue: Homepage has entrance animations and scroll effects adding JavaScript processing overhead on mobile.
-
-Notes: Asked client Jan 16 if animations should be removed after fixing mobile menu animation. No response then. Now approved as part of performance cleanup. Check Elementor motion effects settings on homepage sections.
+Notes: No developer work required. Resolved by client.
 
 ---
-
-[021] reCAPTCHA Performance Investigation
-Status: Open
-Date Added: Jan 21, 2026
-Source: Performance Audit
-Hours: 0
-
-Issue: reCAPTCHA loading 8 times on homepage (2,858 KB, 1,692ms main thread time).
-
-Investigation: Disabled GF reCAPTCHA v3 site-wide. Removed hidden GF elements from /become-an-installer. Remaining instances are from HubSpot forms/chat.
-
-Notes: Blocked: Need HubSpot admin access.
-
----
-
-BACKLOG
-=======
-
-1. Homepage scroll jank/stutter
-   Priority: Medium
-   Source: Jan 26 Performance Audit
-   Notes: Not related to PSI scores (TBT is 0ms). Likely CSS animations or lazy loading.
-
-2. Duplicate UPS shipping options at checkout
-   Priority: Low
-   Source: Jan 7 investigation
-   Notes: Multiple UPS Ground options appearing in shipping method selector
-
-3. SSL redirect (HTTP to HTTPS)
-   Priority: Low
-   Source: Jan 21 PSI test
-   Notes: Site doesn't force HTTPS redirect
-
-
-============================================
-ARCHIVED BILLING PERIODS
-============================================
-
---------------------------------------------
-PREVIOUS PERIOD: January 7-31, 2026
-Note: Startup period (3.5 weeks)
-Total: 13.00 hours | $910.00
---------------------------------------------
-
-RESOLVED TASKS
-==============
 
 [001a] Free Shipping Not Appearing with Coupon
 Status: Resolved
@@ -435,6 +387,176 @@ Solution: Removed the line. Kept only jquery and js-before/after exclusions.
 Notes: Results: Mobile 30s to 60-90. Desktop 67 to 95-100. TBT 1,077ms to 0ms. Site passes Core Web Vitals. Verified Working: Visualizer, contact form, add to cart, Stripe checkout all functional. Rollback: Add back (?:/wp-content/|/wp-includes/)(.) to WP Rocket exclusions
 
 ---
+
+[022] PA Tax Exemption Setup
+Status: Resolved
+Date Added: Feb 2, 2026 | Resolved: Feb 12, 2026
+Source: Phone call (Jan 31)
+Hours: 0.75
+
+Issue: Per-user product tax exemption for Pennsylvania orders. Shipping tax still charged.
+
+Solution: Implemented three-part system:
+
+1. Zero Rate Tax Class (WooCommerce > Settings > Tax > Zero rate rates)
+   - Country: US, State: * (all), Rate: 0.0000, Shipping: unchecked
+
+2. Code Snippet "PA Tax Exempt - User Profile Field"
+   - Adds checkbox to user profiles under "Tax Exemption" heading
+   - Saves to user meta as pa_tax_exempt
+
+3. Code Snippet "PA Tax Exempt - Tax Calculation"
+   - Hooks into WooCommerce tax calculation
+   - Sets product tax class to Zero Rate when: user logged in + pa_tax_exempt = '1' + shipping state is PA
+   - Only affects product tax, not shipping
+
+Modified: WooCommerce > Settings > Tax > "Shipping tax class" changed from "based on cart items" to "Standard" so shipping always uses Standard rate.
+
+Notes: Usage: Customer submits REV-1220 certificate > Staff validates > Users > Edit user > Check "PA Tax Exempt" box > Save. Rollback: Revert shipping tax setting to "based on cart items", deactivate both snippets, remove Zero Rate tax row, clear caches.
+
+---
+
+[009] Plugin Audit
+Status: Superseded
+Date Added: Jan 7, 2026
+
+Hours: 0
+
+Issue: Review and audit all installed plugins for updates, conflicts, and necessity.
+
+Notes: Merged into [011].
+
+---
+
+OPEN TASKS
+==========
+
+[003] Training Course Access for Account Holders
+Status: Open
+Date Added: Jan 5, 2026
+Source: Teams meeting
+Hours: 0
+
+Issue: Anyone with an account should have access to training videos, not tied to purchases.
+
+Investigation: Need to investigate how training access is currently gated.
+
+Notes: Blocked: Need WordPress admin or LMS access to investigate how training access is currently gated. Related to [011]. Client wants to verify training video uploads as part of this work.
+
+---
+
+[004] Training Videos Upload Verification
+Status: Open
+Date Added: Jan 9, 2026
+Source: WhatsApp (Arash)
+Hours: 0
+
+Issue: Verify all training videos are uploaded correctly. Also add 'Sample Kit' video to the training section.
+
+Notes: Blocked: Need WordPress admin or LMS access to verify and upload training videos.
+
+Resources:
+  Training Series Pt.1 (Gabriel):
+  https://www.dropbox.com/scl/fo/9wu7dde28sewhaw8ziqqe/AG6YBzY3gh1W-FfVkNKRD7k?rlkey=6fplyk523hahm02kz3nm1dbf0&st=8vpbexx5&dl=0
+
+  Training Series Pt.2:
+  https://www.dropbox.com/scl/fo/fbecz31ihatu7ewplzryw/AGxRtSWzl-3aUcfJZ0Wgr-g?rlkey=tqpup3ohdyeut37g0x09ayhen&st=0icqq1md&dl=0
+
+  PeelClear Sample Kit Guide:
+  https://www.dropbox.com/scl/fi/0n4q78p1imqhqssdq8p28/PeelClear-Sample-Kit-Guidemov.mov?rlkey=bgu9pr6fpqhcq9pwqhyk5c06j&st=n8azcel0&dl=0
+
+---
+
+[008] Find an Installer Map - Info Card Z-Index
+Status: Open
+Date Added: Jan 7, 2026
+Source: WhatsApp
+Hours: 0
+
+Issue: When clicking an installer pin on the map, the info card appears behind other pins instead of on top.
+
+Investigation: Z-index issue on the map info window/popup. Google Maps info windows should auto-raise, but custom styling or conflicting CSS may be overriding.
+
+Notes: Reproduced once on MacBook Safari, cannot reproduce on Chrome. Appears to be Safari-specific under specific circumstances (map size, positioning, viewport size, etc).
+
+---
+
+[010] Legal Compliance Pages + Consent Checkbox
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting (Jon)
+Hours: 0
+
+Issue: Set up legal/compliance pages and add consent checkboxes to checkout and contact forms.
+
+Notes: Reference CeramicPro's footer/policy pages as template. Checkout checkbox added: 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. I have read and agree to the website terms and conditions.' Contact forms are HubSpot (not Gravity Forms). Supersedes [005].
+
+---
+
+[011] Plugin Audit & Cleanup
+Status: Open
+Date Added: Jan 20, 2026
+Source: Teams meeting (performance audit)
+Hours: 0
+
+Issue: Site has 49 active plugins and 35 inactive plugins causing 3.5s server response time. Client approved cleanup.
+
+Notes: WARNING: Some 'duplicate free versions' are required by their Pro counterparts. Essential Addons Free was deactivated and it broke the Pro version. Before deleting any inactive free plugin, verify it is not a dependency for an active Pro plugin. Essential Addons reduced from 82 to 3 enabled widgets. ElementsKit reduced by ~60 widgets. WP Rocket CSS and JS optimization completed. Remaining: delete 35 inactive plugins, deactivate Child Theme Configurator/WP File Manager/User Switching, review Site Kit and WP Sheet Editor.
+
+---
+
+[012] Reduce Mobile Animations
+Status: Open | PRIORITY
+Date Added: Jan 20, 2026
+Source: Teams meeting
+Hours: 0
+
+Issue: Homepage has entrance animations and scroll effects adding JavaScript processing overhead on mobile.
+
+Notes: Asked client Jan 16 if animations should be removed after fixing mobile menu animation. No response then. Now approved as part of performance cleanup. Check Elementor motion effects settings on homepage sections.
+
+---
+
+[021] reCAPTCHA Performance Investigation
+Status: Open
+Date Added: Jan 21, 2026
+Source: Performance Audit
+Hours: 0
+
+Issue: reCAPTCHA loading 8 times on homepage (2,858 KB, 1,692ms main thread time).
+
+Investigation: Disabled GF reCAPTCHA v3 site-wide. Removed hidden GF elements from /become-an-installer. Remaining instances are from HubSpot forms/chat.
+
+Notes: Blocked: Need HubSpot admin access.
+
+---
+
+BACKLOG
+=======
+
+1. Homepage scroll jank/stutter
+   Priority: Medium
+   Source: Jan 26 Performance Audit
+   Notes: Not related to PSI scores (TBT is 0ms). Likely CSS animations or lazy loading.
+
+2. Duplicate UPS shipping options at checkout
+   Priority: Low
+   Source: Jan 7 investigation
+   Notes: Multiple UPS Ground options appearing in shipping method selector
+
+3. SSL redirect (HTTP to HTTPS)
+   Priority: Low
+   Source: Jan 21 PSI test
+   Notes: Site doesn't force HTTPS redirect
+
+
+BILLING HISTORY
+===============
+
+031 - HubSpot Landing Pages | 1.50 | $105.00
+LWL-001 - Checkout/Header Fix | 0.25 | $17.50
+TOTAL | 1.75 | $122.50
+
 
 --------------------------------------------
 CLIENT: Peelclear

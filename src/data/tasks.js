@@ -1,4 +1,4 @@
-// Last updated: Mar 18, 2026
+// Last updated: Mar 18, 2026 (LWL-001 added)
 
 // Billing periods - semi-monthly within calendar months
 export const billingPeriods = [
@@ -77,6 +77,20 @@ export const periodNotes = [
 ];
 
 export const tasks = [
+  {
+    number: "LWL-001",
+    title: "Checkout Error + Header Nav Investigation (liquidwraplabs.com)",
+    status: "Resolved",
+    billingPeriod: "mar-16-31-2026",
+    priority: false,
+    dateAdded: "Mar 18, 2026",
+    dateResolved: "Mar 18, 2026",
+    source: "Jon Frain (WhatsApp)",
+    hours: 0.25,
+    issue: "Checkout error after bulk plugin update. Header nav missing on inner pages.",
+    solution: "Checkout: \"High Build Primer - Base\" out of stock in cart. WooCommerce blocks checkout when cart item unavailable. Not a plugin issue. Jon to remove item or update stock.\n\nHeader: Global header in Appearance > Customizer > Header was set to Default. Changed to Custom / \"Header Main\" to restore nav sitewide.",
+    notes: "Rollback: Appearance > Header > Header style > Default > Publish > Clear cache."
+  },
   {
     number: "031",
     title: "HubSpot Form Landing Pages",
@@ -859,6 +873,8 @@ export const backlog = [
 ];
 
 export const billingHistory = [
+  { period: "March 16-31, 2026", task: "031 - HubSpot Landing Pages", hours: 1.50, amount: 105.00 },
+  { period: "March 16-31, 2026", task: "LWL-001 - Checkout/Header Fix", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "029 - PayPal Button Spacing", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "028 - Homepage Form HTML Fix", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "027 - Hide Pricing for Guests", hours: 0.25, amount: 17.50 },
