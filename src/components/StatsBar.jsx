@@ -91,12 +91,6 @@ export default function StatsBar({ selectedPeriod }) {
                 {period?.note && (
                   <p className="text-[13px] text-secondary italic">{period.note}</p>
                 )}
-                {priorHours > 0 && (
-                  <div className="flex justify-between">
-                    <span className="text-secondary">Prior Period Hours</span>
-                    <span className="text-dark font-medium">{priorHours.toFixed(2)} hrs</span>
-                  </div>
-                )}
               </div>
 
               {amountDue > 0 && (
