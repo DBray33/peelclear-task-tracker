@@ -1,4 +1,4 @@
-// Last updated: Feb 20, 2026
+// Last updated: Mar 18, 2026
 
 // Billing periods - semi-monthly within calendar months
 export const billingPeriods = [
@@ -35,10 +35,36 @@ export const billingPeriods = [
     startDate: "2026-02-16",
     endDate: "2026-02-28",
     note: "",
-    status: "current",
+    status: "pending",
     invoiceNumber: "KWS-PEEL-202602-B",
     invoiceDate: "February 28, 2026",
     billingPeriodLabel: "February 16 - February 28, 2026",
+    billingNote: ""
+  },
+  {
+    id: "mar-1-15-2026",
+    label: "Mar 1-15",
+    fullLabel: "March 1-15, 2026",
+    startDate: "2026-03-01",
+    endDate: "2026-03-15",
+    note: "",
+    status: "pending",
+    invoiceNumber: "KWS-PEEL-202603-A",
+    invoiceDate: "March 15, 2026",
+    billingPeriodLabel: "March 1 - March 15, 2026",
+    billingNote: ""
+  },
+  {
+    id: "mar-16-31-2026",
+    label: "Mar 16-31",
+    fullLabel: "March 16-31, 2026",
+    startDate: "2026-03-16",
+    endDate: "2026-03-31",
+    note: "",
+    status: "current",
+    invoiceNumber: "KWS-PEEL-202603-B",
+    invoiceDate: "March 31, 2026",
+    billingPeriodLabel: "March 16 - March 31, 2026",
     billingNote: ""
   }
 ];
@@ -64,6 +90,56 @@ export const periodNotes = [
 ];
 
 export const tasks = [
+  {
+    number: "031",
+    title: "HubSpot Form Landing Pages",
+    status: "Resolved",
+    billingPeriod: "mar-16-31-2026",
+    priority: false,
+    dateAdded: "Mar 17, 2026",
+    dateResolved: "Mar 17, 2026",
+    source: "WhatsApp (Fabio)",
+    hours: 1.50,
+    issue: "Create 9 unique HubSpot form landing pages: 5 targeting B2B (shop owners, installers) and 4 targeting end consumers (people looking to find an installer near them), each with a unique HubSpot form embed tied to the traffic source platform.",
+    solution: "Activated Yoast Duplicate Post (inactive plugin) to enable page cloning. For B2B pages: cloned the existing /become-an-installer/ page 5 times. Each clone kept the original layout and content. Only the HubSpot form embed was swapped out via the HTML widget in Elementor. For end consumer pages: cloned one of the B2B pages and updated all on-page content to speak to someone looking to get peelable paint on their vehicle rather than become an installer. Cloned that updated page 3 more times and swapped the form embed on each. Updated SEO title and meta description on all 9 pages via Yoast. Fixed typo on original /become-an-installer/ page title (no additional time billed).",
+    landingPages: {
+      portalId: "244083043",
+      region: "na2",
+      originalFormId: "c0f0c2a8-8463-4769-8a5c-2d1a632e72a4",
+      b2b: [
+        { platform: "WhatsApp", url: "peelclear.com/get-started-whatsapp", formId: "829647fc-d15e-47cc-a0ec-a772c92884f6" },
+        { platform: "Instagram", url: "peelclear.com/get-started-instagram", formId: "6b83dea4-b3c0-430e-a305-056b72f2dd63" },
+        { platform: "Facebook", url: "peelclear.com/get-started-facebook", formId: "612c3d3d-a783-48e7-bfc8-b7501938e4b4" },
+        { platform: "TikTok", url: "peelclear.com/get-started-tiktok", formId: "72354be2-2a3a-4d27-a879-f8b001a89807" },
+        { platform: "YouTube", url: "peelclear.com/get-started-youtube", formId: "5584627a-8096-46dc-a420-f4822f4e6edd" }
+      ],
+      consumer: [
+        { platform: "Facebook", url: "peelclear.com/contact-facebook", formId: "e69a5d97-d365-43ca-90e8-13a0760e030b" },
+        { platform: "Instagram", url: "peelclear.com/contact-instagram", formId: "24fa0da3-4530-437f-91d0-13c48a344ec5" },
+        { platform: "YouTube", url: "peelclear.com/contact-youtube", formId: "dc0d3b96-cff0-4f87-a309-30cf7bd13b5b" },
+        { platform: "WhatsApp", url: "peelclear.com/contact-whatsapp", formId: "be31f0d8-9551-4329-a927-d6c92b0b995f" }
+      ]
+    },
+    notes: "Finding: Nested slug structure (get-started/whatsapp) is not supported without a parent page. WordPress auto-converts to flat slugs. All pages use flat slugs. Finding: peelclear.com/get-started/ already exists as a separate page. Flagged to Jon to confirm if it is used in any active campaigns before touching it. Rollback: Trash all 9 pages. Yoast Duplicate Post can be deactivated if no longer needed."
+  },
+  {
+    number: "030",
+    title: "CA Tax Exemption Setup",
+    status: "Resolved",
+    billingPeriod: "mar-1-15-2026",
+    priority: false,
+    dateAdded: "Mar 13, 2026",
+    dateResolved: "Mar 13, 2026",
+    source: "Email (Shona Frain, Mar 10)",
+    hours: 0.50,
+    issue: "Add California tax exemption option to match existing PA functionality. Customer requested after pushback from CA customers.",
+    solution: "Updated both existing tax exemption snippets to support CA. (1) State Tax Exempt - User Profile Fields: Added CA Tax Exempt checkbox alongside PA checkbox. (2) State Tax Exempt - Tax Calculation: Added CA logic to check for ca_tax_exempt user meta when shipping to CA. No additional WooCommerce settings changes needed. Shipping tax class was already set to Standard from the PA implementation.",
+    testResults: [
+      "CA shipping, CA unchecked: $1.44 tax (full)",
+      "CA shipping, CA checked: $1.13 tax (shipping only)"
+    ],
+    notes: "Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items."
+  },
   {
     number: "029",
     title: "Add Spacing Above PayPal Button on Product Page",

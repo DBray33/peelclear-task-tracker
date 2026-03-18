@@ -471,6 +471,44 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
             </div>
           )}
 
+          {/* Landing Pages */}
+          {task.landingPages && (
+            <div className="mb-3">
+              <h4 className="text-[13px] font-semibold text-secondary uppercase tracking-wide mb-2">
+                Landing Pages
+              </h4>
+              <div className="space-y-3">
+                <div className="p-3 bg-light-bg rounded-lg text-[13px] text-secondary">
+                  Portal ID: {task.landingPages.portalId} | Region: {task.landingPages.region}
+                </div>
+                <div>
+                  <div className="text-[12px] font-semibold text-secondary uppercase mb-1">B2B (Installer/Shop)</div>
+                  <div className="space-y-1">
+                    {task.landingPages.b2b.map((page, idx) => (
+                      <div key={idx} className="p-2 bg-light-bg rounded text-[13px]">
+                        <div className="font-medium text-dark">{page.platform}</div>
+                        <div className="text-primary">{page.url}</div>
+                        <div className="text-secondary font-mono text-[11px] mt-0.5">{page.formId}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[12px] font-semibold text-secondary uppercase mb-1">End Consumer (Find Installer)</div>
+                  <div className="space-y-1">
+                    {task.landingPages.consumer.map((page, idx) => (
+                      <div key={idx} className="p-2 bg-light-bg rounded text-[13px]">
+                        <div className="font-medium text-dark">{page.platform}</div>
+                        <div className="text-primary">{page.url}</div>
+                        <div className="text-secondary font-mono text-[11px] mt-0.5">{page.formId}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Resources */}
           {task.resources && task.resources.length > 0 && (
             <div className="mb-3">
