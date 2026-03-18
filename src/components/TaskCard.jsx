@@ -519,35 +519,6 @@ export default function TaskCard({ task, isExpanded, onToggle }) {
             </div>
           )}
 
-          {/* Prior Period Hours - for carryover tasks */}
-          {task.priorPeriodHours && Object.keys(task.priorPeriodHours).length > 0 && (
-            <div className="mt-4 pt-3 border-t border-border">
-              <div className="p-2 bg-warning/10 rounded-lg border border-warning/30">
-                <span className="text-[12px] font-semibold text-warning uppercase">Prior Billing</span>
-                <div className="mt-1 space-y-2">
-                  {Object.entries(task.priorPeriodHours).map(([periodId, data]) => {
-                    // Handle both old format (just hours) and new format (object with hours and note)
-                    const hours = typeof data === 'object' ? data.hours : data;
-                    const note = typeof data === 'object' ? data.note : null;
-                    const periodLabel = periodId.replace(/-/g, ' ').replace(/(\d{4})/, ', $1').replace('jan', 'Jan').replace('feb', 'Feb');
-
-                    return (
-                      <div key={periodId} className="text-[13px]">
-                        <div className="flex justify-between items-center">
-                          <span className="text-secondary">{periodLabel}</span>
-                          <span className="text-dark font-medium">{hours} hrs billed</span>
-                        </div>
-                        {note && (
-                          <p className="text-[12px] text-secondary italic mt-0.5">{note}</p>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Hours & Cost */}
           {task.hours > 0 && (
             <div className="mt-4 pt-3 border-t border-border flex justify-between items-center">
