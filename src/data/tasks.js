@@ -42,19 +42,6 @@ export const billingPeriods = [
     billingNote: ""
   },
   {
-    id: "mar-1-15-2026",
-    label: "Mar 1-15",
-    fullLabel: "March 1-15, 2026",
-    startDate: "2026-03-01",
-    endDate: "2026-03-15",
-    note: "",
-    status: "pending",
-    invoiceNumber: "KWS-PEEL-202603-A",
-    invoiceDate: "March 15, 2026",
-    billingPeriodLabel: "March 1 - March 15, 2026",
-    billingNote: ""
-  },
-  {
     id: "mar-16-31-2026",
     label: "Mar 16-31",
     fullLabel: "March 16-31, 2026",
@@ -62,7 +49,7 @@ export const billingPeriods = [
     endDate: "2026-03-31",
     note: "",
     status: "current",
-    invoiceNumber: "KWS-PEEL-202603-B",
+    invoiceNumber: "KWS-PEEL-202603-A",
     invoiceDate: "March 31, 2026",
     billingPeriodLabel: "March 16 - March 31, 2026",
     billingNote: ""
@@ -126,7 +113,7 @@ export const tasks = [
     number: "030",
     title: "CA Tax Exemption Setup",
     status: "Resolved",
-    billingPeriod: "mar-1-15-2026",
+    billingPeriod: "mar-16-31-2026",
     priority: false,
     dateAdded: "Mar 13, 2026",
     dateResolved: "Mar 13, 2026",
@@ -138,7 +125,7 @@ export const tasks = [
       "CA shipping, CA unchecked: $1.44 tax (full)",
       "CA shipping, CA checked: $1.13 tax (shipping only)"
     ],
-    notes: "Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items."
+    notes: "Completed Mar 13, billed with Mar 16-31 period. Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items."
   },
   {
     number: "029",
