@@ -1,19 +1,47 @@
 PEELCLEAR WEBSITE MAINTENANCE - TASK TRACKER
 ============================================
 
-BILLING PERIOD: March 16-31, 2026
+BILLING PERIOD: March 2026
 
 
 SUMMARY
 -------
-Total Hours: 17.00
-Amount Due: $1190.00 (@ $70/hr)
+Total Hours: 21.75
+Amount Due: $1522.50 (@ $70/hr)
 Open Tasks: 7
-Resolved Tasks: 25
+Resolved Tasks: 28
 
 
 RESOLVED TASKS
 ==============
+
+[034] Brandfolder Asset Page Build
+Status: Resolved
+Date Added: Mar 30, 2026 | Resolved: Mar 30, 2026
+Source: WhatsApp (Jon)
+Hours: 2.00
+
+Issue: Build a full brand portal on the new custom site as part of moving away from Brandfolder.
+
+Solution: Brand portal page (/brand-portal/) with category filters (logos, colors, fonts, videos, training, documents, safety, LATAM, Canada), asset cards with checkerboard PNG previews, inline video players, YouTube embeds, download buttons, and i18n support (en, es, de, fr). CMS admin (/admin/) with full CRUD for brand assets, drag-and-drop file upload with progress bar, metadata fields, lightbox preview, and auto file type/size/dimension detection on upload. Migrated all assets from kws-clientele/Peelclear/ to a dedicated peelclear GCS bucket (confident-key-479120-f8) covering 212 files at 11.2 GB. Configured public read access and CORS. Created peelclear-uploads service account with objectAdmin permissions. Built Netlify function (gcs-upload.js) for signed V4 upload URLs enabling browser-direct uploads to GCS, authenticated via CMS JWT.
+
+Notes: Rollback: N/A, new build on custom site.
+
+---
+
+[033] Homepage Copy Tweaks
+Status: Resolved
+Date Added: Mar 30, 2026 | Resolved: Mar 30, 2026
+Source: WhatsApp (Fabio Radic)
+Hours: 0.25
+
+Issue: Minor verbiage tweaks to homepage copy per Fabio's request.
+
+Solution: Homepage is built in raw HTML blocks in Elementor so edits required touching code directly.
+
+Notes: Rollback: N/A, copy edit only.
+
+---
 
 [LWL-001] Checkout Error + Header Nav Investigation (liquidwraplabs.com)
 Status: Resolved
@@ -37,11 +65,25 @@ Date Added: Mar 17, 2026 | Resolved: Mar 17, 2026
 Source: WhatsApp (Fabio)
 Hours: 1.5
 
-Issue: Create 9 unique HubSpot form landing pages: 5 targeting B2B (shop owners, installers) and 4 targeting end consumers (people looking to find an installer near them), each with a unique HubSpot form embed tied to the traffic source platform.
+Issue: Create 10 unique HubSpot form landing pages: 5 targeting B2B (shop owners, installers) and 5 targeting end consumers (people looking to find an installer near them), each with a unique HubSpot form embed tied to the traffic source platform.
 
-Solution: Activated Yoast Duplicate Post (inactive plugin) to enable page cloning. For B2B pages: cloned the existing /become-an-installer/ page 5 times. Each clone kept the original layout and content. Only the HubSpot form embed was swapped out via the HTML widget in Elementor. For end consumer pages: cloned one of the B2B pages and updated all on-page content to speak to someone looking to get peelable paint on their vehicle rather than become an installer. Cloned that updated page 3 more times and swapped the form embed on each. Updated SEO title and meta description on all 9 pages via Yoast. Fixed typo on original /become-an-installer/ page title (no additional time billed).
+Solution: Activated Yoast Duplicate Post (inactive plugin) to enable page cloning. For B2B pages: cloned the existing /become-an-installer/ page 5 times. Each clone kept the original layout and content. Only the HubSpot form embed was swapped out via the HTML widget in Elementor. For end consumer pages: cloned one of the B2B pages and updated all on-page content to speak to someone looking to get peelable paint on their vehicle rather than become an installer. Cloned that updated page 4 more times and swapped the form embed on each. Updated SEO title and meta description on all 10 pages via Yoast. Fixed typo on original /become-an-installer/ page title (no additional time billed).
 
-Notes: Finding: Nested slug structure (get-started/whatsapp) is not supported without a parent page. WordPress auto-converts to flat slugs. All pages use flat slugs. Finding: peelclear.com/get-started/ already exists as a separate page. Flagged to Jon to confirm if it is used in any active campaigns before touching it. Rollback: Trash all 9 pages. Yoast Duplicate Post can be deactivated if no longer needed.
+Notes: Finding: Nested slug structure (get-started/whatsapp) is not supported without a parent page. WordPress auto-converts to flat slugs. All pages use flat slugs. Finding: peelclear.com/get-started/ already exists as a separate page. Flagged to Jon to confirm if it is used in any active campaigns before touching it. Rollback: Trash all 10 pages. Yoast Duplicate Post can be deactivated if no longer needed.
+
+---
+
+[032] HubSpot Landing Pages - End Consumer Redesign
+Status: Resolved
+Date Added: Mar 21, 2026 | Resolved: Mar 21, 2026
+Source: WhatsApp (Fabio)
+Hours: 2.5
+
+Issue: Rebuild all 5 end consumer (contact-*) pages with custom HTML design based on Ceramic Pro reference (ceramicpro.com/peelclear-test-v1/).
+
+Solution: Used Claude Code to fetch reference, replicate layout in PeelClear branding, generate 5 HTML files. Fixed CSS conflicts with WordPress/Elementor theme (side margin bleed, text color overrides). Removed map placeholder from HTML as map is handled by Shortcode widget [yith_store_locator]. Created Contact - TikTok page (cloned from Contact - Facebook). Replaced Elementor content on all 5 pages with Custom HTML + Shortcode widget. Published and tested all 5 pages.
+
+Notes: Rollback: Revert to previous Elementor content or trash and re-clone.
 
 ---
 
@@ -55,7 +97,7 @@ Issue: Add California tax exemption option to match existing PA functionality. C
 
 Solution: Updated both existing tax exemption snippets to support CA. (1) State Tax Exempt - User Profile Fields: Added CA Tax Exempt checkbox alongside PA checkbox. (2) State Tax Exempt - Tax Calculation: Added CA logic to check for ca_tax_exempt user meta when shipping to CA. No additional WooCommerce settings changes needed. Shipping tax class was already set to Standard from the PA implementation.
 
-Notes: Completed Mar 13, billed with Mar 16-31 period. Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items.
+Notes: Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items.
 
 ---
 
@@ -548,14 +590,6 @@ BACKLOG
    Priority: Low
    Source: Jan 21 PSI test
    Notes: Site doesn't force HTTPS redirect
-
-
-BILLING HISTORY
-===============
-
-031 - HubSpot Landing Pages | 1.50 | $105.00
-LWL-001 - Checkout/Header Fix | 0.25 | $17.50
-TOTAL | 1.75 | $122.50
 
 
 --------------------------------------------

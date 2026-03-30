@@ -1,4 +1,4 @@
-// Last updated: Mar 18, 2026 (LWL-001 added)
+// Last updated: Mar 30, 2026 (033 and 034 added)
 
 // Billing periods - semi-monthly within calendar months
 export const billingPeriods = [
@@ -42,16 +42,16 @@ export const billingPeriods = [
     billingNote: ""
   },
   {
-    id: "mar-16-31-2026",
-    label: "Mar 16-31",
-    fullLabel: "March 16-31, 2026",
-    startDate: "2026-03-16",
+    id: "mar-2026",
+    label: "March",
+    fullLabel: "March 2026",
+    startDate: "2026-03-01",
     endDate: "2026-03-31",
     note: "",
     status: "current",
-    invoiceNumber: "KWS-PEEL-202603-A",
+    invoiceNumber: "KWS-PEEL-202603",
     invoiceDate: "March 31, 2026",
-    billingPeriodLabel: "March 16 - March 31, 2026",
+    billingPeriodLabel: "March 1 - March 31, 2026",
     billingNote: ""
   }
 ];
@@ -78,10 +78,38 @@ export const periodNotes = [
 
 export const tasks = [
   {
+    number: "034",
+    title: "Brandfolder Asset Page Build",
+    status: "Resolved",
+    billingPeriod: "mar-2026",
+    priority: false,
+    dateAdded: "Mar 30, 2026",
+    dateResolved: "Mar 30, 2026",
+    source: "WhatsApp (Jon)",
+    hours: 2.00,
+    issue: "Build a full brand portal on the new custom site as part of moving away from Brandfolder.",
+    solution: "Brand portal page (/brand-portal/) with category filters (logos, colors, fonts, videos, training, documents, safety, LATAM, Canada), asset cards with checkerboard PNG previews, inline video players, YouTube embeds, download buttons, and i18n support (en, es, de, fr). CMS admin (/admin/) with full CRUD for brand assets, drag-and-drop file upload with progress bar, metadata fields, lightbox preview, and auto file type/size/dimension detection on upload. Migrated all assets from kws-clientele/Peelclear/ to a dedicated peelclear GCS bucket (confident-key-479120-f8) covering 212 files at 11.2 GB. Configured public read access and CORS. Created peelclear-uploads service account with objectAdmin permissions. Built Netlify function (gcs-upload.js) for signed V4 upload URLs enabling browser-direct uploads to GCS, authenticated via CMS JWT.",
+    notes: "Rollback: N/A, new build on custom site."
+  },
+  {
+    number: "033",
+    title: "Homepage Copy Tweaks",
+    status: "Resolved",
+    billingPeriod: "mar-2026",
+    priority: false,
+    dateAdded: "Mar 30, 2026",
+    dateResolved: "Mar 30, 2026",
+    source: "WhatsApp (Fabio Radic)",
+    hours: 0.25,
+    issue: "Minor verbiage tweaks to homepage copy per Fabio's request.",
+    solution: "Homepage is built in raw HTML blocks in Elementor so edits required touching code directly.",
+    notes: "Rollback: N/A, copy edit only."
+  },
+  {
     number: "LWL-001",
     title: "Checkout Error + Header Nav Investigation (liquidwraplabs.com)",
     status: "Resolved",
-    billingPeriod: "mar-16-31-2026",
+    billingPeriod: "mar-2026",
     priority: false,
     dateAdded: "Mar 18, 2026",
     dateResolved: "Mar 18, 2026",
@@ -95,14 +123,14 @@ export const tasks = [
     number: "031",
     title: "HubSpot Form Landing Pages",
     status: "Resolved",
-    billingPeriod: "mar-16-31-2026",
+    billingPeriod: "mar-2026",
     priority: false,
     dateAdded: "Mar 17, 2026",
     dateResolved: "Mar 17, 2026",
     source: "WhatsApp (Fabio)",
     hours: 1.50,
-    issue: "Create 9 unique HubSpot form landing pages: 5 targeting B2B (shop owners, installers) and 4 targeting end consumers (people looking to find an installer near them), each with a unique HubSpot form embed tied to the traffic source platform.",
-    solution: "Activated Yoast Duplicate Post (inactive plugin) to enable page cloning. For B2B pages: cloned the existing /become-an-installer/ page 5 times. Each clone kept the original layout and content. Only the HubSpot form embed was swapped out via the HTML widget in Elementor. For end consumer pages: cloned one of the B2B pages and updated all on-page content to speak to someone looking to get peelable paint on their vehicle rather than become an installer. Cloned that updated page 3 more times and swapped the form embed on each. Updated SEO title and meta description on all 9 pages via Yoast. Fixed typo on original /become-an-installer/ page title (no additional time billed).",
+    issue: "Create 10 unique HubSpot form landing pages: 5 targeting B2B (shop owners, installers) and 5 targeting end consumers (people looking to find an installer near them), each with a unique HubSpot form embed tied to the traffic source platform.",
+    solution: "Activated Yoast Duplicate Post (inactive plugin) to enable page cloning. For B2B pages: cloned the existing /become-an-installer/ page 5 times. Each clone kept the original layout and content. Only the HubSpot form embed was swapped out via the HTML widget in Elementor. For end consumer pages: cloned one of the B2B pages and updated all on-page content to speak to someone looking to get peelable paint on their vehicle rather than become an installer. Cloned that updated page 4 more times and swapped the form embed on each. Updated SEO title and meta description on all 10 pages via Yoast. Fixed typo on original /become-an-installer/ page title (no additional time billed).",
     landingPages: {
       portalId: "244083043",
       region: "na2",
@@ -118,16 +146,31 @@ export const tasks = [
         { platform: "Facebook", url: "peelclear.com/contact-facebook", formId: "e69a5d97-d365-43ca-90e8-13a0760e030b" },
         { platform: "Instagram", url: "peelclear.com/contact-instagram", formId: "24fa0da3-4530-437f-91d0-13c48a344ec5" },
         { platform: "YouTube", url: "peelclear.com/contact-youtube", formId: "dc0d3b96-cff0-4f87-a309-30cf7bd13b5b" },
-        { platform: "WhatsApp", url: "peelclear.com/contact-whatsapp", formId: "be31f0d8-9551-4329-a927-d6c92b0b995f" }
+        { platform: "WhatsApp", url: "peelclear.com/contact-whatsapp", formId: "be31f0d8-9551-4329-a927-d6c92b0b995f" },
+        { platform: "TikTok", url: "peelclear.com/contact-tiktok", formId: "6a751ccb-6a16-4a64-85ea-36d9a758daa2" }
       ]
     },
-    notes: "Finding: Nested slug structure (get-started/whatsapp) is not supported without a parent page. WordPress auto-converts to flat slugs. All pages use flat slugs. Finding: peelclear.com/get-started/ already exists as a separate page. Flagged to Jon to confirm if it is used in any active campaigns before touching it. Rollback: Trash all 9 pages. Yoast Duplicate Post can be deactivated if no longer needed."
+    notes: "Finding: Nested slug structure (get-started/whatsapp) is not supported without a parent page. WordPress auto-converts to flat slugs. All pages use flat slugs. Finding: peelclear.com/get-started/ already exists as a separate page. Flagged to Jon to confirm if it is used in any active campaigns before touching it. Rollback: Trash all 10 pages. Yoast Duplicate Post can be deactivated if no longer needed."
+  },
+  {
+    number: "032",
+    title: "HubSpot Landing Pages - End Consumer Redesign",
+    status: "Resolved",
+    billingPeriod: "mar-2026",
+    priority: false,
+    dateAdded: "Mar 21, 2026",
+    dateResolved: "Mar 21, 2026",
+    source: "WhatsApp (Fabio)",
+    hours: 2.50,
+    issue: "Rebuild all 5 end consumer (contact-*) pages with custom HTML design based on Ceramic Pro reference (ceramicpro.com/peelclear-test-v1/).",
+    solution: "Used Claude Code to fetch reference, replicate layout in PeelClear branding, generate 5 HTML files. Fixed CSS conflicts with WordPress/Elementor theme (side margin bleed, text color overrides). Removed map placeholder from HTML as map is handled by Shortcode widget [yith_store_locator]. Created Contact - TikTok page (cloned from Contact - Facebook). Replaced Elementor content on all 5 pages with Custom HTML + Shortcode widget. Published and tested all 5 pages.",
+    notes: "Rollback: Revert to previous Elementor content or trash and re-clone."
   },
   {
     number: "030",
     title: "CA Tax Exemption Setup",
     status: "Resolved",
-    billingPeriod: "mar-16-31-2026",
+    billingPeriod: "mar-2026",
     priority: false,
     dateAdded: "Mar 13, 2026",
     dateResolved: "Mar 13, 2026",
@@ -139,7 +182,7 @@ export const tasks = [
       "CA shipping, CA unchecked: $1.44 tax (full)",
       "CA shipping, CA checked: $1.13 tax (shipping only)"
     ],
-    notes: "Completed Mar 13, billed with Mar 16-31 period. Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items."
+    notes: "Usage: Users > Edit user > Tax Exemption section > Check CA Tax Exempt box. Rollback: Revert snippets to PA-only versions, or deactivate both snippets and change WooCommerce > Settings > Tax > Shipping tax class back to Shipping tax class based on cart items."
   },
   {
     number: "029",
@@ -873,8 +916,12 @@ export const backlog = [
 ];
 
 export const billingHistory = [
-  { period: "March 16-31, 2026", task: "031 - HubSpot Landing Pages", hours: 1.50, amount: 105.00 },
-  { period: "March 16-31, 2026", task: "LWL-001 - Checkout/Header Fix", hours: 0.25, amount: 17.50 },
+  { period: "March 2026", task: "034 - Brandfolder Asset Page Build", hours: 2.00, amount: 140.00 },
+  { period: "March 2026", task: "033 - Homepage Copy Tweaks", hours: 0.25, amount: 17.50 },
+  { period: "March 2026", task: "032 - HubSpot End Consumer Redesign", hours: 2.50, amount: 175.00 },
+  { period: "March 2026", task: "031 - HubSpot Landing Pages", hours: 1.50, amount: 105.00 },
+  { period: "March 2026", task: "030 - CA Tax Exemption Setup", hours: 0.50, amount: 35.00 },
+  { period: "March 2026", task: "LWL-001 - Checkout/Header Fix", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "029 - PayPal Button Spacing", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "028 - Homepage Form HTML Fix", hours: 0.25, amount: 17.50 },
   { period: "February 16-28, 2026", task: "027 - Hide Pricing for Guests", hours: 0.25, amount: 17.50 },
